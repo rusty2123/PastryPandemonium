@@ -2790,6 +2790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 1270822023}
+  lobby: {fileID: 0}
 --- !u!65 &1270822026
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3114,6 +3115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 1495795020}
+  lobby: {fileID: 0}
 --- !u!65 &1495795023
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3204,6 +3206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 1537814447}
+  lobby: {fileID: 806115762}
 --- !u!65 &1537814450
 BoxCollider:
   m_ObjectHideFlags: 0
