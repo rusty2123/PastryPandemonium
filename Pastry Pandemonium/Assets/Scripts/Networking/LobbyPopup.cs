@@ -25,12 +25,12 @@ public class LobbyPopup : MonoBehaviour
 
     private void Awake()
     {
-        menu = GameObject.Find("MultiplayerPopup");
+        menu = GameObject.Find("LobbyPopup");
         multiplayer = GameObject.FindGameObjectWithTag("multiplayer");
         singlePlayer = GameObject.FindGameObjectWithTag("singleplayer");
         tutorial = GameObject.FindGameObjectWithTag("tutorial");
         options = GameObject.FindGameObjectWithTag("options");
-        lobby = GameObject.FindGameObjectWithTag("lobby");
+        lobby = GameObject.Find("enterLobby");
     }
 
 
@@ -42,13 +42,8 @@ public class LobbyPopup : MonoBehaviour
         {
             switch (current.name)
             {
-                case "enterLobby":
-                    lobby.SetActive(true);
-                    multiplayer.SetActive(false);
-                    break;
                 case "menuButton":
                     menu.SetActive(false);
-                    lobby.SetActive(false);
                     multiplayer.SetActive(true);
                     tutorial.SetActive(true);
                     options.SetActive(true);
