@@ -39,7 +39,7 @@ public class SinglePlayerMenu : MonoBehaviour {
 		options = GameObject.FindGameObjectWithTag("options");
 		singlePlayer = GameObject.FindGameObjectWithTag("singleplayer");
 
-		players = GameObject.FindGameObjectsWithTag ("Player");
+        players = GameObject.FindGameObjectsWithTag ("Player");
 		for(int i = 0; i < players.Length; i++)
 		{
 			if (players [i].name != "redCupcake") {

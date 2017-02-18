@@ -29,20 +29,19 @@ public class MultiplayerPopup : MonoBehaviour {
 		singlePlayer = GameObject.FindGameObjectWithTag("singleplayer");
 		tutorial = GameObject.FindGameObjectWithTag("tutorial");
 		options = GameObject.FindGameObjectWithTag("options");
-	}
+    }
 
 
 
 	public void OnMouseUp()
 	{
-
 		//Finds what option you clicked on
 		if (current != null) {
 			switch (current.name) 
 			{
 			case "enterLobby":
-				SceneManager.LoadScene ("Multiplayer");
-				break;
+                multiplayer.SetActive(false);
+                break;
 			case "menuButton":
 				menu.SetActive (false);
 				multiplayer.SetActive (true);
@@ -54,6 +53,5 @@ public class MultiplayerPopup : MonoBehaviour {
 				break;          
 			}
 		}
-
 	}
 }

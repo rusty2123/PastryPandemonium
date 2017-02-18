@@ -205,7 +205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff7bd6de54a83842baf0166a83e4f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pvCache: {fileID: 0}
   playerPrefab: {fileID: 0}
+  turnManager: {fileID: 0}
   InputField: {fileID: 0}
   UserId: 
   previousRoom: 

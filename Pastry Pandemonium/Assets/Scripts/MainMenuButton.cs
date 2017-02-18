@@ -16,7 +16,7 @@ public class MainMenuButton : MonoBehaviour {
 		tutorial = GameObject.FindGameObjectWithTag("tutorial");
 		options = GameObject.FindGameObjectWithTag("options");
 		singleplayer = GameObject.FindGameObjectWithTag("singleplayer");
-	}
+    }
     public void OnMouseEnter()
     {
 		//Scales menu options to indicate that you can click on them
@@ -35,29 +35,6 @@ public class MainMenuButton : MonoBehaviour {
 		multiplayer.SetActive(false);
 		tutorial.SetActive (false);
 		options.SetActive (false);
-		/*
-		//Loads the singleplayer option menu
-        if (current.name == "singlePlayer")
-        {
-            //SceneManager.LoadScene("GameBoard");
-            canvas.SetActive(true);
-			singleplayer.SetActive(false);
-			multiplayer.SetActive(false);
-			tutorial.SetActive (false);
-			options.SetActive (false);
-            
-        }
-
-		//loads multiplayer scene
-        if (current.name == "multiplayer")
-        {
-           // SceneManager.LoadScene("Multiplayer");
-			canvas.SetActive(true);
-			singleplayer.SetActive(false);
-			multiplayer.SetActive(false);
-			tutorial.SetActive (false);
-			options.SetActive (false);
-        }*/
     }
 
 
