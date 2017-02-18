@@ -460,8 +460,12 @@ PlayerSettings:
   XboxOnePersistentLocalStorageSize: 0
   vrEditorSettings: {}
   cloudServicesEnabled:
+    Build: 0
+    Collab: 0
+    ErrorHub: 0
+    Hub: 0
     UNet: 1
-  cloudProjectId: f6ad2137-9100-43ef-8822-6200e8ddd4a3
-  projectName: Pastry Pandemonium (2)
+  cloudProjectId: df37fedb-403a-4c1d-a4d5-494eb5364b56
+  projectName: Pastry Pandemonium (3)
   organizationId: rusty2123
   cloudEnabled: 0
