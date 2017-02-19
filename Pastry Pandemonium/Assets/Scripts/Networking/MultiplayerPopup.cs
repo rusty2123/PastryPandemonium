@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MultiplayerPopup : MonoBehaviour {
 
 	public GameObject current, lobby;
-	private GameObject menu, singlePlayer, multiplayer, tutorial, options;
+	private GameObject menu, singlePlayer, multiplayer, tutorial, options, exit, help;
 
 
 	public void OnMouseEnter()
@@ -29,6 +29,8 @@ public class MultiplayerPopup : MonoBehaviour {
 		singlePlayer = GameObject.FindGameObjectWithTag("singleplayer");
 		tutorial = GameObject.FindGameObjectWithTag("tutorial");
 		options = GameObject.FindGameObjectWithTag("options");
+		help = GameObject.FindGameObjectWithTag("help");
+		exit = GameObject.FindGameObjectWithTag("exit");
         
     }
 
@@ -51,6 +53,8 @@ public class MultiplayerPopup : MonoBehaviour {
 				tutorial.SetActive (true);
 				options.SetActive (true);
 				singlePlayer.SetActive (true);
+				help.SetActive (true);
+				exit.SetActive (true);
 				break;
 			default:
 				break;          

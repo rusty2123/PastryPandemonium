@@ -7,7 +7,7 @@ public class MainMenuButton : MonoBehaviour {
 
     public GameObject current;
     public GameObject canvas;
-	private GameObject multiplayer, tutorial, options, singleplayer;
+	private GameObject multiplayer, tutorial, options, singleplayer, help, exit;
 
 
 	private void Awake()
@@ -16,6 +16,8 @@ public class MainMenuButton : MonoBehaviour {
 		tutorial = GameObject.FindGameObjectWithTag("tutorial");
 		options = GameObject.FindGameObjectWithTag("options");
 		singleplayer = GameObject.FindGameObjectWithTag("singleplayer");
+		help = GameObject.FindGameObjectWithTag("help");
+		exit = GameObject.FindGameObjectWithTag("exit");
     }
     public void OnMouseEnter()
     {
@@ -30,11 +32,14 @@ public class MainMenuButton : MonoBehaviour {
 
     public void OnMouseUp()
     {
+		LeanTween.scale(current, new Vector3(0.3615471f, 0.3615471f, 0.3615471f), .05f);
 		canvas.SetActive(true);
 		singleplayer.SetActive(false);
 		multiplayer.SetActive(false);
 		tutorial.SetActive (false);
 		options.SetActive (false);
+		help.SetActive (false);
+		exit.SetActive (false);
     }
 
 
