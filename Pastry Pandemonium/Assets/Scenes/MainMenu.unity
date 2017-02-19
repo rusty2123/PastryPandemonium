@@ -568,8 +568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7df591fbf54411aaf93e85dfa4593a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  current: {fileID: 138165209}
-  canvas: {fileID: 0}
 --- !u!58 &138165213
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2307,7 +2305,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &806115763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3541,8 +3539,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1270822024}
   - component: {fileID: 1270822027}
-  - component: {fileID: 1270822025}
   - component: {fileID: 1270822026}
+  - component: {fileID: 1270822025}
   m_Layer: 0
   m_Name: menuButton
   m_TagString: Untagged
@@ -3571,11 +3569,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1270822023}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 708682361f9c347a2b11e3b4dbf13f43, type: 3}
+  m_Script: {fileID: 11500000, guid: 61bfbcbd319d7b64fa4ee4942395c504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 1270822023}
-  lobby: {fileID: 0}
 --- !u!65 &1270822026
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4963,15 +4960,10 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.InputField+SubmitEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  m_OnValueChanged:
-    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2050208197}
         m_MethodName: SetPlayerName
-        m_Mode: 5
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4980,6 +4972,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_TypeName: UnityEngine.UI.InputField+SubmitEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
     m_TypeName: UnityEngine.UI.InputField+OnChangeEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}

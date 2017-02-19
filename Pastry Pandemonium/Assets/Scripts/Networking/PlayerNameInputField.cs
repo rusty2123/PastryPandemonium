@@ -30,24 +30,12 @@ public class PlayerNameInputField : MonoBehaviour
     /// </summary>
     void Start()
     {
-
-
-        string defaultName = "";
         InputField _inputField = this.GetComponent<InputField>();
-        _inputField.Select();
-        _inputField.ActivateInputField();
+        _inputField.text = PlayerPrefs.HasKey(playerNamePrefKey)
+                         ? PlayerPrefs.GetString(playerNamePrefKey)
+                         : "";
 
-        if (_inputField != null)
-        {
-            if (PlayerPrefs.HasKey(playerNamePrefKey))
-            {
-                defaultName = PlayerPrefs.GetString(playerNamePrefKey);
-                _inputField.text = defaultName;
-            }
-        }
-
-
-        PhotonNetwork.playerName = defaultName;
+        PhotonNetwork.playerName = _inputField.text;
     }
 
     void Update()
@@ -71,8 +59,6 @@ public class PlayerNameInputField : MonoBehaviour
     {
         // #Important
         PhotonNetwork.playerName = value + " "; // force a trailing space string in case value is an empty string, else playerName would not be updated.
-
-
         PlayerPrefs.SetString(playerNamePrefKey, value);
     }
 

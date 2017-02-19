@@ -8,8 +8,7 @@ public class MultiplayerPopup : MonoBehaviour {
 	public GameObject current, lobby;
 	private GameObject menu, singlePlayer, multiplayer, tutorial, options, exit, help;
 
-
-	public void OnMouseEnter()
+    public void OnMouseEnter()
 	{
 		//Scales objects to indicate you can click on them
 		LeanTween.scale(current, new Vector3(0.4f, .4f, .4f), .075f);

@@ -44,10 +44,10 @@ public class LobbyPopup : MonoBehaviour
             {
                 case "menuButton":
                     menu.SetActive(false);
-                    multiplayer.SetActive(true);
-                    tutorial.SetActive(true);
-                    options.SetActive(true);
-                    singlePlayer.SetActive(true);
+                    //multiplayer.SetActive(true);
+                    //tutorial.SetActive(true);
+                    //options.SetActive(true);
+                    //singlePlayer.SetActive(true);
                     break;
                 default:
                     break;
