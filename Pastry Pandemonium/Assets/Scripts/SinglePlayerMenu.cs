@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class SinglePlayerMenu : MonoBehaviour {
 
     public GameObject current, character;
+    public static string selectedCharacter;
     private GameObject moveAi, moveUser, difficultyNormal, difficultyHard, menu, singlePlayer, multiplayer, tutorial, options, help, exit;
 	private GameObject[] players;
 
@@ -110,6 +111,7 @@ public class SinglePlayerMenu : MonoBehaviour {
 
 			//sets the character selected to look selected
 			LeanTween.alpha (character, 1f, .5f);
+            selectedCharacter = character.name;
 		} 
     }
 }

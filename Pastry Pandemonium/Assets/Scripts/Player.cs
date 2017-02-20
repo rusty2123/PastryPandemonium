@@ -12,10 +12,10 @@ public class Player : MonoBehaviour
     public static bool firstPlayer = true;
     public static int gamePhase;
 
-    public enum aILevel { easy, difficult };
-    public enum characterSelection { name1, name2, name3, name4 } //change for names of characters later
-    public static characterSelection characterLocalPlayer; //enum list of characters
-    public static characterSelection characterOpponentPlayer;
+    public string [] aiLevel = { "easy", "difficult" };
+    public static string[] characterSelection = { "berryMuffin", "chipMuffin", "lemonMuffin", "chocolateCupcake", "redCupcake", "whiteCupcake" }; //change for names of characters later
+    public static string characterLocalPlayer; //enum list of characters
+    public static string characterOpponentPlayer;
     public GameObject[] Pieces;
 
     private static int piecesToPlace = 9;
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     private int moveFrom;
 
 
-    public static aILevel level = 0; //by default
+    public static string level = "easy"; //by default
 
     public static Player instance;
 
@@ -41,12 +41,12 @@ public class Player : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (level == aILevel.easy)
+        if (level == "easy")
         {
             //aIScript = gameObject.AddComponent<AIScript>();
 
         }
-        else if (level == aILevel.difficult)
+        else if (level == "difficult")
         {
             //aIScript = gameObject.AddComponent<AIScript>();
         }
@@ -89,11 +89,11 @@ public class Player : MonoBehaviour
         print("Calling AI");
         int[] move = null;
 
-        if (level == aILevel.easy)
+        if (level =="easy")
         {
             //call A1
         }
-        else if (level == aILevel.difficult)
+        else if (level == "difficult")
         {
             //call A1
         }
