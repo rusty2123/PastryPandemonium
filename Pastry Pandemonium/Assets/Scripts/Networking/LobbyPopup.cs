@@ -7,8 +7,8 @@ public class LobbyPopup : MonoBehaviour
 {
 
     public GameObject current;
-    private GameObject menu, singlePlayer, multiplayer, tutorial, options, lobby;
-
+    private GameObject menu, singlePlayer, multiplayer, tutorial, options, lobby, hostButton, joinButton;
+    private Lobby gameLobby;
 
     public void OnMouseEnter()
     {
@@ -31,6 +31,8 @@ public class LobbyPopup : MonoBehaviour
         tutorial = GameObject.FindGameObjectWithTag("tutorial");
         options = GameObject.FindGameObjectWithTag("options");
         lobby = GameObject.Find("enterLobby");
+        hostButton = GameObject.Find("hostGame");
+        joinButton = GameObject.Find("join");
     }
 
 
@@ -42,8 +44,14 @@ public class LobbyPopup : MonoBehaviour
         {
             switch (current.name)
             {
+                case "hostGame":
+                    //call Lobby.Host() and go to room
+                    break;
+                case "join":
+                    //call Lobby.Join() and go to room
+                    break;
                 case "menuButton":
-                    menu.SetActive(false);
+                    //menu.SetActive(false);
                     //multiplayer.SetActive(true);
                     //tutorial.SetActive(true);
                     //options.SetActive(true);
