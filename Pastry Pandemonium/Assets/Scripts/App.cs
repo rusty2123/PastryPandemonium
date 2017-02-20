@@ -9,9 +9,11 @@ public class App : MonoBehaviour
     Game game = Game.gameInstance;
 
     private Board boardInstance;
-
+    
     private GameObject gameObj;
 
+    public GameObject characterLocalPlayer;
+    public GameObject characterOpponentPlayer;
     public GameObject[] opponentPieces = new GameObject[9];
     public GameObject[] localPieces = new GameObject[9];
     public GameObject[] outOfBoardSpaces = new GameObject[18];
@@ -68,55 +70,76 @@ public class App : MonoBehaviour
         gameObj = GameObject.FindWithTag("Game");
         boardInstance.initializeBoard();
 
-        if ((Player.characterLocalPlayer) == Player.characterSelection.name1)
-        {
-            //call piece set up function for local player passing the prefab name
-            // localPlayerPieceSetUp(prefabName)
-        }
-        else if (Player.characterLocalPlayer == Player.characterSelection.name2)
-        {
-            //call piece set up function for local player passing the prefab name
-            // localPlayerPieceSetUp(prefabName)
-        }
-        else if (Player.characterLocalPlayer == Player.characterSelection.name3)
-        {
-            //call piece set up function for local player passing the prefab name
-            // localPlayerPieceSetUp(prefabName)
-        }
-        else
-        //Add more if else statements once we know how many characters we'll have
+        Player.characterLocalPlayer = SinglePlayerMenu.selectedCharacter;
+        Player.characterOpponentPlayer = "chipMuffin";
 
-        if (Player.isSinglePlayer)
+        switch (Player.characterLocalPlayer)
         {
-            int character = UnityEngine.Random.Range(1, 4); //depends on ho wmany chaacters
-            Player.characterOpponentPlayer = (Player.characterSelection)character;
+            case "berryMuffin":
+                characterLocalPlayer = GameObject.Find("berryMuffin");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "chipMuffin":
+                characterLocalPlayer = GameObject.Find("chipMuffin");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "lemonMuffin":
+                characterLocalPlayer = GameObject.Find("lemonMuffin");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "chocolateCupcake":
+                characterLocalPlayer = GameObject.Find("chocolateCupcake");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "redCupcake":
+                characterLocalPlayer = GameObject.Find("redCupcake");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "whiteCupcake":
+                characterLocalPlayer = GameObject.Find("whiteCupcake");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            default:
+                break;
+
         }
 
         while (Player.characterOpponentPlayer == Player.characterLocalPlayer)
         {
-            int character = UnityEngine.Random.Range(1, 4);
-            Player.characterOpponentPlayer = (Player.characterSelection)character;
+            int character = UnityEngine.Random.Range(0, 5);
+            Player.characterOpponentPlayer = Player.characterSelection[character] ;
 
         }
 
-        if (Player.characterOpponentPlayer == Player.characterSelection.name1)
+        switch (Player.characterOpponentPlayer)
         {
-            // call piece set up function for opponent player passing the prefab name
-            // opponetPlayerPieceSetUp(prefabName)
-        }
-        else if (Player.characterOpponentPlayer == Player.characterSelection.name2)
-        {
-            // call piece set up function for opponent player passing the prefab name
-            // opponetPlayerPieceSetUp(prefabName)
-        }
-        else if (Player.characterOpponentPlayer == Player.characterSelection.name3)
-        {
-            // call piece set up function for opponent player passing the prefab name
-            // opponetPlayerPieceSetUp(prefabName)
-        }
-        else
-        {
-            //Add more if else statements once we know how many characters we'll have
+            case "berryMuffin":
+                characterOpponentPlayer = GameObject.Find("berryMuffin");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "chipMuffin":
+                characterOpponentPlayer = GameObject.Find("chipMuffin");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "lemonMuffin":
+                characterOpponentPlayer = GameObject.Find("lemonMuffin");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "chocolateCupcake":
+                characterOpponentPlayer = GameObject.Find("chocolateCupcake");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "redCupcake":
+                characterOpponentPlayer = GameObject.Find("redCupcake");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "whiteCupcake":
+                characterOpponentPlayer = GameObject.Find("whiteCupcake");
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            default:
+                break;
+
         }
 
         localPlayer.Pieces = localPieces;
@@ -132,7 +155,7 @@ public class App : MonoBehaviour
         {
             vector.x = outOfBoardSpaces[i].transform.position.x;
             vector.z = outOfBoardSpaces[i].transform.position.z;
-            // vector.y our we are settting up our pieces out of the board? 
+            vector.y = outOfBoardSpaces[i].transform.position.y;
 
             GameObject piece = Instantiate(localCharacter, vector, Quaternion.identity) as GameObject;
             piece.tag = null;
@@ -151,13 +174,13 @@ public class App : MonoBehaviour
         {
             vector.x = outOfBoardSpaces[i].transform.position.x;
             vector.z = outOfBoardSpaces[i].transform.position.z;
-            // vector.y our we are settting up our pieces out of the board? 
+            vector.y = outOfBoardSpaces[i].transform.position.y;
 
             GameObject piece = Instantiate(localCharacter, vector, Quaternion.identity) as GameObject;
 
             piece.name = "opponent" + (i).ToString();
             piece.tag = null;
-            localPieces[i] = piece;
+            opponentPieces[i] = piece;
 
         }
     }
