@@ -11,6 +11,8 @@ public class App : MonoBehaviour
 
     private Board boardInstance;
 
+	private GameObject piecePosition;
+
     public GameObject chipMuffin;
     public GameObject berryMuffin;
     public GameObject lemonMuffin;
@@ -165,23 +167,17 @@ public class App : MonoBehaviour
 
     void setUpPiecesLocal(GameObject localCharacter)
     {
-        Vector3 vector = new Vector3(0, 0, 0); ;
-
-        for (int i = 0; i < 9; i++)
+        for (int i = 1; i < 10; i++)
         {
-            vector.x = outOfBoardSpaces[i+9].transform.position.x;
-            vector.z = outOfBoardSpaces[i+9].transform.position.z;
-            vector.y = .5f;
-
-            // piece = Instantiate(localCharacter, vector, Quaternion.identity) as GameObject;
-            //piece = (GameObject)Instantiate(localCharacter);
             piece = Instantiate(localCharacter) as GameObject;
-          //  piece.transform.position = outOfBoardSpaces[i + 9].transform.position;
+
+			piecePosition = GameObject.Find ("L-" + i);
+			piece.transform.position = piecePosition.transform.position;
             piece.SetActive(true);
             piece.tag = "local";
            
             piece.name = "local" + (i).ToString();
-            localPieces[i] = piece;
+            localPieces[i-1] = piece;
 
         }
 
@@ -191,22 +187,19 @@ public class App : MonoBehaviour
     {
        
 
-        for (int i = 0; i < 9; i++)
+        for (int i = 1; i < 10; i++)
         {
-            Vector3 vector = new Vector3(50 + i, 50+i, 50+i); 
-            //vector.x = outOfBoardSpaces[i].transform.position.x;
-            //vector.z = outOfBoardSpaces[i].transform.position.z;
-            //vector.y = .5f;
-
+            
             piece = Instantiate(opponentCharacter) as GameObject;
-           // piece.transform.position = vector;
 
             
             piece.SetActive(true);
-            //piece = (GameObject)Instantiate(opponentCharacter);
+			piecePosition = GameObject.Find ("O-" + i);
+			piece.transform.position = piecePosition.transform.position;
+           
             piece.name = "opponent" + (i).ToString();
             piece.tag = "opponent";
-            opponentPieces[i] = piece;
+            opponentPieces[i-1] = piece;
 
         }
     }
