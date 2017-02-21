@@ -114,9 +114,5 @@ public class SinglePlayerMenu : MonoBehaviour {
 			LeanTween.alpha (character, 1f, .5f);
             selectedCharacter = character.name;
 		} 
-        else
-        {
-            selectedCharacter = "redCupcake";
-        }
     }
 }
