@@ -113,9 +113,10 @@ public class SinglePlayerMenu : MonoBehaviour {
 			//sets the character selected to look selected
 			LeanTween.alpha (character, 1f, .5f);
             selectedCharacter = character.name;
-		} 
-        else
-        {
+		}
+        
+        if  (selectedCharacter == null)
+        { 
             selectedCharacter = "redCupcake";
         }
     }
