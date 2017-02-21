@@ -3811,8 +3811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36da9b9c5ea2a7744873f4df4692685e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPanel: {fileID: 0}
-  roomListItemPrefab: {fileID: 0}
+  roomText: {fileID: 0}
 --- !u!4 &1738593436
 Transform:
   m_ObjectHideFlags: 0
