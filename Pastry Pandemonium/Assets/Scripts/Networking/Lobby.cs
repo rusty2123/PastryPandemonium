@@ -65,7 +65,6 @@ public class Lobby : Photon.PunBehaviour
         }
         else
         {
-            ListRooms();
             PhotonNetwork.ConnectUsingSettings("1");
         }
     }

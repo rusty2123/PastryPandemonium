@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MultiplayerPopup : MonoBehaviour {
 
-	public GameObject current, lobby;
+    public Lobby lobby;
+	public GameObject current;
 	private GameObject menu, singlePlayer, multiplayer, tutorial, options, exit, help;
 
     public void OnMouseEnter()
@@ -42,9 +43,8 @@ public class MultiplayerPopup : MonoBehaviour {
 			switch (current.name) 
 			{
                 case "enterLobby":
-                    Debug.Log("enterLobby");
-                    menu.SetActive(false);
-                    lobby.SetActive(true);
+                    lobby.Connect();
+                    SceneManager.LoadScene("Lobby");
                     break;
                 case "menuButton":
 				menu.SetActive (false);

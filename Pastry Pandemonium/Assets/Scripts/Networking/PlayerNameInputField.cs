@@ -58,7 +58,7 @@ public class PlayerNameInputField : MonoBehaviour
     public void SetPlayerName(string value)
     {
         // #Important
-        PhotonNetwork.playerName = value + " "; // force a trailing space string in case value is an empty string, else playerName would not be updated.
+        PhotonNetwork.playerName = value;
         PlayerPrefs.SetString(playerNamePrefKey, value);
     }
 
