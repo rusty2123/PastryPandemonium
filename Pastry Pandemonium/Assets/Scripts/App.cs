@@ -115,13 +115,18 @@ public class App : MonoBehaviour
 
         }
 
-        while (Player.characterOpponentPlayer == Player.characterLocalPlayer)
+        if (Player.characterLocalPlayer.Contains("Muffin"))
         {
-            int character = UnityEngine.Random.Range(0, 5);
+            int character = UnityEngine.Random.Range(3, 5);
+            Player.characterOpponentPlayer = Player.characterSelection[character];
+        }
+        else if (Player.characterLocalPlayer.Contains("Cupcake"))
+        {
+            int character = UnityEngine.Random.Range(0, 2);
             Player.characterOpponentPlayer = Player.characterSelection[character];
 
         }
-
+       
         switch (Player.characterOpponentPlayer)
         {
             case "berryMuffin":
