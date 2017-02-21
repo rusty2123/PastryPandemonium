@@ -7,7 +7,7 @@ public class Lobby : Photon.PunBehaviour
 {
     #region Public Variables
 
-    public GameObject roomPanel, roomListItemPrefab;
+    public Text roomText;
 
     #endregion
 
@@ -79,6 +79,7 @@ public class Lobby : Photon.PunBehaviour
 
         if (PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default))
         {
+            roomText.text = roomText.text + "\n" + roomName;
             Debug.Log(roomName + " created");
         }
         else
@@ -93,8 +94,6 @@ public class Lobby : Photon.PunBehaviour
         {
             for (int i = 0; i < roomsList.Length; ++i)
             {
-                GameObject newRoom = Instantiate(roomListItemPrefab) as GameObject;
-
                 if (GUI.Button(new Rect(100, 250 + (110 * i), 160, 30), "Join " + roomsList[i].Name))
                 {
                     Join(roomsList[i].Name);
