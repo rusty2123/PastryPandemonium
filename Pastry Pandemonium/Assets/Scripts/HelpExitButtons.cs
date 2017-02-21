@@ -28,7 +28,12 @@ public class HelpExitButtons : MonoBehaviour {
 	{
 		if (current.name != "background") {
 			LeanTween.scale (current, new Vector3 (0.1188901f, 0.1188901f, 0.1188901f), .05f);
-			canvas.SetActive (true);
+			if (current.name == "exitButton") {
+				Application.Quit ();
+				Debug.Log ("quit application");
+			} else {
+				canvas.SetActive (true);
+			}
 		} else {
 			canvas.SetActive (false);
 
