@@ -33,8 +33,8 @@ public class Game : Photon.MonoBehaviour
         {
             gameInstance = this;
         }
-        else if (gameInstance != this)
-            Destroy(gameInstance);
+        //else if (gameInstance != this)
+        //    Destroy(gameInstance);
 
         localPlayer = App.localPlayer;
         opponentPlayer = App.opponentPlayer;

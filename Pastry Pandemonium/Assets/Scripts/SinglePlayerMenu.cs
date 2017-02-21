@@ -67,6 +67,7 @@ public class SinglePlayerMenu : MonoBehaviour {
 			switch (current.name) 
 			{
 				case "startButton":
+                    Player.isSinglePlayer = true;
 					SceneManager.LoadScene ("GameBoard");
 					break;
 				case "aiButton":

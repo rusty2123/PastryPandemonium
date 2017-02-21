@@ -12,6 +12,8 @@ TagManager:
   - lobby
   - help
   - exit
+  - local
+  - opponent
   layers:
   - Default
   - TransparentFX

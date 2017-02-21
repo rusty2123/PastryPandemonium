@@ -3,23 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
 public class App : MonoBehaviour
 {
 
     Game game = Game.gameInstance;
 
     private Board boardInstance;
-    
-    private GameObject gameObj;
 
-    public GameObject characterLocalPlayer;
-    public GameObject characterOpponentPlayer;
-    public GameObject[] opponentPieces = new GameObject[9];
-    public GameObject[] localPieces = new GameObject[9];
+    public GameObject chipMuffin;
+    public GameObject berryMuffin;
+    public GameObject lemonMuffin;
+    public GameObject chocolateCupcake;
+    public GameObject redCupcake;
+    public GameObject whiteCupcake;
+
+    private GameObject board;
+    private GameObject characterLocalPlayer;
+    private GameObject characterOpponentPlayer;
+    private GameObject[] opponentPieces = new GameObject[9];
+    private GameObject[] localPieces = new GameObject[9];
     public GameObject[] outOfBoardSpaces = new GameObject[18];
+    public GameObject[] boardSpaces = new GameObject[24];
 
+    private GameObject piece;
     public static bool isSinglePlayer;
-    public static bool gameOver;
+    public static bool gameOver = false;
     public static bool isLocalPlayerTurn;
     public static bool localPlayerWon;
     public static Player localPlayer;
@@ -31,7 +40,7 @@ public class App : MonoBehaviour
     public static int from;
     public static int to;
 
-    private void Start()
+    void Awake()
     {
         isSinglePlayer = Player.isSinglePlayer;
 
@@ -62,13 +71,15 @@ public class App : MonoBehaviour
 
         localPlayer = gameObject.AddComponent<Player>();
         opponentPlayer = gameObject.AddComponent<Player>();
+        setUpPlayerPieces();
+
     }
 
 
     public void setUpPlayerPieces()
     {
-        gameObj = GameObject.FindWithTag("Game");
-        boardInstance.initializeBoard();
+
+        // boardInstance.initializeBoard();
 
         Player.characterLocalPlayer = SinglePlayerMenu.selectedCharacter;
         Player.characterOpponentPlayer = "chipMuffin";
@@ -76,27 +87,27 @@ public class App : MonoBehaviour
         switch (Player.characterLocalPlayer)
         {
             case "berryMuffin":
-                characterLocalPlayer = GameObject.Find("berryMuffin");
+                characterLocalPlayer = berryMuffin;
                 setUpPiecesLocal(characterLocalPlayer);
                 break;
             case "chipMuffin":
-                characterLocalPlayer = GameObject.Find("chipMuffin");
+                characterLocalPlayer = chipMuffin;
                 setUpPiecesLocal(characterLocalPlayer);
                 break;
             case "lemonMuffin":
-                characterLocalPlayer = GameObject.Find("lemonMuffin");
+                characterLocalPlayer = lemonMuffin;
                 setUpPiecesLocal(characterLocalPlayer);
                 break;
             case "chocolateCupcake":
-                characterLocalPlayer = GameObject.Find("chocolateCupcake");
+                characterLocalPlayer = chocolateCupcake;
                 setUpPiecesLocal(characterLocalPlayer);
                 break;
             case "redCupcake":
-                characterLocalPlayer = GameObject.Find("redCupcake");
+                characterLocalPlayer = redCupcake;
                 setUpPiecesLocal(characterLocalPlayer);
                 break;
             case "whiteCupcake":
-                characterLocalPlayer = GameObject.Find("whiteCupcake");
+                characterLocalPlayer = whiteCupcake;
                 setUpPiecesLocal(characterLocalPlayer);
                 break;
             default:
@@ -107,35 +118,35 @@ public class App : MonoBehaviour
         while (Player.characterOpponentPlayer == Player.characterLocalPlayer)
         {
             int character = UnityEngine.Random.Range(0, 5);
-            Player.characterOpponentPlayer = Player.characterSelection[character] ;
+            Player.characterOpponentPlayer = Player.characterSelection[character];
 
         }
 
         switch (Player.characterOpponentPlayer)
         {
             case "berryMuffin":
-                characterOpponentPlayer = GameObject.Find("berryMuffin");
-                setUpPiecesLocal(characterLocalPlayer);
+                characterOpponentPlayer = berryMuffin;
+                setUpPiecesOpponent(characterOpponentPlayer);
                 break;
             case "chipMuffin":
-                characterOpponentPlayer = GameObject.Find("chipMuffin");
-                setUpPiecesLocal(characterLocalPlayer);
+                characterOpponentPlayer = chipMuffin;
+                setUpPiecesOpponent(characterOpponentPlayer);
                 break;
             case "lemonMuffin":
-                characterOpponentPlayer = GameObject.Find("lemonMuffin");
-                setUpPiecesLocal(characterLocalPlayer);
+                characterOpponentPlayer = lemonMuffin;
+                setUpPiecesOpponent(characterOpponentPlayer);
                 break;
             case "chocolateCupcake":
-                characterOpponentPlayer = GameObject.Find("chocolateCupcake");
-                setUpPiecesLocal(characterLocalPlayer);
+                characterOpponentPlayer = chocolateCupcake;
+                setUpPiecesOpponent(characterOpponentPlayer);
                 break;
             case "redCupcake":
-                characterOpponentPlayer = GameObject.Find("redCupcake");
-                setUpPiecesLocal(characterLocalPlayer);
+                characterOpponentPlayer = redCupcake;
+                setUpPiecesOpponent(characterOpponentPlayer);
                 break;
             case "whiteCupcake":
-                characterOpponentPlayer = GameObject.Find("whiteCupcake");
-                setUpPiecesLocal(characterLocalPlayer);
+                characterOpponentPlayer = whiteCupcake;
+                setUpPiecesOpponent(characterOpponentPlayer);
                 break;
             default:
                 break;
@@ -153,12 +164,17 @@ public class App : MonoBehaviour
 
         for (int i = 0; i < 9; i++)
         {
-            vector.x = outOfBoardSpaces[i].transform.position.x;
-            vector.z = outOfBoardSpaces[i].transform.position.z;
-            vector.y = outOfBoardSpaces[i].transform.position.y;
+            vector.x = outOfBoardSpaces[i+9].transform.position.x;
+            vector.z = outOfBoardSpaces[i+9].transform.position.z;
+            vector.y = .5f;
 
-            GameObject piece = Instantiate(localCharacter, vector, Quaternion.identity) as GameObject;
-            piece.tag = null;
+            // piece = Instantiate(localCharacter, vector, Quaternion.identity) as GameObject;
+            //piece = (GameObject)Instantiate(localCharacter);
+            piece = Instantiate(localCharacter) as GameObject;
+          //  piece.transform.position = outOfBoardSpaces[i + 9].transform.position;
+            piece.SetActive(true);
+            piece.tag = "local";
+           
             piece.name = "local" + (i).ToString();
             localPieces[i] = piece;
 
@@ -166,20 +182,25 @@ public class App : MonoBehaviour
 
     }
 
-    void pieceSetupOpponent(GameObject localCharacter)
+    void setUpPiecesOpponent(GameObject opponentCharacter)
     {
-        Vector3 vector = new Vector3(0, 0, 0); ;
+       
 
         for (int i = 0; i < 9; i++)
         {
-            vector.x = outOfBoardSpaces[i].transform.position.x;
-            vector.z = outOfBoardSpaces[i].transform.position.z;
-            vector.y = outOfBoardSpaces[i].transform.position.y;
+            Vector3 vector = new Vector3(50 + i, 50+i, 50+i); 
+            //vector.x = outOfBoardSpaces[i].transform.position.x;
+            //vector.z = outOfBoardSpaces[i].transform.position.z;
+            //vector.y = .5f;
 
-            GameObject piece = Instantiate(localCharacter, vector, Quaternion.identity) as GameObject;
+            piece = Instantiate(opponentCharacter) as GameObject;
+           // piece.transform.position = vector;
 
+            
+            piece.SetActive(true);
+            //piece = (GameObject)Instantiate(opponentCharacter);
             piece.name = "opponent" + (i).ToString();
-            piece.tag = null;
+            piece.tag = "opponent";
             opponentPieces[i] = piece;
 
         }
@@ -236,7 +257,7 @@ public class App : MonoBehaviour
 
     private void Update()
     {
-        if (game.gameOver())
+        if (gameOver)
         {
             //change turn text to game over text
 

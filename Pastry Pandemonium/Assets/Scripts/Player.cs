@@ -7,7 +7,7 @@ using System;
 public class Player : MonoBehaviour
 {
 
-    public static bool isSinglePlayer = true;
+    public static bool isSinglePlayer;
     public static bool PlayerGoFirst = true;
     public static bool firstPlayer = true;
     public static int gamePhase;
@@ -31,15 +31,15 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
-        {
-            DontDestroyOnLoad(gameObject);
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
+    //    if (instance == null)
+    //    {
+    //        DontDestroyOnLoad(gameObject);
+    //        instance = this;
+    //    }
+    //    else if (instance != this)
+    //    {
+    //        Destroy(gameObject);
+    //    }
 
         if (level == "easy")
         {
