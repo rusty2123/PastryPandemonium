@@ -4657,7 +4657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 1839417470}
-  canvas: {fileID: 415225118}
+  canvas: {fileID: 0}
 --- !u!65 &1839417472
 BoxCollider:
   m_ObjectHideFlags: 0
