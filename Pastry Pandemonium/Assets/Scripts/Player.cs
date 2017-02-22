@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     private int moveFrom;
 
 
-    public static string level = "easy"; //by default
+    public static string difficultyLevel; //by default
 
     public static Player instance;
 
@@ -41,19 +41,17 @@ public class Player : MonoBehaviour
     //        Destroy(gameObject);
     //    }
 
-        if (level == "easy")
+        if (difficultyLevel == "easy")
         {
             //aIScript = gameObject.AddComponent<AIScript>();
 
         }
-        else if (level == "difficult")
+        else if (difficultyLevel == "hard")
         {
             //aIScript = gameObject.AddComponent<AIScript>();
         }
 
     }
-
-
 
 
     public int getMoveFrom()
@@ -89,11 +87,11 @@ public class Player : MonoBehaviour
         print("Calling AI");
         int[] move = null;
 
-        if (level =="easy")
+        if (difficultyLevel == "easy")
         {
             //call A1
         }
-        else if (level == "difficult")
+        else if (difficultyLevel == "difficult")
         {
             //call A1
         }

@@ -7,6 +7,8 @@ public class SinglePlayerMenu : MonoBehaviour {
 
     public GameObject current, character;
     public static string selectedCharacter;
+    private string aiLevel;
+
     private GameObject moveAi, moveUser, difficultyNormal, difficultyHard, menu, singlePlayer, multiplayer, tutorial, options, help, exit;
 	private GameObject[] players;
 
@@ -68,6 +70,15 @@ public class SinglePlayerMenu : MonoBehaviour {
 			{
 				case "startButton":
                     Player.isSinglePlayer = true;
+                     if (aiLevel == "normalButton")
+                    {
+                        Player.difficultyLevel = "easy";
+                    }
+                     else if (aiLevel == "hardButton")
+                    {
+                        Player.difficultyLevel = "hard";
+                    }
+
 					SceneManager.LoadScene ("GameBoard");
 					break;
 				case "aiButton":
@@ -81,11 +92,13 @@ public class SinglePlayerMenu : MonoBehaviour {
 				case "normalButton":
 					difficultyNormal.GetComponent<Renderer> ().enabled = true;
 					difficultyHard.GetComponent<Renderer> ().enabled = false;
-					break;
+                    aiLevel = "normalButton";
+                    break;
 				case "hardButton":
 					difficultyNormal.GetComponent<Renderer> ().enabled = false;
 					difficultyHard.GetComponent<Renderer> ().enabled = true;
-					break;
+                    aiLevel = "hardButton";
+                    break;
 			case "menuButton":
 				menu.SetActive (false);
 				multiplayer.SetActive (true);
