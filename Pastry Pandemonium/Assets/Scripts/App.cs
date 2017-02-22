@@ -126,7 +126,6 @@ public class App : MonoBehaviour
         {
             int character = UnityEngine.Random.Range(0, 2);
             Player.characterOpponentPlayer = Player.characterSelection[character];
-
         }
        
         switch (Player.characterOpponentPlayer)
@@ -191,8 +190,7 @@ public class App : MonoBehaviour
         {
             
             piece = Instantiate(opponentCharacter) as GameObject;
-
-            
+           
             piece.SetActive(true);
 			piecePosition = GameObject.Find ("O-" + i);
 			piece.transform.position = piecePosition.transform.position;
@@ -323,6 +321,8 @@ public class App : MonoBehaviour
         disableButtons();
         disablePieces();
     }
+
+   
 
     public int setMoveFrom(GameObject obj)
     {
