@@ -115,7 +115,21 @@ public class Lobby : Photon.PunBehaviour
         //return false;
     }
 
+    public Button buttonPrefab;
 
+    IEnumerator populateRoomList()
+    {
+        if (roomsList != null)
+        {
+            for (int i = 0; i < roomsList.Length; ++i)
+            {
+                Button newRoom = Instantiate(buttonPrefab);
+                newRoom.GetComponentInChildren<Text>().text = roomsList[i].Name;
+                Debug.Log("room button instantiated");
+                yield return null;
+            }
+        }
+    }
 
     #endregion
 
@@ -136,7 +150,7 @@ public class Lobby : Photon.PunBehaviour
     public override void OnReceivedRoomListUpdate()
     {
         roomsList = PhotonNetwork.GetRoomList();
-        StartCoroutine("ListRooms");
+        StartCoroutine("populateRoomList");
     }
 
     #endregion
