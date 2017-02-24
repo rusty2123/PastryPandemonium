@@ -16,12 +16,12 @@ public class MenuButton : MonoBehaviour
     public void OnMouseEnter()
     {
         //Scales menu options to indicate that you can click on them
-        LeanTween.scale(menuButton, new Vector3(.45f, .45f, .45f), .075f);
+        LeanTween.scale(menuButton, new Vector3(.35f, .35f, .35f), .075f);
     }
     public void OnMouseExit()
     {
         //Sets menu options back to their original size
-        LeanTween.scale(menuButton, new Vector3(0.3615471f, 0.3615471f, 0.3615471f), .05f);
+        LeanTween.scale(menuButton, new Vector3(0.3f, 0.3f, 0.3f), .05f);
     }
 
     public void OnMouseUp()

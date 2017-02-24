@@ -48,7 +48,7 @@ public class App : MonoBehaviour
 
         if (isSinglePlayer)
         {
-            if (Player.PlayerGoFirst)
+            if (Player.playerGoFirst)
             {
                 isLocalPlayerTurn = true;
                 //change UI turn indicator

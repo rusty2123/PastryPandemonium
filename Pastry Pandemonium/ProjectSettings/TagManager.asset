@@ -14,6 +14,7 @@ TagManager:
   - exit
   - local
   - opponent
+  - gameBoard
   layers:
   - Default
   - TransparentFX
