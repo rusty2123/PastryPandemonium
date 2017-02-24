@@ -11,7 +11,7 @@ public class Tutorial : MonoBehaviour {
 						phaseOne, phaseTwo, phaseThree;
 
 
-	private GameObject startPosition, endPosition, piece;
+	private GameObject startPosition, endPosition, piece, shadow;
 
 	public static int position;
 
@@ -25,6 +25,7 @@ public class Tutorial : MonoBehaviour {
 		help = GameObject.FindGameObjectWithTag("help");
 		exit = GameObject.FindGameObjectWithTag("exit");
 		piece = GameObject.Find("redGamePiece");
+		shadow = GameObject.Find("shadow");
 
 		position = 1;
 
@@ -49,6 +50,8 @@ public class Tutorial : MonoBehaviour {
 		phaseTwo.GetComponent<Renderer> ().enabled = false;
 		phaseThree.GetComponent<Renderer> ().enabled = false;
 		piece.GetComponent<Renderer> ().enabled = false;
+		shadow.GetComponent<Renderer> ().enabled = false;
+
 
 	}
 	public void OnMouseEnter()
@@ -82,10 +85,19 @@ public class Tutorial : MonoBehaviour {
 		endPosition = GameObject.Find ("phase1End");
 
 		piece.transform.position = startPosition.transform.position;
+		shadow.transform.position = startPosition.transform.position;
 
-		LeanTween.scale (piece, new Vector3(.1f, .1f, .1f), 1.3f).setEase(LeanTweenType.easeInQuint).setDelay(.5f);
-		LeanTween.scale (piece, new Vector3(0.07441013f, 0.07441013f, 0.07441013f), 1.3f).setEase(LeanTweenType.easeOutQuint).setDelay(2.9f);
-		LeanTween.move (piece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.9f);
+		//scale piece
+		LeanTween.scale (piece, new Vector3(.1f, .1f, .1f), .6f).setDelay(.5f);
+		LeanTween.scale (piece, new Vector3(0.07441013f, 0.07441013f, 0.07441013f), 1.3f).setDelay(2.9f);
+
+		//move piece up and then to the endPosition
+		LeanTween.moveY (piece, startPosition.transform.position.y + 18f, .6f).setDelay(.5f);
+		LeanTween.move (piece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
+
+		//Move shadow
+		LeanTween.move (shadow, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.15f);
+
 
 	}
 
@@ -105,6 +117,7 @@ public class Tutorial : MonoBehaviour {
 			placement.GetComponent<Renderer> ().enabled = false;
 			phaseOne.GetComponent<Renderer> ().enabled = false;
 			piece.GetComponent<Renderer> ().enabled = false;
+			shadow.GetComponent<Renderer> ().enabled = false;
 
 			break;
 		case 3:
@@ -114,6 +127,8 @@ public class Tutorial : MonoBehaviour {
 			phaseTwo.GetComponent<Renderer> ().enabled = false;
 			phaseOne.GetComponent<Renderer> ().enabled = true;
 			piece.GetComponent<Renderer> ().enabled = true;
+			shadow.GetComponent<Renderer> ().enabled = true;
+
 			animatePhaseOne ();
 			break;
 		case 4:
