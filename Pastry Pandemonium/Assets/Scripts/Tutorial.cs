@@ -10,6 +10,9 @@ public class Tutorial : MonoBehaviour {
 	    		 	   moving, flying, backArrow, forwardArrow,
 						phaseOne, phaseTwo, phaseThree;
 
+
+	private GameObject startPosition, endPosition, piece;
+
 	public static int position;
 
 	private void Awake()
@@ -21,6 +24,7 @@ public class Tutorial : MonoBehaviour {
 		singlePlayer = GameObject.FindGameObjectWithTag("singleplayer");
 		help = GameObject.FindGameObjectWithTag("help");
 		exit = GameObject.FindGameObjectWithTag("exit");
+		piece = GameObject.Find("redGamePiece");
 
 		position = 1;
 
@@ -44,6 +48,7 @@ public class Tutorial : MonoBehaviour {
 		phaseOne.GetComponent<Renderer> ().enabled = false;
 		phaseTwo.GetComponent<Renderer> ().enabled = false;
 		phaseThree.GetComponent<Renderer> ().enabled = false;
+		piece.GetComponent<Renderer> ().enabled = false;
 
 	}
 	public void OnMouseEnter()
@@ -71,6 +76,19 @@ public class Tutorial : MonoBehaviour {
 
 	}
 
+	private void animatePhaseOne()
+	{
+		startPosition = GameObject.Find ("phase1Start");
+		endPosition = GameObject.Find ("phase1End");
+
+		piece.transform.position = startPosition.transform.position;
+
+		LeanTween.scale (piece, new Vector3(.1f, .1f, .1f), 1.3f).setEase(LeanTweenType.easeInQuint).setDelay(.5f);
+		LeanTween.scale (piece, new Vector3(0.07441013f, 0.07441013f, 0.07441013f), 1.3f).setEase(LeanTweenType.easeOutQuint).setDelay(2.9f);
+		LeanTween.move (piece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.9f);
+
+	}
+
 	private void setTutorial(int position)
 	{
 		switch (position) {
@@ -86,6 +104,8 @@ public class Tutorial : MonoBehaviour {
 			mills.GetComponent<Renderer> ().enabled = true;
 			placement.GetComponent<Renderer> ().enabled = false;
 			phaseOne.GetComponent<Renderer> ().enabled = false;
+			piece.GetComponent<Renderer> ().enabled = false;
+
 			break;
 		case 3:
 			placement.GetComponent<Renderer> ().enabled = true;
@@ -93,6 +113,8 @@ public class Tutorial : MonoBehaviour {
 			moving.GetComponent<Renderer> ().enabled = false;
 			phaseTwo.GetComponent<Renderer> ().enabled = false;
 			phaseOne.GetComponent<Renderer> ().enabled = true;
+			piece.GetComponent<Renderer> ().enabled = true;
+			animatePhaseOne ();
 			break;
 		case 4:
 			placement.GetComponent<Renderer> ().enabled = false;
