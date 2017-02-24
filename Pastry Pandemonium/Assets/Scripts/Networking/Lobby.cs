@@ -7,7 +7,8 @@ public class Lobby : Photon.PunBehaviour
 {
     #region Public Variables
 
-    public Text roomText;
+    public GameObject roomList;
+    public GameObject roomPrefab;
 
     #endregion
 
@@ -16,6 +17,7 @@ public class Lobby : Photon.PunBehaviour
 
     private RoomInfo[] roomsList;
     private string _gameVersion = "1";
+    private string roomSelection = "";
 
 
     #endregion
@@ -31,7 +33,7 @@ public class Lobby : Photon.PunBehaviour
     {
         // #Critical
         // we don't join the lobby. There is no need to join a lobby to get the list of rooms.
-        PhotonNetwork.autoJoinLobby = false;
+        PhotonNetwork.autoJoinLobby = true;
         // #Critical
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.automaticallySyncScene = true;
@@ -45,12 +47,15 @@ public class Lobby : Photon.PunBehaviour
 
     }
 
+    private void Update()
+    {
+       
+    }
 
     #endregion
 
 
     #region Public Methods
-
 
     /// <summary>
     /// Start the connection process. 
@@ -79,7 +84,6 @@ public class Lobby : Photon.PunBehaviour
 
         if (PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default))
         {
-            roomText.text = roomText.text + "\n" + roomName;
             Debug.Log(roomName + " created");
         }
         else
@@ -88,31 +92,37 @@ public class Lobby : Photon.PunBehaviour
         }
     }
 
-    public void ListRooms()
+    public void Join()
+    {
+        if (PhotonNetwork.JoinRoom(roomSelection))
+        {
+            Debug.Log("joined " + roomSelection);
+        }
+        else
+        {
+            Debug.Log("failed to join room");
+        }    
+    }
+
+    public void populateRoomList()
     {
         if (roomsList != null)
         {
             for (int i = 0; i < roomsList.Length; ++i)
             {
-                if (GUI.Button(new Rect(100, 250 + (110 * i), 160, 30), "Join " + roomsList[i].Name))
-                {
-                    Join(roomsList[i].Name);
-                }
+                GameObject newRoom = Instantiate(roomPrefab) as GameObject;
+                newRoom.transform.SetParent(roomList.transform, false);
+                newRoom.GetComponentInChildren<Text>().text = roomsList[i].Name;
+                newRoom.GetComponent<Button>().onClick.AddListener(() => setRoomSelection(newRoom.GetComponentInChildren<Text>().text));
+                Debug.Log("room button instantiated");
             }
         }
     }
 
-    public bool Join(string roomName)
+    private void setRoomSelection(string room)
     {
-        if (PhotonNetwork.JoinRoom(roomName))
-        {
-            Debug.Log("room joined");
-            return true;
-        }
-        return false;
+        this.roomSelection = room;
     }
-
-
 
     #endregion
 
@@ -130,6 +140,11 @@ public class Lobby : Photon.PunBehaviour
         Debug.LogWarning("DemoAnimator/Launcher: OnDisconnectedFromPhoton() was called by PUN");
     }
 
+    public override void OnReceivedRoomListUpdate()
+    {
+        roomsList = PhotonNetwork.GetRoomList();
+        StartCoroutine("populateRoomList");
+    }
 
     #endregion
 }

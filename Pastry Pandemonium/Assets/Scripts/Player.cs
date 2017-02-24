@@ -8,11 +8,10 @@ public class Player : MonoBehaviour
 {
 
     public static bool isSinglePlayer;
-    public static bool PlayerGoFirst = true;
+    public static bool playerGoFirst;
     public static bool firstPlayer = true;
     public static int gamePhase;
 
-    public string [] aiLevel = { "easy", "difficult" };
     public static string[] characterSelection = { "berryMuffin", "chipMuffin", "lemonMuffin", "chocolateCupcake", "redCupcake", "whiteCupcake" }; //change for names of characters later
     public static string characterLocalPlayer; //enum list of characters
     public static string characterOpponentPlayer;

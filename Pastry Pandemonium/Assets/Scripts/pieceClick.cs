@@ -29,7 +29,7 @@ public class PieceClick : MonoBehaviour
 
     void OnMouseDown()
     {
-        gameObj = GameObject.FindWithTag("Game");
+        gameObj = GameObject.FindWithTag("gameBoard");
         audioSource.Play();
 
         if (gameObj.GetComponent<App>().getTurn())

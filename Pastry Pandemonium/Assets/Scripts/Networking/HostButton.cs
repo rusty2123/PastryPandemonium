@@ -17,34 +17,26 @@ public class HostButton : MonoBehaviour
     public void OnMouseEnter()
     {
         //Scales menu options to indicate that you can click on them
-        LeanTween.scale(hostButton, new Vector3(.45f, .45f, .45f), .075f);
+        LeanTween.scale(hostButton, new Vector3(.23f, .23f, .23f), .075f);
     }
     public void OnMouseExit()
     {
         //Sets menu options back to their original size
-        LeanTween.scale(hostButton, new Vector3(0.3615471f, 0.3615471f, 0.3615471f), .05f);
+        LeanTween.scale(hostButton, new Vector3(0.2f, 0.2f, 0.2f), .05f);
     }
 
     public void OnMouseUp()
     {
 
         //Finds what option you clicked on
-        if (hostButton != null)
+        if (hostButton != null && PhotonNetwork.connected)
         {
-            switch (hostButton.name)
-            {
-                case "hostGame":
-                    //go to a room creation pop-up similar to that of singleplayer then create game
-                    gameLobby.Host();
-                    break;
-                case "join":
-                    //parameter for join must be highlighted text
-                    //gameLobby.Join();
-                    break;
-
-                default:
-                    break;
-            }
+            //go to a room creation pop-up similar to that of singleplayer then create game
+            gameLobby.Host();
+        }
+        else
+        {
+            //display connection problems
         }
     }
 }
