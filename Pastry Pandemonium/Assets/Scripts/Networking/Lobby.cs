@@ -8,7 +8,7 @@ public class Lobby : Photon.PunBehaviour
     #region Public Variables
 
     public GameObject roomList;
-    public GameObject roomPrefab;
+    public Text roomPrefab;
 
     #endregion
 
@@ -110,16 +110,17 @@ public class Lobby : Photon.PunBehaviour
         {
             for (int i = 0; i < roomsList.Length; ++i)
             {
-                GameObject newRoom = Instantiate(roomPrefab) as GameObject;
+                Text newRoom = Instantiate(roomPrefab) as Text;
                 newRoom.transform.SetParent(roomList.transform, false);
-                newRoom.GetComponentInChildren<Text>().text = roomsList[i].Name;
-                newRoom.GetComponent<Button>().onClick.AddListener(() => setRoomSelection(newRoom.GetComponentInChildren<Text>().text));
+                newRoom.text = roomsList[i].Name;
+                // newRoom.GetComponentInChildren<Text>().text = roomsList[i].Name;
+                // newRoom.GetComponent<Button>().onClick.AddListener(() => setRoomSelection(newRoom.GetComponentInChildren<Text>().text));
                 Debug.Log("room button instantiated");
             }
         }
     }
 
-    private void setRoomSelection(string room)
+    public void setRoomSelection(string room)
     {
         this.roomSelection = room;
     }
