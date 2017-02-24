@@ -32,7 +32,11 @@ public class JoinButton : MonoBehaviour
         if (joinButton != null && PhotonNetwork.connected)
         {
             //parameter for join must be highlighted text
+<<<<<<< HEAD
             gameLobby.Join();
+=======
+            gameLobby.Join("bob's Game");
+>>>>>>> origin/master
         }
     }
 }

@@ -92,6 +92,7 @@ public class Lobby : Photon.PunBehaviour
         }
     }
 
+<<<<<<< HEAD
     public void Join()
     {
         if (PhotonNetwork.JoinRoom(roomSelection))
@@ -105,25 +106,63 @@ public class Lobby : Photon.PunBehaviour
     }
 
     public void populateRoomList()
+=======
+    IEnumerator ListRooms()
+>>>>>>> origin/master
     {
+        roomText.text = "";
         if (roomsList != null)
         {
             for (int i = 0; i < roomsList.Length; ++i)
             {
+<<<<<<< HEAD
                 GameObject newRoom = Instantiate(roomPrefab) as GameObject;
                 newRoom.transform.SetParent(roomList.transform, false);
                 newRoom.GetComponentInChildren<Text>().text = roomsList[i].Name;
                 newRoom.GetComponent<Button>().onClick.AddListener(() => setRoomSelection(newRoom.GetComponentInChildren<Text>().text));
                 Debug.Log("room button instantiated");
+=======
+                roomText.text = roomText.text + roomsList[i].Name + "\n";
+                yield return null;
+>>>>>>> origin/master
             }
         }
     }
 
     private void setRoomSelection(string room)
     {
+<<<<<<< HEAD
         this.roomSelection = room;
     }
 
+=======
+        Debug.Log(roomsList.Length);
+        return true;
+        //if (PhotonNetwork.JoinRoom(roomName))
+        //{
+        //    Debug.Log("room joined");
+        //    return true;
+        //}
+        //return false;
+    }
+
+    public Button buttonPrefab;
+
+    IEnumerator populateRoomList()
+    {
+        if (roomsList != null)
+        {
+            for (int i = 0; i < roomsList.Length; ++i)
+            {
+                Button newRoom = Instantiate(buttonPrefab);
+                newRoom.GetComponentInChildren<Text>().text = roomsList[i].Name;
+                Debug.Log("room button instantiated");
+                yield return null;
+            }
+        }
+    }
+
+>>>>>>> origin/master
     #endregion
 
     #region Photon.PunBehaviour CallBacks
