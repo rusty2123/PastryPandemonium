@@ -80,7 +80,7 @@ public class Lobby : Photon.PunBehaviour
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = 2;
-        string roomName = PhotonNetwork.playerName + "'s Game";
+        string roomName = PhotonNetwork.playerName + "'s game";
 
         if (PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default))
         {
