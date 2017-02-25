@@ -88,17 +88,26 @@ public class Tutorial : MonoBehaviour {
 		shadow.transform.position = startPosition.transform.position;
 
 		//scale piece
-		LeanTween.scale (piece, new Vector3(.1f, .1f, .1f), .6f).setDelay(.5f);
-		LeanTween.scale (piece, new Vector3(0.07441013f, 0.07441013f, 0.07441013f), 1.3f).setDelay(2.9f);
+		LeanTween.scale (piece, new Vector3(.12f, .12f, .12f), .6f).setDelay(.5f);
+		LeanTween.scale (piece, new Vector3(0.09006101f, 0.09006101f, 0.09006101f), 1.3f).setDelay(2.9f);
 
 		//move piece up and then to the endPosition
-		LeanTween.moveY (piece, startPosition.transform.position.y + 18f, .6f).setDelay(.5f);
+		LeanTween.moveY (piece, startPosition.transform.position.y + 22f, .6f).setDelay(.5f);
 		LeanTween.move (piece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
 
 		//Move shadow
 		LeanTween.move (shadow, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.15f);
 
 
+	}
+
+	private void animatePhaseTwo()
+	{
+		startPosition = GameObject.Find ("phase2Start");
+		endPosition = GameObject.Find ("phase2End");
+
+//		piece.transform.position = startPosition.transform.position;
+		//shadow.transform.position = startPosition.transform.position;
 	}
 
 	private void setTutorial(int position)
@@ -121,6 +130,7 @@ public class Tutorial : MonoBehaviour {
 			CancelInvoke ("animatePhaseOne");
 			break;
 		case 3:
+			CancelInvoke("animatePhaseTwo");
 			placement.GetComponent<Renderer> ().enabled = true;
 			mills.GetComponent<Renderer> ().enabled = false;
 			moving.GetComponent<Renderer> ().enabled = false;
@@ -133,6 +143,7 @@ public class Tutorial : MonoBehaviour {
 			break;
 		case 4:
 			CancelInvoke("animatePhaseOne");
+
 			placement.GetComponent<Renderer> ().enabled = false;
 			phaseOne.GetComponent<Renderer> ().enabled = false;
 			moving.GetComponent<Renderer> ().enabled = true;
@@ -140,9 +151,11 @@ public class Tutorial : MonoBehaviour {
 			forwardArrow.GetComponent<Renderer> ().enabled = true;
 			phaseThree.GetComponent<Renderer> ().enabled = false;
 			phaseTwo.GetComponent<Renderer> ().enabled = true;
+			InvokeRepeating ("animatePhaseTwo", 0, 5);
 
 			break;
 		case 5:
+			CancelInvoke("animatePhaseTwo");
 			moving.GetComponent<Renderer> ().enabled = false;
 			phaseTwo.GetComponent<Renderer> ().enabled = false;
 			flying.GetComponent<Renderer> ().enabled = true;
@@ -172,6 +185,7 @@ public class Tutorial : MonoBehaviour {
 				help.SetActive (true);
 				exit.SetActive (true);
 				CancelInvoke ("animatePhaseOne");
+				CancelInvoke("animatePhaseTwo");
 				position = 1;
 				break;
 			case "forwardArrow":
