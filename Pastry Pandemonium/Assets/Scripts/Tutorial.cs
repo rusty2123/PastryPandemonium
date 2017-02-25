@@ -118,7 +118,7 @@ public class Tutorial : MonoBehaviour {
 			phaseOne.GetComponent<Renderer> ().enabled = false;
 			piece.GetComponent<Renderer> ().enabled = false;
 			shadow.GetComponent<Renderer> ().enabled = false;
-
+			CancelInvoke ("animatePhaseOne");
 			break;
 		case 3:
 			placement.GetComponent<Renderer> ().enabled = true;
@@ -129,9 +129,10 @@ public class Tutorial : MonoBehaviour {
 			piece.GetComponent<Renderer> ().enabled = true;
 			shadow.GetComponent<Renderer> ().enabled = true;
 
-			animatePhaseOne ();
+			InvokeRepeating ("animatePhaseOne", 0, 5);
 			break;
 		case 4:
+			CancelInvoke("animatePhaseOne");
 			placement.GetComponent<Renderer> ().enabled = false;
 			phaseOne.GetComponent<Renderer> ().enabled = false;
 			moving.GetComponent<Renderer> ().enabled = true;
@@ -139,6 +140,7 @@ public class Tutorial : MonoBehaviour {
 			forwardArrow.GetComponent<Renderer> ().enabled = true;
 			phaseThree.GetComponent<Renderer> ().enabled = false;
 			phaseTwo.GetComponent<Renderer> ().enabled = true;
+
 			break;
 		case 5:
 			moving.GetComponent<Renderer> ().enabled = false;
@@ -169,6 +171,8 @@ public class Tutorial : MonoBehaviour {
 				singlePlayer.SetActive (true);
 				help.SetActive (true);
 				exit.SetActive (true);
+				CancelInvoke ("animatePhaseOne");
+				position = 1;
 				break;
 			case "forwardArrow":
 				if (position < 5) {
