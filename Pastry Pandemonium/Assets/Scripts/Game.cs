@@ -201,7 +201,7 @@ public class Game : Photon.MonoBehaviour
     }
 
 
-    private bool removePiece()
+    public bool removePiece()
     {
         Debug.Log("remove piece");
 

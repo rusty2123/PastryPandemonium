@@ -38,4 +38,10 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - sendPlacePiece
+  - flyPiece
+  - movePiece
+  - removePiece
+  - flyPieceRPC
+  - movePieceRPC
+  - removePieceRPC
   DisableAutoOpenWizard: 1

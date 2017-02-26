@@ -185,8 +185,6 @@ public class App : MonoBehaviour
 
     void setUpPiecesOpponent(GameObject opponentCharacter)
     {
-       
-
         for (int i = 1; i < 10; i++)
         {
             
