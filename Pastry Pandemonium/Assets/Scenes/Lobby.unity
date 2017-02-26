@@ -207,6 +207,23 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 256070552}
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+--- !u!1 &256070554 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1083773368063316, guid: b42f2d0739f484b47aaf5dd145b37c7f,
+    type: 2}
+  m_PrefabInternal: {fileID: 256070552}
+--- !u!65 &256070555
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 256070554}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 325, y: 30, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &356759347
 GameObject:
   m_ObjectHideFlags: 0
