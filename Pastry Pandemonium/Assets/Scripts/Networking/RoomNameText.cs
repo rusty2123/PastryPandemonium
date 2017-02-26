@@ -15,16 +15,16 @@ public class RoomNameText : MonoBehaviour
     }
 
 
-    public void OnMouseEnter()
+    public void enlargeFont()
     {
         roomNamePrefab.fontSize = 65;
     }
-    public void OnMouseExit()
+    public void normalFontSize()
     {
         roomNamePrefab.fontSize = 60;
     }
 
-    public void OnMouseUp()
+    public void selectRoom()
     {
 
         //Finds what option you clicked on
@@ -32,7 +32,7 @@ public class RoomNameText : MonoBehaviour
         {
             //must also set all other rooms back to white
             roomNamePrefab.color = new Color(255, 140, 140);
-            gameLobby.setRoomSelection(roomNamePrefab.text);
+            //gameLobby.setRoomSelection(roomNamePrefab.text);
         }
         else
         {
