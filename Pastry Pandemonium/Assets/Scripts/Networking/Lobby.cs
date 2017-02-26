@@ -19,7 +19,6 @@ public class Lobby : Photon.PunBehaviour
     private string _gameVersion = "1";
     private string roomSelection = "";
 
-
     #endregion
 
 
@@ -121,6 +120,15 @@ public class Lobby : Photon.PunBehaviour
 
     public void setRoomSelection(ref Button room)
     {
+        //every time a new button is clicked, all other buttons' text must change back
+        Button[] roomButtons = roomList.GetComponentsInChildren<Button>();
+
+        for(int i = 0; i < roomButtons.Length; ++i)
+        {
+            string buttonText = roomButtons[i].GetComponentInChildren<Text>().text;
+            roomButtons[i].GetComponentInChildren<Text>().text = removeBrackets(buttonText);
+        }
+
         this.roomSelection = room.GetComponentInChildren<Text>().text;
         room.GetComponentInChildren<Text>().text = "[" + room.GetComponentInChildren<Text>().text + "]";
         Debug.Log("you clicked me");
@@ -147,6 +155,22 @@ public class Lobby : Photon.PunBehaviour
         roomsList = PhotonNetwork.GetRoomList();
         populateRoomList();
     }
+
+    #endregion
+
+    #region Public Methods
+
+    private string removeBrackets(string s)
+    {
+        if(s[0] == '[' && s[s.Length] == ']')
+        {
+            return s.Substring(1, s.Length - 1);
+        }
+        else
+        {
+            return s;
+        }
+    } 
 
     #endregion
 }
