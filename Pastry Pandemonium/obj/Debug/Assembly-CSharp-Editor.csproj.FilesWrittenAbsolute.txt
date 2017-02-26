@@ -96,3 +96,5 @@
 /Users/paultoillion/Desktop/Game/PastryPandemonium/Pastry Pandemonium/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/paultoillion/Desktop/Game/PastryPandemonium/Pastry Pandemonium/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/paultoillion/Desktop/Game/PastryPandemonium/Pastry Pandemonium/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/paultoillion/Desktop/Game/PastryPandemonium/Pastry Pandemonium/Temp/bin/Debug/UnityEngine.Purchasing.dll
+/Users/paultoillion/Desktop/Game/PastryPandemonium/Pastry Pandemonium/Temp/bin/Debug/UnityEngine.Advertisements.dll

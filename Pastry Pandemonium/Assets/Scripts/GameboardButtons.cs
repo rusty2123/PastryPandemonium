@@ -5,16 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class GameboardButtons : MonoBehaviour {
 
-	public GameObject current;
-
-
+    public GameObject current;
 
 	public void OnMouseUp()
 	{
 		if  (current.name == "exitButton") {
-				Application.Quit ();
-				Debug.Log ("quit application");
-			} 
+			Application.Quit ();
+			Debug.Log ("quit application");
+		} 
 
 		if (current.name == "menuButton") {
 			SceneManager.LoadScene ("mainMenu");
