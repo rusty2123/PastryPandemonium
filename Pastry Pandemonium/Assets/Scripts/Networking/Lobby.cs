@@ -9,6 +9,8 @@ public class Lobby : Photon.PunBehaviour
 
     public GameObject roomList;
     public Button roomPrefab;
+    public NetworkGameManager gameManager;
+
 
     #endregion
 
@@ -83,6 +85,7 @@ public class Lobby : Photon.PunBehaviour
 
         if (PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default))
         {
+            gameManager.LoadNetworkGame();
             Debug.Log(roomName + " created");
         }
         else
@@ -95,6 +98,7 @@ public class Lobby : Photon.PunBehaviour
     {
         if (PhotonNetwork.JoinRoom(roomSelection))
         {
+            gameManager.LoadNetworkGame();
             Debug.Log("joined " + roomSelection);
         }
         else

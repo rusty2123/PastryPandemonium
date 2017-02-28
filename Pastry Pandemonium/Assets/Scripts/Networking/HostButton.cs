@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class HostButton : MonoBehaviour
 {
-    public GameObject hostButton, roomPopup;
+    public GameObject hostButton;
     public Lobby gameLobby;
 
     private void Awake()
@@ -33,8 +33,6 @@ public class HostButton : MonoBehaviour
         {
             //go to a room creation pop-up similar to that of singleplayer then create game
             gameLobby.Host();
-            roomPopup.SetActive(true);
-
         }
         else
         {

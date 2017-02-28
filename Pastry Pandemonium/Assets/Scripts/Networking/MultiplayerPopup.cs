@@ -43,6 +43,7 @@ public class MultiplayerPopup : MonoBehaviour {
 			switch (current.name) 
 			{
                 case "enterLobby":
+                    Player.isSinglePlayer = false;
                     lobby.Connect();
                     SceneManager.LoadScene("Lobby");
                     break;

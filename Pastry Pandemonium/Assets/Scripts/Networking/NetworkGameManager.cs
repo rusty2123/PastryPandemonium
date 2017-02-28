@@ -9,6 +9,8 @@ public class NetworkGameManager : Photon.PunBehaviour
 {
 
     Game game = Game.gameInstance;
+    public static Player localPlayer;
+    public static Player opponentPlayer;
 
     #region Photon Messages
 
@@ -48,19 +50,30 @@ public class NetworkGameManager : Photon.PunBehaviour
         PhotonView photonView = PhotonView.Get(this);
         photonView.RPC("removePieceRPC", PhotonTargets.All);
     }
-
-    #endregion
-
-    #region Private Methods
-
-    void LoadNetworkGame()
+    public void LoadNetworkGame()
     {
         if (!PhotonNetwork.isMasterClient)
         {
             Debug.LogError("PhotonNetwork : Trying to Load game, but we are not the master Client");
+            //hard coded stuff to test network game
+            Player.playerGoFirst = true;
+            Player.characterLocalPlayer = "chipMuffin";
         }
-        PhotonNetwork.LoadLevel("GameBoard");
+        else
+        {
+            PhotonNetwork.LoadLevel("GameBoard");
+            //hard coded stuff to test network game
+            Player.playerGoFirst = false;
+            Player.characterLocalPlayer = "redCupcake";
+        }
+
+        localPlayer = gameObject.AddComponent<Player>();
+        opponentPlayer = gameObject.AddComponent<Player>();
     }
+
+    #endregion
+
+    #region Private Methods
 
     #endregion
 

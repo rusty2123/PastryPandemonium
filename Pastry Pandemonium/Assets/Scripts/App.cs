@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-public class App : MonoBehaviour
+public class App : Photon.PunBehaviour
 {
 
     Game game = Game.gameInstance;
