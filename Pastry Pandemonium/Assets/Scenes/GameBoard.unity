@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &23924681
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -205,11 +206,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 41723249}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -275.5, y: -142, z: 0}
+  m_LocalPosition: {x: 65.5, y: 30, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
-  m_Father: {fileID: 1285826531}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &41723252
 MonoBehaviour:
@@ -222,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &136911998
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,11 +395,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 260187544}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -275.5, y: -142, z: 0}
+  m_LocalPosition: {x: 65.5, y: 30, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
-  m_Father: {fileID: 1285826531}
-  m_RootOrder: 4
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &260187547
 MonoBehaviour:
@@ -410,6 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &369919247
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &369919250
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -506,6 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &377358693
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -636,7 +641,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &499816619
 GameObject:
@@ -697,11 +702,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 499816619}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -275.5, y: -142, z: 0}
+  m_LocalPosition: {x: 65.5, y: 30, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
-  m_Father: {fileID: 1285826531}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &499816622
 MonoBehaviour:
@@ -714,6 +719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &513017786
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,6 +862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &548490760
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,6 +918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &561211005
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,6 +974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &566855178
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,7 +1039,7 @@ Transform:
   m_LocalScale: {x: 1.5323365, y: 1.5323365, z: 1.5323365}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 269.999}
 --- !u!114 &566855181
 MonoBehaviour:
@@ -1122,7 +1131,7 @@ Transform:
   m_LocalScale: {x: 0.6075292, y: 0.6075292, z: 0.6075292}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &585748557
 MonoBehaviour:
@@ -1191,6 +1200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &734597710
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1274,6 +1284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &766416424
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1357,6 +1368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &773845148
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1430,11 +1442,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 786462291}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -275.5, y: -142, z: 0}
+  m_LocalPosition: {x: 65.5, y: 30, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
-  m_Father: {fileID: 1285826531}
-  m_RootOrder: 3
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &786462294
 MonoBehaviour:
@@ -1447,6 +1459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &862476365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1488,6 +1501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &862476368
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1627,6 +1641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &1021791640
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1710,6 +1725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &1124682530
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1793,6 +1809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &1146397273
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1902,6 +1919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &1275013625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1989,15 +2007,9 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 41723251}
-  - {fileID: 2063266128}
-  - {fileID: 499816621}
-  - {fileID: 786462293}
-  - {fileID: 260187546}
-  - {fileID: 1837875800}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2045,6 +2057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &1308379344
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2100,6 +2113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &1329111329
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2184,7 +2198,7 @@ RectTransform:
   - {fileID: 2078356846}
   - {fileID: 1126732582}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2232,6 +2246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &1596133760
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2316,7 +2331,7 @@ RectTransform:
   - {fileID: 241288376}
   - {fileID: 1722422533}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2392,6 +2407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &1768995894
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2465,11 +2481,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1837875798}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -275.5, y: -142, z: 0}
+  m_LocalPosition: {x: 65.5, y: 30, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
-  m_Father: {fileID: 1285826531}
-  m_RootOrder: 5
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1837875801
 MonoBehaviour:
@@ -2482,6 +2498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &1882621334
 GameObject:
   m_ObjectHideFlags: 0
@@ -2523,6 +2540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &1882621337
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2599,7 +2617,7 @@ Transform:
   m_LocalScale: {x: 0.26939, y: 0.26939, z: 0.26939}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1980939492
 GameObject:
@@ -2686,7 +2704,7 @@ RectTransform:
   - {fileID: 1308379342}
   - {fileID: 862476366}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2776,6 +2794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &2047935500
 GameObject:
   m_ObjectHideFlags: 0
@@ -2845,6 +2864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &2055454397
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2914,6 +2934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &2063266126
 GameObject:
   m_ObjectHideFlags: 0
@@ -2973,11 +2994,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2063266126}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -275.5, y: -142, z: 0}
+  m_LocalPosition: {x: 65.5, y: 30, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
-  m_Father: {fileID: 1285826531}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2063266129
 MonoBehaviour:
@@ -2990,6 +3011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &2078356845
 GameObject:
   m_ObjectHideFlags: 0
@@ -3073,6 +3095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &2104799468
 GameObject:
   m_ObjectHideFlags: 0
@@ -3242,6 +3265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40c586f87de04a4cba25b0aa8d08bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!61 &2139921422
 BoxCollider2D:
   m_ObjectHideFlags: 0

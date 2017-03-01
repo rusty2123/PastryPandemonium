@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PieceClick : MonoBehaviour
+public class pieceClick : MonoBehaviour
 {
 
 
