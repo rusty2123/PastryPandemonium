@@ -4,16 +4,14 @@ using UnityEngine;
 using System;
 
 
-public class App : Photon.PunBehaviour
+public class App : MonoBehaviour
 {
 
-    Game game = Game.gameInstance;
+    public static GameObject gameInstance;
 
-    public NetworkGameManager networkManager;
+    public static GameObject boardInstance;
 
-    private Board boardInstance;
-
-	private GameObject piecePosition;
+    private GameObject piecePosition;
 
     public GameObject chipMuffin;
     public GameObject berryMuffin;
@@ -25,6 +23,10 @@ public class App : Photon.PunBehaviour
     private GameObject board;
     private GameObject characterLocalPlayer;
     private GameObject characterOpponentPlayer;
+    private static int localIndex = 0;
+    private static int opponentIndex = 0;
+    private static int remainingLocal = 9;
+    private static int remainingOpponent = 9;
     private GameObject[] opponentPieces = new GameObject[9];
     private GameObject[] localPieces = new GameObject[9];
     public GameObject[] outOfBoardSpaces = new GameObject[18];
@@ -37,6 +39,7 @@ public class App : Photon.PunBehaviour
     public static bool localPlayerWon;
     public static Player localPlayer;
     public static Player opponentPlayer;
+    public static int phase = 1;
 
     private GameObject clickedFirst = null;
     private GameObject clickedSecond = null;
@@ -46,6 +49,9 @@ public class App : Photon.PunBehaviour
 
     void Awake()
     {
+        gameInstance = GameObject.FindGameObjectWithTag("gameBoard");
+        boardInstance = GameObject.FindGameObjectWithTag("gameBoard");
+
         isSinglePlayer = Player.isSinglePlayer;
 
         if (isSinglePlayer)
@@ -57,25 +63,12 @@ public class App : Photon.PunBehaviour
 
             }
             else
-            {
                 isLocalPlayerTurn = false;
-            }
-
-            setUpPlayerPieces();
             //change UI turn indicator
         }//if multiplayer
         else
         {
-            if(networkManager.isMasterClient())
-            {
-                isLocalPlayerTurn = false;
-                Player.characterLocalPlayer = "redCupcake";
-            }
-            else
-            {
-                isLocalPlayerTurn = true;
-                Player.characterLocalPlayer = "chipMuffin";
-            }
+            isLocalPlayerTurn = true;
 
             if (Player.firstPlayer)
             {
@@ -85,8 +78,13 @@ public class App : Photon.PunBehaviour
             //change UI turn indicator
 
         }
+
+        boardInstance.GetComponent<Board>().initializeBoard();
+
         localPlayer = gameObject.AddComponent<Player>();
         opponentPlayer = gameObject.AddComponent<Player>();
+        setUpPlayerPieces();
+
     }
 
 
@@ -140,7 +138,7 @@ public class App : Photon.PunBehaviour
             Player.characterOpponentPlayer = Player.characterSelection[character];
 
         }
-       
+
         switch (Player.characterOpponentPlayer)
         {
             case "berryMuffin":
@@ -183,13 +181,13 @@ public class App : Photon.PunBehaviour
         {
             piece = Instantiate(localCharacter) as GameObject;
 
-			piecePosition = GameObject.Find ("L-" + i);
-			piece.transform.position = piecePosition.transform.position;
+            piecePosition = GameObject.Find("L-" + i);
+            piece.transform.position = piecePosition.transform.position;
             piece.SetActive(true);
             piece.tag = "local";
-           
+
             piece.name = "local" + (i).ToString();
-            localPieces[i-1] = piece;
+            localPieces[i - 1] = piece;
 
         }
 
@@ -199,20 +197,60 @@ public class App : Photon.PunBehaviour
     {
         for (int i = 1; i < 10; i++)
         {
-            
+
             piece = Instantiate(opponentCharacter) as GameObject;
 
-            
+
             piece.SetActive(true);
-			piecePosition = GameObject.Find ("O-" + i);
-			piece.transform.position = piecePosition.transform.position;
-           
+            piecePosition = GameObject.Find("O-" + i);
+            piece.transform.position = piecePosition.transform.position;
+
             piece.name = "opponent" + (i).ToString();
             piece.tag = "opponent";
-            opponentPieces[i-1] = piece;
+            opponentPieces[i - 1] = piece;
 
         }
     }
+
+
+    public void piecePlacementPhase(GameObject selected)
+    {
+        if (isLocalPlayerTurn)
+        {
+            if (remainingLocal > 0)
+            {
+                //if (gameInstance.GetComponent<Game>().placePiece(Convert.ToInt32(selected.name)))
+                //{
+                piecePosition = GameObject.Find(selected.name);
+                localPieces[localIndex].transform.position = piecePosition.transform.position;
+                localIndex++;
+                remainingLocal--;
+
+                //}
+
+            }
+
+        }
+        else if (!isLocalPlayerTurn)
+        {
+            if (remainingOpponent > 0)
+            {
+
+
+                //// piecePosition.transform.position;
+                opponentIndex++;
+                remainingOpponent--;
+            }
+        }
+
+        if (remainingOpponent == 0 && remainingLocal == 0)
+        {
+            phase = 2;
+        }
+
+        changePlayer();
+    }
+
 
     public bool getTurn()
     {
@@ -262,14 +300,16 @@ public class App : Photon.PunBehaviour
     }
 
 
-
+    /// <summary>
+    /// UPDATE!!!!!!!!!!!!
+    /// </summary>
     private void Update()
     {
         if (gameOver)
         {
             //change turn text to game over text
 
-            if (!game.isDraw())
+            if (!gameInstance.GetComponent<Game>().isDraw())
             {
                 if (isSinglePlayer)
                 {
@@ -392,7 +432,7 @@ public class App : Photon.PunBehaviour
             if (clickedSecond.tag == "Empty")
             {
                 //two valid clicks registered
-                if ((game.validMove(from, to)))
+                if ((gameInstance.GetComponent<Game>().validMove(from, to)))
                 {
                     //was a valid move, go ahead and move the piece
                     if (isSinglePlayer)
@@ -511,24 +551,3 @@ public class App : Photon.PunBehaviour
 
 
 
-//void play()
-//{
-
-
-//    for (short i = 0; i < 9; ++i)
-//    {
-//        game.placePiece();
-//    }
-
-//    while (!game.gameOver())
-//    {
-//        if (game.phaseThree())
-//        {
-//            game.flyPiece();
-//        }
-//        else
-//        {
-//            game.movePiece();
-//        }
-//    }
-//}
