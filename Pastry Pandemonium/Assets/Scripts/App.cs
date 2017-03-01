@@ -79,7 +79,7 @@ public class App : MonoBehaviour
 
         }
 
-        boardInstance.GetComponent<Board>().initializeBoard();
+        //boardInstance.GetComponent<Board>().initializeBoard();
 
         localPlayer = gameObject.AddComponent<Player>();
         opponentPlayer = gameObject.AddComponent<Player>();

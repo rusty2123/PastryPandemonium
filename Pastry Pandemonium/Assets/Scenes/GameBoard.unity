@@ -100,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 23924679}
   - component: {fileID: 23924680}
+  - component: {fileID: 23924681}
   m_Layer: 0
   m_Name: 21
   m_TagString: Untagged
@@ -132,6 +133,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &23924681
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 23924678}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 9.817001, y: -14.71568}
+  serializedVersion: 2
+  m_Size: {x: 334.76636, y: 285.7024}
 --- !u!1 &41723249
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +489,7 @@ GameObject:
   m_Component:
   - component: {fileID: 377358691}
   - component: {fileID: 377358692}
+  - component: {fileID: 377358693}
   m_Layer: 0
   m_Name: 13
   m_TagString: Untagged
@@ -506,6 +522,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &377358693
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 377358690}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: -14.686665, y: -9.831419}
+  serializedVersion: 2
+  m_Size: {x: 285.75964, y: 236.59692}
 --- !u!1 &427535348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1108,6 +1138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 734597708}
   - component: {fileID: 734597709}
+  - component: {fileID: 734597710}
   m_Layer: 0
   m_Name: 11
   m_TagString: Untagged
@@ -1140,6 +1171,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &734597710
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 734597707}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 9.816226, y: -4.89209}
+  serializedVersion: 2
+  m_Size: {x: 295.4997, y: 285.6919}
 --- !u!1 &762646806
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,6 +1222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 766416422}
   - component: {fileID: 766416423}
+  - component: {fileID: 766416424}
   m_Layer: 0
   m_Name: 17
   m_TagString: Untagged
@@ -1209,6 +1255,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &766416424
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 766416421}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 9.816682, y: 19.636229}
+  serializedVersion: 2
+  m_Size: {x: 295.4997, y: 236.63477}
 --- !u!1 &766585971
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,6 +1306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 773845146}
   - component: {fileID: 773845147}
+  - component: {fileID: 773845148}
   m_Layer: 0
   m_Name: 15
   m_TagString: Untagged
@@ -1278,6 +1339,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &773845148
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 773845145}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 9.816773, y: 9.819578}
+  serializedVersion: 2
+  m_Size: {x: 295.49976, y: 236.59375}
 --- !u!1 &786462291
 GameObject:
   m_ObjectHideFlags: 0
@@ -1351,6 +1426,7 @@ GameObject:
   m_Component:
   - component: {fileID: 862476366}
   - component: {fileID: 862476367}
+  - component: {fileID: 862476368}
   m_Layer: 0
   m_Name: 24
   m_TagString: Untagged
@@ -1383,6 +1459,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &862476368
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 862476365}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 4.841015, y: 19.631962}
+  serializedVersion: 2
+  m_Size: {x: 364.35236, y: 236.58252}
 --- !u!1 &960263662
 GameObject:
   m_ObjectHideFlags: 0
@@ -1696,6 +1786,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1146397271}
   - component: {fileID: 1146397272}
+  - component: {fileID: 1146397273}
   m_Layer: 0
   m_Name: 18
   m_TagString: Untagged
@@ -1728,6 +1819,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &1146397273
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1146397270}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 12.550345, y: -9.819583}
+  serializedVersion: 2
+  m_Size: {x: 329.51117, y: 236.63818}
 --- !u!1 &1160407419
 GameObject:
   m_ObjectHideFlags: 0
@@ -1898,6 +2003,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1308379342}
   - component: {fileID: 1308379343}
+  - component: {fileID: 1308379344}
   m_Layer: 0
   m_Name: 23
   m_TagString: Untagged
@@ -1930,6 +2036,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &1308379344
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1308379341}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: -9.81667, y: -4.9087553}
+  serializedVersion: 2
+  m_Size: {x: 393.6663, y: 207.16516}
 --- !u!1 &1329111326
 GameObject:
   m_ObjectHideFlags: 0
@@ -1939,6 +2059,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1329111327}
   - component: {fileID: 1329111328}
+  - component: {fileID: 1329111329}
   m_Layer: 0
   m_Name: 14
   m_TagString: Untagged
@@ -1971,6 +2092,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &1329111329
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1329111326}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 4.908432, y: 4.9216}
+  serializedVersion: 2
+  m_Size: {x: 266.05, y: 226.79199}
 --- !u!1 &1596133757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1980,6 +2115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1596133758}
   - component: {fileID: 1596133759}
+  - component: {fileID: 1596133760}
   m_Layer: 0
   m_Name: 19
   m_TagString: Untagged
@@ -2012,6 +2148,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &1596133760
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1596133757}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 4.907976, y: 24.524658}
+  serializedVersion: 2
+  m_Size: {x: 344.583, y: 226.74913}
 --- !u!1 &1722422532
 GameObject:
   m_ObjectHideFlags: 0
@@ -2049,6 +2199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1768995892}
   - component: {fileID: 1768995893}
+  - component: {fileID: 1768995894}
   m_Layer: 0
   m_Name: 16
   m_TagString: Untagged
@@ -2081,6 +2232,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &1768995894
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1768995891}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: -9.797811, y: -0.00891513}
+  serializedVersion: 2
+  m_Size: {x: 334.8048, y: 236.61743}
 --- !u!1 &1837875798
 GameObject:
   m_ObjectHideFlags: 0
@@ -2154,6 +2319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1882621335}
   - component: {fileID: 1882621336}
+  - component: {fileID: 1882621337}
   m_Layer: 0
   m_Name: 20
   m_TagString: Untagged
@@ -2186,6 +2352,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &1882621337
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1882621334}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: -24.541643, y: -19.634014}
+  serializedVersion: 2
+  m_Size: {x: 324.94962, y: 216.99411}
 --- !u!1 &2041988187
 GameObject:
   m_ObjectHideFlags: 0
@@ -2307,6 +2487,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2055454395}
   - component: {fileID: 2055454396}
+  - component: {fileID: 2055454397}
   m_Layer: 0
   m_Name: 12
   m_TagString: Untagged
@@ -2339,6 +2520,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &2055454397
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2055454394}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 19.63316, y: 29.454222}
+  serializedVersion: 2
+  m_Size: {x: 334.76648, y: 295.5144}
 --- !u!1 &2058231008
 GameObject:
   m_ObjectHideFlags: 0
@@ -2678,6 +2873,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2139921420}
   - component: {fileID: 2139921421}
+  - component: {fileID: 2139921422}
   m_Layer: 0
   m_Name: 22
   m_TagString: Untagged
@@ -2710,3 +2906,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!61 &2139921422
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2139921419}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: -4.9090247, y: 9.80777}
+  serializedVersion: 2
+  m_Size: {x: 364.2155, y: 295.49365}
