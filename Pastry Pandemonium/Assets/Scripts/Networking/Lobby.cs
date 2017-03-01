@@ -63,15 +63,20 @@ public class Lobby : Photon.PunBehaviour
     /// - If already connected, we attempt joining a random room
     /// - if not yet connected, Connect this application instance to Photon Cloud Network
     /// </summary>
-    public void Connect()
+    public bool Connect()
     {
         if (PhotonNetwork.connected)
         {
             Debug.Log("Already Connected");
+            return true;
         }
         else
         {
-            PhotonNetwork.ConnectUsingSettings("1");
+            if(PhotonNetwork.ConnectUsingSettings("1"))
+            {
+                return true;
+            }
+            return false;
         }
     }
 

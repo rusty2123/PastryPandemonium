@@ -43,9 +43,12 @@ public class MultiplayerPopup : MonoBehaviour {
 			switch (current.name) 
 			{
                 case "enterLobby":
-                    Player.isSinglePlayer = false;
-                    lobby.Connect();
-                    SceneManager.LoadScene("Lobby");
+                    if (lobby.Connect())
+                    {
+                        Player.isSinglePlayer = false;
+                        SceneManager.LoadScene("Lobby");
+                    }
+                    //else let user know they couldn't connect
                     break;
                 case "menuButton":
 				menu.SetActive (false);

@@ -2963,6 +2963,7 @@ MonoBehaviour:
   chocolateCupcake: {fileID: 786462291}
   redCupcake: {fileID: 41723249}
   whiteCupcake: {fileID: 1837875798}
+  networkManager: {fileID: 1160407420}
   outOfBoardSpaces:
   - {fileID: 443279726}
   - {fileID: 1013154915}

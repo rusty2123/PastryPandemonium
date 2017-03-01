@@ -27,7 +27,7 @@ public class PieceClick : MonoBehaviour
     //    gameObject.GetComponent<Animation>().Play();
     //}
 
-    public void OnMouseDown()
+    public void OnMouseUp()
     {
         gameObj = GameObject.FindWithTag("gameBoard");
         //audioSource.Play();
@@ -35,7 +35,7 @@ public class PieceClick : MonoBehaviour
        switch (App.phase)
         {
             case 1:
-            gameObj.GetComponent<App>().piecePlacementPhase(gameObject);
+                gameObj.GetComponent<App>().piecePlacementPhase(gameObject);
                 break;
             case 2:
                 break;

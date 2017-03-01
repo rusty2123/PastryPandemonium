@@ -6,42 +6,25 @@ using System;
 
 public class App : MonoBehaviour
 {
+    //we need these documented, so we know what all of these variables do. some are obvious, but many are not
 
-    public static GameObject gameInstance;
+    public static GameObject gameInstance, boardInstance;
 
-    public static GameObject boardInstance;
+    private GameObject startPosition, endPosition, piecePosition, board, characterLocalPlayer, characterOpponentPlayer, piece;
 
-    private GameObject startPosition;
-    private GameObject endPosition;
-    private GameObject piecePosition;
-    public GameObject shadow;
+    public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake;
 
-    public GameObject chipMuffin;
-    public GameObject berryMuffin;
-    public GameObject lemonMuffin;
-    public GameObject chocolateCupcake;
-    public GameObject redCupcake;
-    public GameObject whiteCupcake;
+    public NetworkGameManager networkManager;
 
-    private GameObject board;
-    private GameObject characterLocalPlayer;
-    private GameObject characterOpponentPlayer;
-    private static int localIndex = 0;
-    private static int opponentIndex = 0;
-    private static int remainingLocal = 9;
-    private static int remainingOpponent = 9;
+    private static int localIndex = 0, opponentIndex = 0, remainingLocal = 9, remainingOpponent = 9;
+
     private GameObject[] opponentPieces = new GameObject[9];
     private GameObject[] localPieces = new GameObject[9];
     public GameObject[] outOfBoardSpaces = new GameObject[18];
     public GameObject[] boardSpaces = new GameObject[24];
 
-    private GameObject piece;
-    public static bool isSinglePlayer;
-    public static bool gameOver = false;
-    public static bool isLocalPlayerTurn;
-    public static bool localPlayerWon;
-    public static Player localPlayer;
-    public static Player opponentPlayer;
+    public static bool isSinglePlayer, gameOver = false, isLocalPlayerTurn, localPlayerWon;
+    public static Player localPlayer, opponentPlayer;
     public static int phase = 1;
 
     private GameObject clickedFirst = null;
@@ -52,9 +35,11 @@ public class App : MonoBehaviour
 
     void Awake()
     {
+        //why do we have two variables for the same game object?
         gameInstance = GameObject.FindGameObjectWithTag("gameBoard");
         boardInstance = GameObject.FindGameObjectWithTag("gameBoard");
 
+        //why do we need this variable? why can't we just use Player.isSinglePlayer?
         isSinglePlayer = Player.isSinglePlayer;
 
         if (isSinglePlayer)
@@ -63,30 +48,61 @@ public class App : MonoBehaviour
             {
                 isLocalPlayerTurn = true;
                 //change UI turn indicator
-
             }
             else
+            {
                 isLocalPlayerTurn = false;
-            //change UI turn indicator
-        }//if multiplayer
+                //change UI turn indicator
+            }
+            localPlayer = gameObject.AddComponent<Player>();
+            opponentPlayer = gameObject.AddComponent<Player>();
+            setUpPlayerPieces();
+        }
+        //if multiplayer
         else
         {
-            isLocalPlayerTurn = true;
+            //Russell's code: I'm going to hardcode values for a network game
+            if(networkManager.isMasterClient())
+            {
+                Debug.Log("starting game");
+                //for now host will always go second, and will play as red cupcakes
+                isLocalPlayerTurn = false;
+                characterLocalPlayer = redCupcake;
+                setUpPiecesLocal(characterLocalPlayer);
 
+                characterOpponentPlayer = berryMuffin;
+                setUpPiecesOpponent(characterOpponentPlayer);
+            }
+            else
+            {
+                //for now client will always go first, and will play as berry muffins
+                isLocalPlayerTurn = true;
+                characterLocalPlayer = berryMuffin;
+                setUpPiecesLocal(characterLocalPlayer);
+
+                characterOpponentPlayer = redCupcake;
+                setUpPiecesOpponent(characterOpponentPlayer);
+            }
             if (Player.firstPlayer)
             {
                 //change UI turn indicator 
             }
-            else { }
-            //change UI turn indicator
+            else
+            {
+                //change UI turn indicator
+            }
+            localPlayer = gameObject.AddComponent<Player>();
+            opponentPlayer = gameObject.AddComponent<Player>();
 
+            localPlayer.Pieces = localPieces;
+            opponentPlayer.Pieces = opponentPieces;
         }
 
         //boardInstance.GetComponent<Board>().initializeBoard();
 
-        localPlayer = gameObject.AddComponent<Player>();
-        opponentPlayer = gameObject.AddComponent<Player>();
-        setUpPlayerPieces();
+        //localPlayer = gameObject.AddComponent<Player>();
+        //opponentPlayer = gameObject.AddComponent<Player>();
+        //setUpPlayerPieces();
 
     }
 
@@ -326,8 +342,6 @@ public class App : MonoBehaviour
                 }
 
             }
-
-
         }
     }
 
