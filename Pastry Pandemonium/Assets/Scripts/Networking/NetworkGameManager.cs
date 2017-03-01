@@ -28,6 +28,18 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     #region Public Methods
 
+    public bool isMasterClient()
+    {
+        if(PhotonNetwork.isMasterClient)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
@@ -55,16 +67,10 @@ public class NetworkGameManager : Photon.PunBehaviour
         if (!PhotonNetwork.isMasterClient)
         {
             Debug.LogError("PhotonNetwork : Trying to Load game, but we are not the master Client");
-            //hard coded stuff to test network game
-            Player.playerGoFirst = true;
-            Player.characterLocalPlayer = "chipMuffin";
         }
         else
         {
             PhotonNetwork.LoadLevel("GameBoard");
-            //hard coded stuff to test network game
-            Player.playerGoFirst = false;
-            Player.characterLocalPlayer = "redCupcake";
         }
 
         localPlayer = gameObject.AddComponent<Player>();

@@ -9,6 +9,8 @@ public class App : Photon.PunBehaviour
 
     Game game = Game.gameInstance;
 
+    public NetworkGameManager networkManager;
+
     private Board boardInstance;
 
 	private GameObject piecePosition;
@@ -55,12 +57,25 @@ public class App : Photon.PunBehaviour
 
             }
             else
+            {
                 isLocalPlayerTurn = false;
+            }
+
+            setUpPlayerPieces();
             //change UI turn indicator
         }//if multiplayer
         else
         {
-            isLocalPlayerTurn = true;
+            if(networkManager.isMasterClient())
+            {
+                isLocalPlayerTurn = false;
+                Player.characterLocalPlayer = "redCupcake";
+            }
+            else
+            {
+                isLocalPlayerTurn = true;
+                Player.characterLocalPlayer = "chipMuffin";
+            }
 
             if (Player.firstPlayer)
             {
@@ -70,11 +85,8 @@ public class App : Photon.PunBehaviour
             //change UI turn indicator
 
         }
-
         localPlayer = gameObject.AddComponent<Player>();
         opponentPlayer = gameObject.AddComponent<Player>();
-        setUpPlayerPieces();
-
     }
 
 

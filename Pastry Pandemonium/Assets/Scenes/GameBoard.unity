@@ -246,7 +246,7 @@ Transform:
   - {fileID: 241288376}
   - {fileID: 1722422533}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &231859514
 GameObject:
@@ -807,7 +807,7 @@ Transform:
   m_LocalScale: {x: 1.5323365, y: 1.5323365, z: 1.5323365}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 269.999}
 --- !u!114 &566855181
 MonoBehaviour:
@@ -867,7 +867,7 @@ Transform:
   - {fileID: 41723251}
   - {fileID: 1837875800}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &585748554
 GameObject:
@@ -933,7 +933,7 @@ Transform:
   m_LocalScale: {x: 0.6075292, y: 0.6075292, z: 0.6075292}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &585748557
 MonoBehaviour:
@@ -1299,7 +1299,7 @@ Transform:
   - {fileID: 1308379342}
   - {fileID: 862476366}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1013154915
 GameObject:
@@ -1469,6 +1469,46 @@ Transform:
   m_Father: {fileID: 1011290738}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1160407419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1160407421}
+  - component: {fileID: 1160407420}
+  m_Layer: 0
+  m_Name: Network Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1160407420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1160407419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700a44059283b5c4584c8091d4be45e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1160407421
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1160407419}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -103.28588, y: 18.067802, z: -3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1201688104
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,7 +1572,7 @@ Transform:
   - {fileID: 2078356846}
   - {fileID: 1126732582}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1275013625
 GameObject:
@@ -2130,6 +2170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96b606b4ec57f9e47a06c33293067af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkManager: {fileID: 1160407420}
   chipMuffin: {fileID: 499816619}
   berryMuffin: {fileID: 2063266126}
   lemonMuffin: {fileID: 260187544}
