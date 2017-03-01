@@ -234,11 +234,11 @@ public class App : MonoBehaviour
         shadow.transform.position = startPosition.transform.position;
 
         //scale piece
-        LeanTween.scale(gamePiece, new Vector3(.12f, .12f, .12f), .6f).setDelay(.5f);
-        LeanTween.scale(gamePiece, new Vector3(0.09006101f, 0.09006101f, 0.09006101f), 1.3f).setDelay(2.9f);
+        LeanTween.scale(gamePiece, new Vector3(.7f, .7f, .7f), .6f).setDelay(.3f);
+        LeanTween.scale(gamePiece, new Vector3(0.5f, 0.5f, 0.5f), 1.3f).setDelay(2.9f);
 
         //move piece up and then to the endPosition
-        LeanTween.moveY(gamePiece, startPosition.transform.position.y + 22f, .6f).setDelay(.5f);
+        LeanTween.moveY(gamePiece, startPosition.transform.position.y + 22f, .6f).setDelay(.3f);
         LeanTween.move(gamePiece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
 
         //Move shadow
