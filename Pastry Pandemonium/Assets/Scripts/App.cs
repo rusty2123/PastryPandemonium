@@ -16,7 +16,7 @@ public class App : MonoBehaviour
 
     public NetworkGameManager networkManager;
 
-    private static int localIndex = 0, opponentIndex = 0, remainingLocal = 9, remainingOpponent = 9;
+    private static int localIndex = 0, opponentIndex = 0, remainingLocal = 9, remainingOpponent = 9, outOfBoardOpponent = 9, outOfBoardLocal = 9;
 
     private GameObject[] opponentPieces = new GameObject[9];
     private GameObject[] localPieces = new GameObject[9];
@@ -229,8 +229,9 @@ public class App : MonoBehaviour
 
     private void animationPhaseOne(GameObject gamePiece,GameObject startPosition, GameObject endPosition)
     {
-
+        shadow.SetActive(true);
         gamePiece.transform.position = startPosition.transform.position;
+        
         shadow.transform.position = startPosition.transform.position;
 
         //scale piece
@@ -242,11 +243,12 @@ public class App : MonoBehaviour
         LeanTween.move(gamePiece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
 
         //Move shadow
-        LeanTween.move(shadow, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.15f);
+        LeanTween.move(shadow, endPosition.transform.position, 4f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.25f);
 
+        
     }
 
-    IEnumerator executeAIMove()
+    IEnumerator executeAIMovePhaseOne()
     {
         yield return new WaitForSeconds(3);
         if (remainingOpponent > 0)
@@ -258,12 +260,9 @@ public class App : MonoBehaviour
                 endPosition = GameObject.Find(to.ToString());
                 animationPhaseOne(startPosition, startPosition, endPosition);
                 opponentIndex++;
-                remainingOpponent--;
+                outOfBoardOpponent--;
                 changePlayer();
             }
-        
-
-       
         print("delay");
     }
 
@@ -279,7 +278,7 @@ public class App : MonoBehaviour
                 endPosition = GameObject.Find(selected.name);
                 animationPhaseOne(startPosition, startPosition, endPosition);
                 localIndex++;
-                remainingLocal--;
+                outOfBoardLocal--;
                 changePlayer();
                 //}
 
@@ -289,10 +288,10 @@ public class App : MonoBehaviour
 
         if (!isLocalPlayerTurn)
         {
-            StartCoroutine(executeAIMove());
+            StartCoroutine(executeAIMovePhaseOne());
         }
 
-        if (remainingOpponent == 0 && remainingLocal == 0)
+        if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
         {
             phase = 2;
         }

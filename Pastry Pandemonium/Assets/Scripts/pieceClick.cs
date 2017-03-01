@@ -27,7 +27,7 @@ public class pieceClick : MonoBehaviour
     //    gameObject.GetComponent<Animation>().Play();
     //}
 
-    public void OnMouseUp()
+    public void OnMouseDown()
     {
         gameObj = GameObject.FindWithTag("gameBoard");
         //audioSource.Play();
