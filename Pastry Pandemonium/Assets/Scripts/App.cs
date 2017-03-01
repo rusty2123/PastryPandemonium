@@ -230,6 +230,27 @@ public class App : MonoBehaviour
 
     }
 
+    IEnumerator executeAIMove()
+    {
+        yield return new WaitForSeconds(3);
+        if (remainingOpponent > 0)
+            {
+                int[] move = opponentPlayer.getAIMove();
+
+                to = move[1];
+                startPosition = opponentPieces[opponentIndex];
+                endPosition = GameObject.Find(to.ToString());
+                animationPhaseOne(startPosition, startPosition, endPosition);
+                opponentIndex++;
+                remainingOpponent--;
+                changePlayer();
+            }
+        
+
+       
+        print("delay");
+    }
+
     public void piecePlacementPhase(GameObject selected)
     {
         if (isLocalPlayerTurn)
@@ -243,30 +264,23 @@ public class App : MonoBehaviour
                 animationPhaseOne(startPosition, startPosition, endPosition);
                 localIndex++;
                 remainingLocal--;
-
+                changePlayer();
                 //}
 
             }
 
-        }
-        else if (!isLocalPlayerTurn)
+        } 
+
+        if (!isLocalPlayerTurn)
         {
-            if (remainingOpponent > 0)
-            {
-
-
-                //// piecePosition.transform.position;
-                opponentIndex++;
-                remainingOpponent--;
-            }
+            StartCoroutine(executeAIMove());
         }
 
         if (remainingOpponent == 0 && remainingLocal == 0)
         {
             phase = 2;
         }
-
-        changePlayer();
+    
     }
 
 

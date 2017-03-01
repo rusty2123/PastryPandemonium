@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     public int[] getAIMove()
     {
         print("Calling AI");
-        int[] move = null;
+        int[] move = new int[2];
 
         if (difficultyLevel == "easy")
         {
@@ -95,6 +95,9 @@ public class Player : MonoBehaviour
             //call A1
         }
 
+        move[1] = UnityEngine.Random.Range(1,24);
+      
+        
 
         return move;
     }
