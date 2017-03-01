@@ -12,29 +12,35 @@ public class PieceClick : MonoBehaviour
 
     void Start()
     {
-        range = Random.Range(0f, 1f);
+        //range = Random.Range(0f, 1f);
 
-        if (!(gameObject.GetComponent<Animation>() == null))
-            StartCoroutine(startAnimation());
-        else
-            StartCoroutine(startAnimation());
+        //if (!(gameObject.GetComponent<Animation>() == null))
+        //    StartCoroutine(startAnimation());
+        //else
+        //    StartCoroutine(startAnimation());
 
     }
 
-    IEnumerator startAnimation()
-    {
-        yield return new WaitForSeconds(range);
-        gameObject.GetComponent<Animation>().Play();
-    }
+    //IEnumerator startAnimation()
+    //{
+    //    yield return new WaitForSeconds(range);
+    //    gameObject.GetComponent<Animation>().Play();
+    //}
 
     void OnMouseDown()
     {
         gameObj = GameObject.FindWithTag("gameBoard");
-        audioSource.Play();
+        //audioSource.Play();
 
-        if (gameObj.GetComponent<App>().getTurn())
+       switch (App.phase)
         {
+            case 1:
             gameObj.GetComponent<App>().setClickedObjects(gameObject);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
         }
 
     }
