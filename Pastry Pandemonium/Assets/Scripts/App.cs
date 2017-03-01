@@ -11,7 +11,10 @@ public class App : MonoBehaviour
 
     public static GameObject boardInstance;
 
+    private GameObject startPosition;
+    private GameObject endPosition;
     private GameObject piecePosition;
+    public GameObject shadow;
 
     public GameObject chipMuffin;
     public GameObject berryMuffin;
@@ -179,13 +182,12 @@ public class App : MonoBehaviour
     {
         for (int i = 1; i < 10; i++)
         {
-            piece = Instantiate(localCharacter) as GameObject;
 
+            piece = Instantiate(localCharacter) as GameObject;
             piecePosition = GameObject.Find("L-" + i);
             piece.transform.position = piecePosition.transform.position;
             piece.SetActive(true);
             piece.tag = "local";
-
             piece.name = "local" + (i).ToString();
             localPieces[i - 1] = piece;
 
@@ -199,12 +201,9 @@ public class App : MonoBehaviour
         {
 
             piece = Instantiate(opponentCharacter) as GameObject;
-
-
-            piece.SetActive(true);
             piecePosition = GameObject.Find("O-" + i);
             piece.transform.position = piecePosition.transform.position;
-
+            piece.SetActive(true);
             piece.name = "opponent" + (i).ToString();
             piece.tag = "opponent";
             opponentPieces[i - 1] = piece;
@@ -212,6 +211,24 @@ public class App : MonoBehaviour
         }
     }
 
+    private void animationPhaseOne(GameObject gamePiece,GameObject startPosition, GameObject endPosition)
+    {
+
+        gamePiece.transform.position = startPosition.transform.position;
+        shadow.transform.position = startPosition.transform.position;
+
+        //scale piece
+        LeanTween.scale(gamePiece, new Vector3(.12f, .12f, .12f), .6f).setDelay(.5f);
+        LeanTween.scale(gamePiece, new Vector3(0.09006101f, 0.09006101f, 0.09006101f), 1.3f).setDelay(2.9f);
+
+        //move piece up and then to the endPosition
+        LeanTween.moveY(gamePiece, startPosition.transform.position.y + 22f, .6f).setDelay(.5f);
+        LeanTween.move(gamePiece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
+
+        //Move shadow
+        LeanTween.move(shadow, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.15f);
+
+    }
 
     public void piecePlacementPhase(GameObject selected)
     {
@@ -221,8 +238,9 @@ public class App : MonoBehaviour
             {
                 //if (gameInstance.GetComponent<Game>().placePiece(Convert.ToInt32(selected.name)))
                 //{
-                piecePosition = GameObject.Find(selected.name);
-                localPieces[localIndex].transform.position = piecePosition.transform.position;
+                startPosition = localPieces[localIndex];
+                endPosition = GameObject.Find(selected.name);
+                animationPhaseOne(startPosition, startPosition, endPosition);
                 localIndex++;
                 remainingLocal--;
 
