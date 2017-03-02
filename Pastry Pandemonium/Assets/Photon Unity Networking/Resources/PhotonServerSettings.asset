@@ -45,4 +45,6 @@ MonoBehaviour:
   - movePieceRPC
   - removePieceRPC
   - placePieceRPC
+  - sendInteger
+  - sendIntRPC
   DisableAutoOpenWizard: 1

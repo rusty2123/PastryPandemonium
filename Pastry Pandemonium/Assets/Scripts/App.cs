@@ -43,6 +43,8 @@ public class App : MonoBehaviour
 
     void Awake()
     {
+        PhotonNetwork.OnEventCall += this.OnEvent;
+
         gameBoard.initializeBoard();
 
         //why do we have two variables for the same game object?
@@ -184,7 +186,7 @@ public class App : MonoBehaviour
         {
             Debug.Log("starting game");
             //for now host will always go second, and will play as red cupcakes
-            isLocalPlayerTurn = false;
+            isLocalPlayerTurn = true;
             characterLocalPlayer = redCupcake;
             setUpPiecesLocal(characterLocalPlayer);
 
@@ -194,12 +196,14 @@ public class App : MonoBehaviour
         else
         {
             //for now client will always go first, and will play as berry muffins
-            isLocalPlayerTurn = true;
+            isLocalPlayerTurn = false;
             characterLocalPlayer = berryMuffin;
             setUpPiecesLocal(characterLocalPlayer);
 
             characterOpponentPlayer = redCupcake;
             setUpPiecesOpponent(characterOpponentPlayer);
+
+            piecePlacementPhase(-1);
         }
 
         localPlayer.Pieces = localPieces;
@@ -322,12 +326,16 @@ public class App : MonoBehaviour
         //send move over Network
         if(isLocalPlayerTurn && !Player.isSinglePlayer)
         {
+            Debug.Log("networked game, your turn");
             //check to make sure there are still pieces to play
             if (remainingLocal > 0)
             {
                 if (game.validPlace(selected))
                 {
                     //place the piece and send it to the network
+                    networkManager.placePiece(selected);
+
+                    //raise place piece event
                     networkManager.placePiece(selected);
 
                     //check if it created a mill
@@ -354,6 +362,8 @@ public class App : MonoBehaviour
         //get move from network
         if (!isLocalPlayerTurn && !Player.isSinglePlayer)
         {
+            //need to figure out how to wait for networkInt to change
+            Debug.Log("recieved: " + NetworkGameManager.networkInt);
         }
 
         if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
@@ -363,6 +373,15 @@ public class App : MonoBehaviour
     
     }
 
+    private void OnEvent(byte eventCode, object content, int senderid)
+    {
+        //if eventcode is 0, then it's placePiece
+        if (eventCode == 0)
+        {
+            byte[] selected = (byte[])content;
+            NetworkGameManager.networkInt = (int)selected[0];
+        }
+    }
 
     public bool getTurn()
     {

@@ -8,9 +8,10 @@ using UnityEngine.SceneManagement;
 public class NetworkGameManager : Photon.PunBehaviour
 {
 
-    Game game = Game.gameInstance;
+    public Game game = Game.gameInstance;
     public static Player localPlayer;
     public static Player opponentPlayer;
+    public static int networkInt = 0;
 
     #region Photon Messages
 
@@ -45,11 +46,26 @@ public class NetworkGameManager : Photon.PunBehaviour
         PhotonNetwork.LeaveRoom();
     }
 
-    public void placePiece(int index)
+    public void sendInt(int i)
     {
         PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("movePieceRPC", PhotonTargets.All, index);
+        photonView.RPC("sendIntRPC", PhotonTargets.All, i);
     }
+
+    public void placePiece(int i)
+    {
+        //code 0 for placing piece
+        byte code = 0;
+        //data must be sent in byte array
+        byte[] content = new byte[] { (byte)i };
+        PhotonNetwork.RaiseEvent(code, content, true, null);
+    }
+
+    //public void placePiece(int index)
+    //{
+    //    PhotonView photonView = PhotonView.Get(this);
+    //    photonView.RPC("placePieceRPC", PhotonTargets.All, index);
+    //}
 
     public void movePiece(int from, int to)
     {
@@ -90,6 +106,12 @@ public class NetworkGameManager : Photon.PunBehaviour
     #endregion
 
     #region RPCs
+
+    [PunRPC]
+    private void sendIntRPC(int i)
+    {
+        networkInt = i;
+    }
 
     [PunRPC]
     private void placePieceRPC(int index)
