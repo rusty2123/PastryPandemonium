@@ -11,49 +11,54 @@ public class Tutorial : MonoBehaviour {
 						phaseOne, phaseTwo, phaseThree;
 
 
-	private GameObject startPosition, endPosition, piece, shadow;
+	private GameObject startPosition, endPosition, piece, shadow, piece2;
 
-	public static int position;
+    public static int currentPage;
 
-	private void Awake()
-	{
-		menu = GameObject.Find("TutorialPopup");
-		multiplayer = GameObject.FindGameObjectWithTag("multiplayer");
-		tutorial = GameObject.FindGameObjectWithTag("tutorial");
-		options = GameObject.FindGameObjectWithTag("options");
-		singlePlayer = GameObject.FindGameObjectWithTag("singleplayer");
-		help = GameObject.FindGameObjectWithTag("help");
-		exit = GameObject.FindGameObjectWithTag("exit");
-		piece = GameObject.Find("redGamePiece");
-		shadow = GameObject.Find("shadow");
+    private void Awake()
+    {
+        menu = GameObject.Find("TutorialPopup");
+        multiplayer = GameObject.FindGameObjectWithTag("multiplayer");
+        tutorial = GameObject.FindGameObjectWithTag("tutorial");
+        options = GameObject.FindGameObjectWithTag("options");
+        singlePlayer = GameObject.FindGameObjectWithTag("singleplayer");
+        help = GameObject.FindGameObjectWithTag("help");
+        exit = GameObject.FindGameObjectWithTag("exit");
+        piece = GameObject.Find("redGamePiece");
+        shadow = GameObject.Find("shadow");
+        piece2 = GameObject.Find("redGamePiece2");
+        currentPage = 1;
 
-		position = 1;
+        info = GameObject.Find("generalInfo");
+        mills = GameObject.Find("mills");
+        placement = GameObject.Find("placementPhase");
+        moving = GameObject.Find("movingPhase");
+        flying = GameObject.Find("flyingPhase");
+        backArrow = GameObject.Find("backArrow");
+        forwardArrow = GameObject.Find("forwardArrow");
 
-		info = GameObject.Find("generalInfo");
-		mills = GameObject.Find("mills");
-		placement = GameObject.Find("placementPhase");
-		moving = GameObject.Find("movingPhase");
-		flying = GameObject.Find("flyingPhase");
-		backArrow = GameObject.Find("backArrow");
-		forwardArrow = GameObject.Find("forwardArrow");
+        phaseOne = GameObject.Find("phaseOne");
+        phaseTwo = GameObject.Find("phaseTwo");
+        phaseThree = GameObject.Find("phaseThree");
 
-		phaseOne = GameObject.Find("phaseOne");
-		phaseTwo = GameObject.Find("phaseTwo");
-		phaseThree = GameObject.Find("phaseThree");
+        defaultSetup();
+    }
 
-		backArrow.GetComponent<Renderer> ().enabled = false;
-		mills.GetComponent<Renderer> ().enabled = false;
-		placement.GetComponent<Renderer> ().enabled = false;
-		moving.GetComponent<Renderer> ().enabled = false;
-		flying.GetComponent<Renderer> ().enabled = false;
-		phaseOne.GetComponent<Renderer> ().enabled = false;
-		phaseTwo.GetComponent<Renderer> ().enabled = false;
-		phaseThree.GetComponent<Renderer> ().enabled = false;
-		piece.GetComponent<Renderer> ().enabled = false;
-		shadow.GetComponent<Renderer> ().enabled = false;
-
-
-	}
+    private void defaultSetup()
+    {
+        info.GetComponent<Renderer>().enabled = true;
+        backArrow.GetComponent<Renderer>().enabled = false;
+        mills.GetComponent<Renderer>().enabled = false;
+        placement.GetComponent<Renderer>().enabled = false;
+        moving.GetComponent<Renderer>().enabled = false;
+        flying.GetComponent<Renderer>().enabled = false;
+        phaseOne.GetComponent<Renderer>().enabled = false;
+        phaseTwo.GetComponent<Renderer>().enabled = false;
+        phaseThree.GetComponent<Renderer>().enabled = false;
+        piece.GetComponent<Renderer>().enabled = false;
+        shadow.GetComponent<Renderer>().enabled = false;
+        piece2.GetComponent<Renderer>().enabled = false;
+    }
 	public void OnMouseEnter()
 	{
 		//Scales objects to indicate you can click on them
@@ -79,7 +84,25 @@ public class Tutorial : MonoBehaviour {
 
 	}
 
-	private void animatePhaseOne()
+    private void Update()
+    {
+        if (currentPage != 3)
+        {
+             CancelInvoke("animatePhaseOne");
+        }
+
+        if (currentPage != 4)
+        {
+            CancelInvoke("animatePhaseTwo");
+        }
+
+        if (currentPage != 5)
+        {
+            CancelInvoke("animatePhaseThree");
+        }
+    }
+
+    private void animatePhaseOne()
 	{
 		startPosition = GameObject.Find ("phase1Start");
 		endPosition = GameObject.Find ("phase1End");
@@ -96,8 +119,7 @@ public class Tutorial : MonoBehaviour {
 		LeanTween.move (piece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
 
 		//Move shadow
-		LeanTween.move (shadow, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.15f);
-
+		LeanTween.move (shadow, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.15f);    
 
 	}
 
@@ -106,13 +128,35 @@ public class Tutorial : MonoBehaviour {
 		startPosition = GameObject.Find ("phase2Start");
 		endPosition = GameObject.Find ("phase2End");
 
-//		piece.transform.position = startPosition.transform.position;
-		//shadow.transform.position = startPosition.transform.position;
-	}
+		piece2.transform.position = startPosition.transform.position;
+        LeanTween.move(piece2, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
+    }
 
-	private void setTutorial(int position)
+    private void animatePhaseThree()
+    {
+        startPosition = GameObject.Find("phase3Start");
+        endPosition = GameObject.Find("phase3End");
+
+        piece.transform.position = startPosition.transform.position;
+        shadow.transform.position = startPosition.transform.position;
+
+        //scale piece
+        LeanTween.scale(piece, new Vector3(.12f, .12f, .12f), .6f).setDelay(.5f);
+        LeanTween.scale(piece, new Vector3(0.09006101f, 0.09006101f, 0.09006101f), 1.3f).setDelay(2.9f);
+
+        //move piece up and then to the endPosition
+        LeanTween.moveY(piece, startPosition.transform.position.y + 22f, .6f).setDelay(.5f);
+        LeanTween.move(piece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
+
+        //Move shadow
+        LeanTween.move(shadow, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.15f);
+
+    }
+
+
+    private void setTutorial(int currentPage)
 	{
-		switch (position) {
+		switch (currentPage) {
 
 		case 1:
 			backArrow.GetComponent<Renderer> ().enabled = false;
@@ -121,29 +165,26 @@ public class Tutorial : MonoBehaviour {
 			break;
 		case 2:
 			backArrow.GetComponent<Renderer> ().enabled = true;
-			info.GetComponent<Renderer> ().enabled = false;
-			mills.GetComponent<Renderer> ().enabled = true;
+            mills.GetComponent<Renderer>().enabled = true;
+            info.GetComponent<Renderer> ().enabled = false;
 			placement.GetComponent<Renderer> ().enabled = false;
 			phaseOne.GetComponent<Renderer> ().enabled = false;
 			piece.GetComponent<Renderer> ().enabled = false;
 			shadow.GetComponent<Renderer> ().enabled = false;
-			CancelInvoke ("animatePhaseOne");
+			
 			break;
 		case 3:
-			CancelInvoke("animatePhaseTwo");
 			placement.GetComponent<Renderer> ().enabled = true;
-			mills.GetComponent<Renderer> ().enabled = false;
+            piece.GetComponent<Renderer>().enabled = true;
+            shadow.GetComponent<Renderer>().enabled = true;
+            mills.GetComponent<Renderer> ().enabled = false;
 			moving.GetComponent<Renderer> ().enabled = false;
 			phaseTwo.GetComponent<Renderer> ().enabled = false;
 			phaseOne.GetComponent<Renderer> ().enabled = true;
-			piece.GetComponent<Renderer> ().enabled = true;
-			shadow.GetComponent<Renderer> ().enabled = true;
-
-			InvokeRepeating ("animatePhaseOne", 0, 5);
+            piece2.GetComponent<Renderer>().enabled = false;
+            InvokeRepeating ("animatePhaseOne", 0.0001f, 5);
 			break;
 		case 4:
-			CancelInvoke("animatePhaseOne");
-
 			placement.GetComponent<Renderer> ().enabled = false;
 			phaseOne.GetComponent<Renderer> ().enabled = false;
 			moving.GetComponent<Renderer> ().enabled = true;
@@ -151,17 +192,22 @@ public class Tutorial : MonoBehaviour {
 			forwardArrow.GetComponent<Renderer> ().enabled = true;
 			phaseThree.GetComponent<Renderer> ().enabled = false;
 			phaseTwo.GetComponent<Renderer> ().enabled = true;
-			InvokeRepeating ("animatePhaseTwo", 0, 5);
-
-			break;
+            piece.GetComponent<Renderer>().enabled = false;
+            shadow.GetComponent<Renderer>().enabled = false;
+            piece2.GetComponent<Renderer>().enabled = true;
+            InvokeRepeating ("animatePhaseTwo", 0.0001f, 5);
+            break;
 		case 5:
-			CancelInvoke("animatePhaseTwo");
 			moving.GetComponent<Renderer> ().enabled = false;
 			phaseTwo.GetComponent<Renderer> ().enabled = false;
 			flying.GetComponent<Renderer> ().enabled = true;
 			phaseThree.GetComponent<Renderer> ().enabled = true;
 			forwardArrow.GetComponent<Renderer> ().enabled = false;
-			break;
+            piece2.GetComponent<Renderer>().enabled = false;
+            piece.GetComponent<Renderer>().enabled = true;
+            shadow.GetComponent<Renderer>().enabled = true;
+            InvokeRepeating("animatePhaseThree", 0.0001f, 5);
+            break;
 		default:
 			break;
 
@@ -177,29 +223,28 @@ public class Tutorial : MonoBehaviour {
 			switch (current.name) 
 			{
 			case "menuButton":
-				menu.SetActive (false);
+                CancelInvoke();
+                menu.SetActive (false);
 				multiplayer.SetActive (true);
 				tutorial.SetActive (true);
 				options.SetActive (true);
 				singlePlayer.SetActive (true);
 				help.SetActive (true);
 				exit.SetActive (true);
-				CancelInvoke ("animatePhaseOne");
-				CancelInvoke("animatePhaseTwo");
-				position = 1;
-				break;
+				currentPage = 1;
+                defaultSetup();
+                break;
 			case "forwardArrow":
-				if (position < 5) {
-					++position;
+				if (currentPage < 5) {
+					++currentPage;
 				}
-				setTutorial (position);
-
+                    setTutorial (currentPage);
 				break;
 			case "backArrow":
-				if (position > 1) {
-					--position;
+				if (currentPage > 1) {
+					--currentPage;
 				}
-				setTutorial (position);
+                    setTutorial (currentPage);
 				break;
 			default:
 				break;          
