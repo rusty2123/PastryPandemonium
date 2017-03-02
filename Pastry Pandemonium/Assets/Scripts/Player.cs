@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
 
     public static bool isSinglePlayer;
-    public static bool playerGoFirst;
+    public static bool playerGoFirst = true;
     public static bool firstPlayer = true;
     public static int gamePhase;
 
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     private int moveFrom;
 
 
-    public static string difficultyLevel; //by default
+    public static string difficultyLevel = "easy"; //by default
 
     public static Player instance;
 

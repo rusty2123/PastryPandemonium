@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class pieceClick : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class pieceClick : MonoBehaviour
        switch (App.phase)
         {
             case 1:
-                gameObj.GetComponent<App>().piecePlacementPhase(gameObject);
+                gameObj.GetComponent<App>().piecePlacementPhase(Convert.ToInt32(gameObject.name));
                 break;
             case 2:
                 break;

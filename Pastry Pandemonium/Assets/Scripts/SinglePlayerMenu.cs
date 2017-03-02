@@ -7,8 +7,8 @@ public class SinglePlayerMenu : MonoBehaviour {
 
     public GameObject current, character;
     public static string selectedCharacter;
-    private string aiLevel;
-    private string firstTurn;
+    public static string aiLevel;
+    public static string firstTurn;
 
     private GameObject moveAi, moveUser, difficultyNormal, difficultyHard, menu, singlePlayer, multiplayer, tutorial, options, help, exit;
 	private GameObject[] players;

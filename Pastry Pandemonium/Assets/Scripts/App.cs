@@ -57,14 +57,20 @@ public class App : MonoBehaviour
 
         if (isSinglePlayer)
         {
+            Debug.Log(Player.playerGoFirst);
+            Debug.Log(Player.difficultyLevel);
             if (Player.playerGoFirst)
             {
+                Debug.Log("player goes first");
                 isLocalPlayerTurn = true;
                 //change UI turn indicator
             }
             else
             {
+                Debug.Log("ai goes first");
                 isLocalPlayerTurn = false;
+                //start ai by passing it an invalid move
+                piecePlacementPhase(-1);
                 //change UI turn indicator
             }
             setUpPlayerPieces();
@@ -272,30 +278,33 @@ public class App : MonoBehaviour
         print("delay");
     }
 
-    public void piecePlacementPhase(GameObject selected)
+    public void piecePlacementPhase(int selected)
     {
-        int index = Convert.ToInt32(selected.name);
+        Debug.Log(selected);
+
 
         //need to verify the moves and update the game board
         if (isLocalPlayerTurn && Player.isSinglePlayer)
         {
+            //wait until piece clicked
+
             //check to make sure there are still pieces to play
             if (remainingLocal > 0)
             {
                 //check to make sure the player is allowed to move there
-                if (game.validPlace(index))
+                if (game.validPlace(selected))
                 {
                     Debug.Log("valid move");
 
                     //play move animation
                     startPosition = localPieces[localIndex];
-                    endPosition = GameObject.Find(selected.name);
+                    endPosition = GameObject.Find(selected.ToString());
                     animationPhaseOne(startPosition, startPosition, endPosition);
                     localIndex++;
                     remainingLocal--;
 
                     //check if created mill
-                    if(game.createdMill(index))
+                    if(game.createdMill(selected))
                     {
                         //remove piece
                     }
@@ -305,7 +314,7 @@ public class App : MonoBehaviour
             }
         }
         //get move from AI
-        if (!isLocalPlayerTurn && Player.isSinglePlayer)
+        if (!isLocalPlayerTurn && Player.isSinglePlayer || selected == -1)
         {
             Debug.Log("ai move");
             StartCoroutine(executeAIMovePhaseOne());
@@ -316,25 +325,25 @@ public class App : MonoBehaviour
             //check to make sure there are still pieces to play
             if (remainingLocal > 0)
             {
-                if (game.validPlace(index))
+                if (game.validPlace(selected))
                 {
                     //place the piece and send it to the network
-                    networkManager.placePiece(index);
+                    networkManager.placePiece(selected);
 
                     //check if it created a mill
-                    if(game.createdMill(index))
+                    if(game.createdMill(selected))
                     {
                         //remove a piece
                     }
 
                     //play the animation
                     startPosition = localPieces[localIndex];
-                    endPosition = GameObject.Find(selected.name);
+                    endPosition = GameObject.Find(selected.ToString());
                     animationPhaseOne(startPosition, startPosition, endPosition);
                     localIndex++;
                     remainingLocal--;
 
-                    if (game.createdMill(Convert.ToInt32(selected.name)))
+                    if (game.createdMill(Convert.ToInt32(selected.ToString())))
                     {
                         //now get remove index from click
                     }
@@ -345,7 +354,6 @@ public class App : MonoBehaviour
         //get move from network
         if (!isLocalPlayerTurn && !Player.isSinglePlayer)
         {
-            StartCoroutine(executeAIMovePhaseOne());
         }
 
         if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
