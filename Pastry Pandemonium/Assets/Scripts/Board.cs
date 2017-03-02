@@ -10,7 +10,7 @@ public class Board : MonoBehaviour
 
     private BitArray playerOne = new BitArray(24);
     private BitArray playerTwo = new BitArray(24);
-    private static Board boardInstance = null;
+    public static Board boardInstance = null;
 
     public Board()
     { }
@@ -34,7 +34,7 @@ public class Board : MonoBehaviour
 
     public bool isEmptySpotAt(int index)
     {
-        return playerOne.Xor(playerTwo)[index];
+        return !playerOne.Xor(playerTwo)[index];
     }
 
     public Board getInstance

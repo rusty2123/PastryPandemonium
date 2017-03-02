@@ -8,6 +8,8 @@ public class App : MonoBehaviour
 {
     //we need these documented, so we know what all of these variables do. some are obvious, but many are not
 
+    #region variables
+
     public static GameObject gameInstance, boardInstance;
 
     private GameObject startPosition, endPosition, piecePosition, board, characterLocalPlayer, characterOpponentPlayer, piece;
@@ -15,6 +17,10 @@ public class App : MonoBehaviour
     public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake;
 
     public NetworkGameManager networkManager;
+
+    public Game game = Game.gameInstance;
+
+    public Board gameBoard = Board.boardInstance;
 
     private static int localIndex = 0, opponentIndex = 0, remainingLocal = 9, remainingOpponent = 9;
 
@@ -33,14 +39,21 @@ public class App : MonoBehaviour
     public static int from;
     public static int to;
 
+    #endregion
+
     void Awake()
     {
+        gameBoard.initializeBoard();
+
         //why do we have two variables for the same game object?
         gameInstance = GameObject.FindGameObjectWithTag("gameBoard");
         boardInstance = GameObject.FindGameObjectWithTag("gameBoard");
 
         //why do we need this variable? why can't we just use Player.isSinglePlayer?
         isSinglePlayer = Player.isSinglePlayer;
+
+        localPlayer = gameObject.AddComponent<Player>();
+        opponentPlayer = gameObject.AddComponent<Player>();
 
         if (isSinglePlayer)
         {
@@ -54,35 +67,11 @@ public class App : MonoBehaviour
                 isLocalPlayerTurn = false;
                 //change UI turn indicator
             }
-            localPlayer = gameObject.AddComponent<Player>();
-            opponentPlayer = gameObject.AddComponent<Player>();
             setUpPlayerPieces();
         }
         //if multiplayer
         else
         {
-            //Russell's code: I'm going to hardcode values for a network game
-            if(networkManager.isMasterClient())
-            {
-                Debug.Log("starting game");
-                //for now host will always go second, and will play as red cupcakes
-                isLocalPlayerTurn = false;
-                characterLocalPlayer = redCupcake;
-                setUpPiecesLocal(characterLocalPlayer);
-
-                characterOpponentPlayer = berryMuffin;
-                setUpPiecesOpponent(characterOpponentPlayer);
-            }
-            else
-            {
-                //for now client will always go first, and will play as berry muffins
-                isLocalPlayerTurn = true;
-                characterLocalPlayer = berryMuffin;
-                setUpPiecesLocal(characterLocalPlayer);
-
-                characterOpponentPlayer = redCupcake;
-                setUpPiecesOpponent(characterOpponentPlayer);
-            }
             if (Player.firstPlayer)
             {
                 //change UI turn indicator 
@@ -91,19 +80,8 @@ public class App : MonoBehaviour
             {
                 //change UI turn indicator
             }
-            localPlayer = gameObject.AddComponent<Player>();
-            opponentPlayer = gameObject.AddComponent<Player>();
-
-            localPlayer.Pieces = localPieces;
-            opponentPlayer.Pieces = opponentPieces;
+            setUpMultiPlayerPieces();
         }
-
-        //boardInstance.GetComponent<Board>().initializeBoard();
-
-        //localPlayer = gameObject.AddComponent<Player>();
-        //opponentPlayer = gameObject.AddComponent<Player>();
-        //setUpPlayerPieces();
-
     }
 
 
@@ -194,6 +172,34 @@ public class App : MonoBehaviour
 
     }
 
+    public void setUpMultiPlayerPieces()
+    {
+        if (networkManager.isMasterClient())
+        {
+            Debug.Log("starting game");
+            //for now host will always go second, and will play as red cupcakes
+            isLocalPlayerTurn = false;
+            characterLocalPlayer = redCupcake;
+            setUpPiecesLocal(characterLocalPlayer);
+
+            characterOpponentPlayer = berryMuffin;
+            setUpPiecesOpponent(characterOpponentPlayer);
+        }
+        else
+        {
+            //for now client will always go first, and will play as berry muffins
+            isLocalPlayerTurn = true;
+            characterLocalPlayer = berryMuffin;
+            setUpPiecesLocal(characterLocalPlayer);
+
+            characterOpponentPlayer = redCupcake;
+            setUpPiecesOpponent(characterOpponentPlayer);
+        }
+
+        localPlayer.Pieces = localPieces;
+        opponentPlayer.Pieces = opponentPieces;
+    }
+
     void setUpPiecesLocal(GameObject localCharacter)
     {
         for (int i = 1; i < 10; i++)
@@ -269,27 +275,78 @@ public class App : MonoBehaviour
 
     public void piecePlacementPhase(GameObject selected)
     {
-        if (isLocalPlayerTurn)
+        int index = Convert.ToInt32(selected.name);
+
+        //need to verify the moves and update the game board
+        if (isLocalPlayerTurn && Player.isSinglePlayer)
         {
+            //check to make sure there are still pieces to play
             if (remainingLocal > 0)
             {
-                //if (gameInstance.GetComponent<Game>().placePiece(Convert.ToInt32(selected.name)))
-                //{
-                startPosition = localPieces[localIndex];
-                endPosition = GameObject.Find(selected.name);
-                animationPhaseOne(startPosition, startPosition, endPosition);
-                localIndex++;
-                remainingLocal--;
-                changePlayer();
-                //}
+                //check to make sure the player is allowed to move there
+                if (game.validPlace(index))
+                {
+                    Debug.Log("valid move");
 
+                    //play move animation
+                    startPosition = localPieces[localIndex];
+                    endPosition = GameObject.Find(selected.name);
+                    animationPhaseOne(startPosition, startPosition, endPosition);
+                    localIndex++;
+                    remainingLocal--;
+
+                    //check if created mill
+                    if(game.createdMill(index))
+                    {
+                        //remove piece
+                    }
+                    //opponent's turn
+                    changePlayer();
+                }
             }
-
-        } 
-
-        if (!isLocalPlayerTurn)
+        }
+        //get move from AI
+        if (!isLocalPlayerTurn && Player.isSinglePlayer)
         {
+            Debug.Log("ai move");
             StartCoroutine(executeAIMove());
+        }
+        //send move over Network
+        if(isLocalPlayerTurn && !Player.isSinglePlayer)
+        {
+            //check to make sure there are still pieces to play
+            if (remainingLocal > 0)
+            {
+                if (game.validPlace(index))
+                {
+                    //place the piece and send it to the network
+                    networkManager.placePiece(index);
+
+                    //check if it created a mill
+                    if(game.createdMill(index))
+                    {
+                        //remove a piece
+                    }
+
+                    //play the animation
+                    startPosition = localPieces[localIndex];
+                    endPosition = GameObject.Find(selected.name);
+                    animationPhaseOne(startPosition, startPosition, endPosition);
+                    localIndex++;
+                    remainingLocal--;
+
+                    if (game.createdMill(Convert.ToInt32(selected.name)))
+                    {
+                        //now get remove index from click
+                    }
+                    changePlayer();
+                }
+            }
+        }
+        //get move from network
+        if (!isLocalPlayerTurn && !Player.isSinglePlayer)
+        {
+
         }
 
         if (remainingOpponent == 0 && remainingLocal == 0)

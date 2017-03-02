@@ -45,22 +45,28 @@ public class NetworkGameManager : Photon.PunBehaviour
         PhotonNetwork.LeaveRoom();
     }
 
-    public void movePiece()
+    public void placePiece(int index)
     {
         PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("movePieceRPC", PhotonTargets.All);
+        photonView.RPC("movePieceRPC", PhotonTargets.All, index);
     }
 
-    public void flyPiece()
+    public void movePiece(int from, int to)
     {
         PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("flyPieceRPC", PhotonTargets.All);
+        photonView.RPC("movePieceRPC", PhotonTargets.All, from, to);
     }
 
-    public void removePiece()
+    public void flyPiece(int from, int to)
     {
         PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("removePieceRPC", PhotonTargets.All);
+        photonView.RPC("flyPieceRPC", PhotonTargets.All, from, to);
+    }
+
+    public void removePiece(int index)
+    {
+        PhotonView photonView = PhotonView.Get(this);
+        photonView.RPC("removePieceRPC", PhotonTargets.All, index);
     }
     public void LoadNetworkGame()
     {
@@ -86,25 +92,27 @@ public class NetworkGameManager : Photon.PunBehaviour
     #region RPCs
 
     [PunRPC]
-    private void movePieceRPC()
+    private void placePieceRPC(int index)
     {
-        game.movePiece();
+        game.placePiece(index);
     }
 
     [PunRPC]
-    private void flyPieceRPC()
+    private void movePieceRPC(int from, int to)
     {
-        game.flyPiece();
+        game.movePiece(from, to);
     }
 
     [PunRPC]
-    private bool removePieceRPC()
+    private void flyPieceRPC(int from, int to)
     {
-        if(game.removePiece())
-        {
-            return true;
-        }
-        return false;
+        game.flyPiece(from, to);
+    }
+
+    [PunRPC]
+    private void removePieceRPC(int index)
+    {
+        game.removePiece(index);
     }
 
 
