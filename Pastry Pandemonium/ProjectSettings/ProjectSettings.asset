@@ -464,7 +464,7 @@ PlayerSettings:
     Collab: 0
     ErrorHub: 0
     Hub: 0
-    UNet: 0
+    UNet: 1
   cloudProjectId: df37fedb-403a-4c1d-a4d5-494eb5364b56
   projectName: Pastry Pandemonium (3)
   organizationId: rusty2123

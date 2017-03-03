@@ -36,8 +36,9 @@ public class App : MonoBehaviour
     private GameObject clickedFirst = null;
     private GameObject clickedSecond = null;
 
-    public static int from;
-    public static int to;
+    public static int from, to, index = 0;
+
+    private bool networkMessage = false;
 
     #endregion
 
@@ -72,7 +73,7 @@ public class App : MonoBehaviour
                 Debug.Log("ai goes first");
                 isLocalPlayerTurn = false;
                 //start ai by passing it an invalid move
-                piecePlacementPhase(-1);
+                
                 //change UI turn indicator
             }
             setUpPlayerPieces();
@@ -90,8 +91,19 @@ public class App : MonoBehaviour
             }
             setUpMultiPlayerPieces();
         }
+        startGame();
     }
+    private void startGame()
+    {
+        if(isLocalPlayerTurn)
+        {
 
+        }
+        else
+        {
+            piecePlacementPhase(-1);
+        }
+    }
 
     public void setUpPlayerPieces()
     {
@@ -202,8 +214,6 @@ public class App : MonoBehaviour
 
             characterOpponentPlayer = redCupcake;
             setUpPiecesOpponent(characterOpponentPlayer);
-
-            piecePlacementPhase(-1);
         }
 
         localPlayer.Pieces = localPieces;
@@ -284,9 +294,6 @@ public class App : MonoBehaviour
 
     public void piecePlacementPhase(int selected)
     {
-        Debug.Log(selected);
-
-
         //need to verify the moves and update the game board
         if (isLocalPlayerTurn && Player.isSinglePlayer)
         {
@@ -300,6 +307,8 @@ public class App : MonoBehaviour
                 {
                     Debug.Log("valid move");
 
+                    game.placePiece(selected);
+
                     //play move animation
                     startPosition = localPieces[localIndex];
                     endPosition = GameObject.Find(selected.ToString());
@@ -308,7 +317,7 @@ public class App : MonoBehaviour
                     remainingLocal--;
 
                     //check if created mill
-                    if(game.createdMill(selected))
+                    if (game.createdMill(selected))
                     {
                         //remove piece
                     }
@@ -318,13 +327,13 @@ public class App : MonoBehaviour
             }
         }
         //get move from AI
-        if (!isLocalPlayerTurn && Player.isSinglePlayer || selected == -1)
+        if ((!isLocalPlayerTurn && Player.isSinglePlayer) || (selected == -1 && Player.isSinglePlayer))
         {
             Debug.Log("ai move");
             StartCoroutine(executeAIMovePhaseOne());
         }
         //send move over Network
-        if(isLocalPlayerTurn && !Player.isSinglePlayer)
+        if (isLocalPlayerTurn && !Player.isSinglePlayer)
         {
             Debug.Log("networked game, your turn");
             //check to make sure there are still pieces to play
@@ -332,14 +341,12 @@ public class App : MonoBehaviour
             {
                 if (game.validPlace(selected))
                 {
-                    //place the piece and send it to the network
-                    networkManager.placePiece(selected);
-
                     //raise place piece event
                     networkManager.placePiece(selected);
+                    game.placePiece(selected);
 
                     //check if it created a mill
-                    if(game.createdMill(selected))
+                    if (game.createdMill(selected))
                     {
                         //remove a piece
                     }
@@ -360,9 +367,10 @@ public class App : MonoBehaviour
             }
         }
         //get move from network
-        if (!isLocalPlayerTurn && !Player.isSinglePlayer)
+        if ((!isLocalPlayerTurn && !Player.isSinglePlayer) || (selected == -1 && !Player.isSinglePlayer))
         {
-            //need to figure out how to wait for networkInt to change
+            //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
+            getNetworkPlaceIndex();
             Debug.Log("recieved: " + NetworkGameManager.networkInt);
         }
 
@@ -370,16 +378,38 @@ public class App : MonoBehaviour
         {
             phase = 2;
         }
-    
+    }
+
+    private void getNetworkPlaceIndex()
+    {
+        float elapsedTime = 0.0f;
+
+        while (index == 0 || elapsedTime <= 10.0f)
+        {
+            elapsedTime += Time.deltaTime;
+        }
+
+        if (remainingOpponent > 0)
+        {
+            to = index;
+            startPosition = opponentPieces[opponentIndex];
+            endPosition = GameObject.Find(to.ToString());
+            animationPhaseOne(startPosition, startPosition, endPosition);
+            opponentIndex++;
+            outOfBoardOpponent--;
+            changePlayer();
+        }
+        index = 0;
     }
 
     private void OnEvent(byte eventCode, object content, int senderid)
     {
+        networkMessage = true;
         //if eventcode is 0, then it's placePiece
         if (eventCode == 0)
         {
             byte[] selected = (byte[])content;
-            NetworkGameManager.networkInt = (int)selected[0];
+            index = (int)selected[0];
         }
     }
 

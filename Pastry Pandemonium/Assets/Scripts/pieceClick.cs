@@ -32,7 +32,7 @@ public class pieceClick : MonoBehaviour
     {
         gameObj = GameObject.FindWithTag("gameBoard");
         //audioSource.Play();
-        Debug.Log("down");
+        //Debug.Log("down");
        switch (App.phase)
         {
             case 1:
