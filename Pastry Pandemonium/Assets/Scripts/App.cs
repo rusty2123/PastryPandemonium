@@ -267,18 +267,26 @@ public class App : MonoBehaviour
     IEnumerator executeAIMovePhaseOne()
     {
         yield return new WaitForSeconds(3);
-        if (remainingOpponent > 0)
-            {
+        
                 int[] move = opponentPlayer.getAIMove();
 
                 to = move[1];
-                startPosition = opponentPieces[opponentIndex];
-                endPosition = GameObject.Find(to.ToString());
-                animationPhaseOne(startPosition, startPosition, endPosition);
-                opponentIndex++;
-                outOfBoardOpponent--;
-                changePlayer();
-            }
+
+        if (game.validPlace(to))
+        {
+            Debug.Log("ai not valid move");
+        }
+
+        Debug.Log("valid move");
+        startPosition = opponentPieces[opponentIndex];
+        endPosition = GameObject.Find(to.ToString());
+        animationPhaseOne(startPosition, startPosition, endPosition);
+        opponentIndex++;
+        outOfBoardOpponent--;
+        game.placePiece(to);
+        changePlayer();
+
+        
         print("delay");
     }
 
@@ -293,7 +301,7 @@ public class App : MonoBehaviour
             //wait until piece clicked
 
             //check to make sure there are still pieces to play
-            if (remainingLocal > 0)
+            if (outOfBoardLocal > 0)
             {
                 //check to make sure the player is allowed to move there
                 if (game.validPlace(selected))
@@ -305,30 +313,39 @@ public class App : MonoBehaviour
                     endPosition = GameObject.Find(selected.ToString());
                     animationPhaseOne(startPosition, startPosition, endPosition);
                     localIndex++;
-                    remainingLocal--;
+                    outOfBoardLocal--;
+                    game.placePiece(selected);
 
                     //check if created mill
-                    if(game.createdMill(selected))
+                    if (game.createdMill(selected))
                     {
                         //remove piece
                     }
                     //opponent's turn
                     changePlayer();
                 }
+                else
+                    Debug.Log("please select another");
             }
         }
         //get move from AI
         if (!isLocalPlayerTurn && Player.isSinglePlayer || selected == -1)
         {
             Debug.Log("ai move");
-            StartCoroutine(executeAIMovePhaseOne());
+
+            if (outOfBoardOpponent > 0)
+            {
+                //check to make sure the player is allowed to move there
+                
+                    StartCoroutine(executeAIMovePhaseOne());
+            }
         }
         //send move over Network
         if(isLocalPlayerTurn && !Player.isSinglePlayer)
         {
             Debug.Log("networked game, your turn");
             //check to make sure there are still pieces to play
-            if (remainingLocal > 0)
+            if (outOfBoardLocal > 0)
             {
                 if (game.validPlace(selected))
                 {
@@ -349,7 +366,7 @@ public class App : MonoBehaviour
                     endPosition = GameObject.Find(selected.ToString());
                     animationPhaseOne(startPosition, startPosition, endPosition);
                     localIndex++;
-                    remainingLocal--;
+                    outOfBoardLocal--;
 
                     if (game.createdMill(Convert.ToInt32(selected.ToString())))
                     {
