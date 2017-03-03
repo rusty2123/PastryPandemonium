@@ -302,6 +302,8 @@ public class App : MonoBehaviour
 
     public void piecePlacementPhase(int selected)
     {
+
+
         //need to verify the moves and update the game board
         if (isLocalPlayerTurn && Player.isSinglePlayer)
         {
