@@ -34,7 +34,13 @@ public class Board : MonoBehaviour
 
     public bool isEmptySpotAt(int index)
     {
-        return !playerOne.Xor(playerTwo)[index];
+
+        if (playerOne.Xor(playerTwo)[index -1] == false)
+        {
+            return true;
+        }
+        else
+            return false;
     }
 
     public Board getInstance
@@ -114,10 +120,12 @@ public class Board : MonoBehaviour
     {
         if (App.isLocalPlayerTurn)
         {
+            Debug.Log("placing at" + index);
             playerOne[index - 1] = true;
         }
         else
         {
+            Debug.Log("placing at"+ index);
             playerTwo[index - 1] = true;
         }
     }

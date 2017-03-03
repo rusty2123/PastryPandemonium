@@ -192,7 +192,8 @@ public class Game : Photon.MonoBehaviour
         if (gameBoard.isEmptySpotAt(index))
         {
             return true;
-        }
+        }  
+       
         return false;
     }
 
