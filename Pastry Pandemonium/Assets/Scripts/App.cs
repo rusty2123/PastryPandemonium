@@ -36,7 +36,7 @@ public class App : MonoBehaviour
     private GameObject clickedFirst = null;
     private GameObject clickedSecond = null;
 
-    public static int from, to, index = 0;
+    public static int from, to;
 
     private bool networkMessage = false;
 
@@ -387,28 +387,25 @@ public class App : MonoBehaviour
         if ((!isLocalPlayerTurn && !Player.isSinglePlayer) || (selected == -1 && !Player.isSinglePlayer))
         {
             //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
-            getNetworkPlaceIndex();
+            NetworkGameManager.networkInt = 0;
+            StartCoroutine(getNetworkPlacement());
+            waitForNetworkPlaceIndex();
             Debug.Log("recieved: " + NetworkGameManager.networkInt);
         }
 
         if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
         {
             phase = 2;
+            Debug.Log("phase 2");
         }
     }
 
-    private void getNetworkPlaceIndex()
+    IEnumerator getNetworkPlacement()
     {
-        float elapsedTime = 0.0f;
-
-        while (index == 0 || elapsedTime <= 10.0f)
-        {
-            elapsedTime += Time.deltaTime;
-        }
-
+        yield return new WaitUntil(() => NetworkGameManager.networkInt != 0);
         if (remainingOpponent > 0)
         {
-            to = index;
+            to = NetworkGameManager.networkInt;
             startPosition = opponentPieces[opponentIndex];
             endPosition = GameObject.Find(to.ToString());
             animationPhaseOne(startPosition, startPosition, endPosition);
@@ -416,7 +413,20 @@ public class App : MonoBehaviour
             outOfBoardOpponent--;
             changePlayer();
         }
-        index = 0;
+    }
+
+    private void waitForNetworkPlaceIndex()
+    {
+        float elapsedTime = 0.0f;
+
+        while (NetworkGameManager.networkInt == 0)
+        {
+            elapsedTime += Time.deltaTime;
+            if(elapsedTime >= 10.0f)
+            {
+                break;
+            }
+        }
     }
 
     private void OnEvent(byte eventCode, object content, int senderid)
@@ -426,7 +436,7 @@ public class App : MonoBehaviour
         if (eventCode == 0)
         {
             byte[] selected = (byte[])content;
-            index = (int)selected[0];
+            NetworkGameManager.networkInt = (int)selected[0];
         }
     }
 
