@@ -47,8 +47,6 @@ public class Game : Photon.MonoBehaviour
 
     public void placePiece(int index)
     {
-        Debug.Log("place piece");
-
         gameBoard.placePiece(index);
 
     }
@@ -218,6 +216,7 @@ public class Game : Photon.MonoBehaviour
               (gameBoard.isLocalPlayerPieceAt(entry.Item2) &&
                gameBoard.isLocalPlayerPieceAt(entry.Item3)))
             {
+                Debug.Log("created mill");
                 return true;
             }
         }

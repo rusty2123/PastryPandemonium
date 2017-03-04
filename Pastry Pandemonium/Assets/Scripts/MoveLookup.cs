@@ -75,6 +75,7 @@ public class MoveLookup : MonoBehaviour {
         Tuple.Create(24, 23)
     };
 
+    //createdMill worked at 1,2,3, but not 1,10,22
     public List<Tuple<int, int, int>> Mills = new List<Tuple<int, int, int>>()
     {
         Tuple.Create(1, 2, 3),

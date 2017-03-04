@@ -302,8 +302,6 @@ public class App : MonoBehaviour
 
     public void piecePlacementPhase(int selected)
     {
-
-
         //need to verify the moves and update the game board
         if (isLocalPlayerTurn && Player.isSinglePlayer)
         {
@@ -315,7 +313,7 @@ public class App : MonoBehaviour
                 //check to make sure the player is allowed to move there
                 if (game.validPlace(selected))
                 {
-                    Debug.Log("valid move");
+                    //Debug.Log("valid move");
 
                     game.placePiece(selected);
 
@@ -330,7 +328,8 @@ public class App : MonoBehaviour
                     //check if created mill
                     if (game.createdMill(selected))
                     {
-                        //remove piece
+                        //TODO: remove piece
+                        Debug.Log("created mill");
                     }
                     //opponent's turn
                     changePlayer();
@@ -342,8 +341,6 @@ public class App : MonoBehaviour
         //get move from AI
         if ((!isLocalPlayerTurn && Player.isSinglePlayer) || (selected == -1 && Player.isSinglePlayer))
         {
-            Debug.Log("ai move");
-
             if (outOfBoardOpponent > 0)
             {
                 //check to make sure the player is allowed to move there
@@ -354,7 +351,6 @@ public class App : MonoBehaviour
         //send move over Network
         if (isLocalPlayerTurn && !Player.isSinglePlayer)
         {
-            Debug.Log("networked game, your turn");
             //check to make sure there are still pieces to play
             if (outOfBoardLocal > 0)
             {
@@ -392,7 +388,7 @@ public class App : MonoBehaviour
             NetworkGameManager.networkInt = 0;
             StartCoroutine(getNetworkPlacement());
             waitForNetworkPlaceIndex();
-            Debug.Log("recieved: " + NetworkGameManager.networkInt);
+            //Debug.Log("recieved: " + NetworkGameManager.networkInt);
         }
 
         if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
