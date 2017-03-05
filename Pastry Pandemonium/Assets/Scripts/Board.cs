@@ -61,11 +61,11 @@ public class Board : MonoBehaviour
     {
         if (App.isLocalPlayerTurn)
         {
-            return playerOne[index];
+            return playerOne[index - 1];
         }
         else
         {
-            return playerTwo[index];
+            return playerTwo[index - 1];
         }
     }
 
