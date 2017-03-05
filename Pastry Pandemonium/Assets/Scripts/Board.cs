@@ -120,8 +120,7 @@ public class Board : MonoBehaviour
     {
         if (App.isLocalPlayerTurn)
         {
-            Debug.Log("piece placed at");
-            Debug.Log(index - 1);
+            Debug.Log("piece placed at: " + (index - 1));
             playerOne[index - 1] = true;
         }
         else

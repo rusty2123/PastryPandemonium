@@ -9,9 +9,8 @@ public class NetworkGameManager : Photon.PunBehaviour
 {
 
     public Game game = Game.gameInstance;
-    public static Player localPlayer;
-    public static Player opponentPlayer;
-    public static int networkInt = 0;
+    public static Player localPlayer, opponentPlayer;
+    private static int placeIndex = 0, removeIndex = 0, moveFromIndex = 0, moveToIndex = 0, flyFromIndex = 0, flyToIndex = 0;
 
     #region Photon Messages
 
@@ -25,6 +24,69 @@ public class NetworkGameManager : Photon.PunBehaviour
         LoadNetworkGame();
     }
 
+    #endregion
+
+    #region Getters and Setters
+
+    public static void setPlaceIndex(int i)
+    {
+        placeIndex = i;
+    }
+
+    public static int getPlaceIndex()
+    {
+        return placeIndex;
+    }
+
+    public void setRemoveIndex(int i)
+    {
+        removeIndex = i;
+    }
+
+    public static int getRemoveIndex()
+    {
+        return removeIndex;
+    }
+
+    public static void setMoveToIndex(int i)
+    {
+        moveToIndex = i;
+    }
+
+    public static int getMoveToIndex()
+    {
+        return moveToIndex;
+    }
+
+    public static void setMoveFromIndex(int i)
+    {
+        moveFromIndex = i;
+    }
+
+    public static int getMoveFromIndex()
+    {
+        return moveFromIndex;
+    }
+
+    public static void setFlyToIndex(int i)
+    {
+        flyToIndex = i;
+    }
+
+    public static int getFlyToIndex()
+    {
+        return flyToIndex;
+    }
+
+    public static void setFlyFromIndex(int i)
+    {
+        flyFromIndex = i;
+    }
+
+    public static int getFlyFromIndex()
+    {
+        return flyFromIndex;
+    }
     #endregion
 
     #region Public Methods
@@ -46,12 +108,6 @@ public class NetworkGameManager : Photon.PunBehaviour
         PhotonNetwork.LeaveRoom();
     }
 
-    public void sendInt(int i)
-    {
-        PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("sendIntRPC", PhotonTargets.All, i);
-    }
-
     public void placePiece(int i)
     {
         //code 0 for placing piece
@@ -61,29 +117,33 @@ public class NetworkGameManager : Photon.PunBehaviour
         PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 
-    //public void placePiece(int index)
-    //{
-    //    PhotonView photonView = PhotonView.Get(this);
-    //    photonView.RPC("placePieceRPC", PhotonTargets.All, index);
-    //}
+    public void removePiece(int i)
+    {
+        //code 0 for placing piece
+        byte code = 1;
+        //data must be sent in byte array
+        byte[] content = new byte[] { (byte)i };
+        PhotonNetwork.RaiseEvent(code, content, true, null);
+    }
 
     public void movePiece(int from, int to)
     {
-        PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("movePieceRPC", PhotonTargets.All, from, to);
+        //code 0 for placing piece
+        byte code = 2;
+        //data must be sent in byte array
+        byte[] content = new byte[] { (byte)from, (byte)to };
+        PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 
     public void flyPiece(int from, int to)
     {
-        PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("flyPieceRPC", PhotonTargets.All, from, to);
+        //code 0 for placing piece
+        byte code = 3;
+        //data must be sent in byte array
+        byte[] content = new byte[] { (byte)from, (byte)to };
+        PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 
-    public void removePiece(int index)
-    {
-        PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("removePieceRPC", PhotonTargets.All, index);
-    }
     public void LoadNetworkGame()
     {
         if (!PhotonNetwork.isMasterClient)
@@ -106,36 +166,6 @@ public class NetworkGameManager : Photon.PunBehaviour
     #endregion
 
     #region RPCs
-
-    [PunRPC]
-    private void sendIntRPC(int i)
-    {
-        networkInt = i;
-    }
-
-    [PunRPC]
-    private void placePieceRPC(int index)
-    {
-        game.placePiece(index);
-    }
-
-    [PunRPC]
-    private void movePieceRPC(int from, int to)
-    {
-        game.movePiece(from, to);
-    }
-
-    [PunRPC]
-    private void flyPieceRPC(int from, int to)
-    {
-        game.flyPiece(from, to);
-    }
-
-    [PunRPC]
-    private void removePieceRPC(int index)
-    {
-        game.removePiece(index);
-    }
 
 
     #endregion

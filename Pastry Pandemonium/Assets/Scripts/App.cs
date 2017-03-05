@@ -38,12 +38,11 @@ public class App : MonoBehaviour
 
     public static int from, to;
 
-    private bool networkMessage = false;
-
     #endregion
 
     void Awake()
     {
+        //initialize event system
         PhotonNetwork.OnEventCall += this.OnEvent;
 
         gameBoard.initializeBoard();
@@ -385,10 +384,10 @@ public class App : MonoBehaviour
         if ((!isLocalPlayerTurn && !Player.isSinglePlayer) || (selected == -1 && !Player.isSinglePlayer))
         {
             //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
-            NetworkGameManager.networkInt = 0;
+            NetworkGameManager.setPlaceIndex(0);
             StartCoroutine(getNetworkPlacement());
             waitForNetworkPlaceIndex();
-            //Debug.Log("recieved: " + NetworkGameManager.networkInt);
+            Debug.Log("recieved: " + NetworkGameManager.getPlaceIndex());
         }
 
         if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
@@ -398,45 +397,6 @@ public class App : MonoBehaviour
         }
     }
 
-    IEnumerator getNetworkPlacement()
-    {
-        yield return new WaitUntil(() => NetworkGameManager.networkInt != 0);
-        if (remainingOpponent > 0)
-        {
-            to = NetworkGameManager.networkInt;
-            startPosition = opponentPieces[opponentIndex];
-            endPosition = GameObject.Find(to.ToString());
-            animationPhaseOne(startPosition, startPosition, endPosition);
-            opponentIndex++;
-            outOfBoardOpponent--;
-            changePlayer();
-        }
-    }
-
-    private void waitForNetworkPlaceIndex()
-    {
-        float elapsedTime = 0.0f;
-
-        while (NetworkGameManager.networkInt == 0)
-        {
-            elapsedTime += Time.deltaTime;
-            if(elapsedTime >= 10.0f)
-            {
-                break;
-            }
-        }
-    }
-
-    private void OnEvent(byte eventCode, object content, int senderid)
-    {
-        networkMessage = true;
-        //if eventcode is 0, then it's placePiece
-        if (eventCode == 0)
-        {
-            byte[] selected = (byte[])content;
-            NetworkGameManager.networkInt = (int)selected[0];
-        }
-    }
 
     public bool getTurn()
     {
@@ -728,7 +688,121 @@ public class App : MonoBehaviour
         // enable all buttons
     }
 
+    #region Network Methods
 
+    private void OnEvent(byte eventCode, object content, int senderid)
+    {
+        //if eventcode is 0, then it's placePiece
+        if (eventCode == 0)
+        {
+            byte[] selected = (byte[])content;
+            NetworkGameManager.setPlaceIndex(selected[0]);
+        }
+        //if eventCode is 1, then it's removePiece
+        else if(eventCode == 1)
+        {
+
+        }
+        //if eventCode is 2, then it's movePiece
+        else if(eventCode == 2)
+        {
+
+        }
+        //if eventCode is 3, then it's flyPiece
+        else if(eventCode == 3)
+        {
+
+        }
+
+    }
+
+    IEnumerator getNetworkPlacement()
+    {
+        yield return new WaitUntil(() => NetworkGameManager.getPlaceIndex() != 0);
+        if (remainingOpponent > 0)
+        {
+            NetworkGameManager.setPlaceIndex(to);
+            startPosition = opponentPieces[opponentIndex];
+            endPosition = GameObject.Find(to.ToString());
+            animationPhaseOne(startPosition, startPosition, endPosition);
+            opponentIndex++;
+            outOfBoardOpponent--;
+            changePlayer();
+        }
+    }
+
+    private void waitForNetworkPlaceIndex()
+    {
+        float elapsedTime = 0.0f;
+
+        while (NetworkGameManager.getPlaceIndex() == 0)
+        {
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime >= 10.0f)
+            {
+                break;
+            }
+        }
+    }
+
+    IEnumerator getNetworkRemove()
+    {
+        yield return new WaitUntil(() => NetworkGameManager.getRemoveIndex() != 0);
+    }
+
+    private void waitForNetworkRemoveIndex()
+    {
+        float elapsedTime = 0.0f;
+
+        while (NetworkGameManager.getRemoveIndex() == 0)
+        {
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime >= 10.0f)
+            {
+                break;
+            }
+        }
+    }
+
+    IEnumerator getNetworkMove()
+    {
+        yield return new WaitUntil(() => NetworkGameManager.getMoveFromIndex() != 0 && NetworkGameManager.getMoveToIndex() != 0);
+    }
+
+    private void waitForNetworkMove()
+    {
+        float elapsedTime = 0.0f;
+
+        while (NetworkGameManager.getMoveFromIndex() == 0 && NetworkGameManager.getMoveToIndex() == 0)
+        {
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime >= 10.0f)
+            {
+                break;
+            }
+        }
+    }
+
+    IEnumerator getNetworkFly()
+    {
+        yield return new WaitUntil(() => NetworkGameManager.getFlyFromIndex() != 0 && NetworkGameManager.getFlyToIndex() != 0);
+    }
+
+    private void waitForNetworkFly()
+    {
+        float elapsedTime = 0.0f;
+
+        while (NetworkGameManager.getFlyFromIndex() == 0 && NetworkGameManager.getFlyToIndex() == 0)
+        {
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime >= 10.0f)
+            {
+                break;
+            }
+        }
+    }
+
+    #endregion
 
 }
 
