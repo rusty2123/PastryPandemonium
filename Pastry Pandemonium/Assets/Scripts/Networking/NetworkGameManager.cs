@@ -10,7 +10,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public Game game = Game.gameInstance;
     public static Player localPlayer, opponentPlayer;
-    private static int placeIndex = 0, removeIndex = 0, moveFromIndex = 0, moveToIndex = 0, flyFromIndex = 0, flyToIndex = 0;
+    public static int placeIndex = 0, removeIndex = 0, moveFromIndex = 0, moveToIndex = 0, flyFromIndex = 0, flyToIndex = 0;
 
     #region Photon Messages
 
@@ -26,68 +26,6 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     #endregion
 
-    #region Getters and Setters
-
-    public static void setPlaceIndex(int i)
-    {
-        placeIndex = i;
-    }
-
-    public static int getPlaceIndex()
-    {
-        return placeIndex;
-    }
-
-    public static void setRemoveIndex(int i)
-    {
-        removeIndex = i;
-    }
-
-    public static int getRemoveIndex()
-    {
-        return removeIndex;
-    }
-
-    public static void setMoveToIndex(int i)
-    {
-        moveToIndex = i;
-    }
-
-    public static int getMoveToIndex()
-    {
-        return moveToIndex;
-    }
-
-    public static void setMoveFromIndex(int i)
-    {
-        moveFromIndex = i;
-    }
-
-    public static int getMoveFromIndex()
-    {
-        return moveFromIndex;
-    }
-
-    public static void setFlyToIndex(int i)
-    {
-        flyToIndex = i;
-    }
-
-    public static int getFlyToIndex()
-    {
-        return flyToIndex;
-    }
-
-    public static void setFlyFromIndex(int i)
-    {
-        flyFromIndex = i;
-    }
-
-    public static int getFlyFromIndex()
-    {
-        return flyFromIndex;
-    }
-    #endregion
 
     #region Public Methods
 

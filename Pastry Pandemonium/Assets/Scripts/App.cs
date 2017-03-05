@@ -293,100 +293,76 @@ public class App : MonoBehaviour
         opponentIndex++;
         outOfBoardOpponent--;
         game.placePiece(to);
-        changePlayer();
-
-        
+       
         print("delay");
+        changePlayer();
     }
 
     public void piecePlacementPhase(int selected)
     {
         //need to verify the moves and update the game board
-        if (isLocalPlayerTurn && Player.isSinglePlayer)
+        if (isLocalPlayerTurn && outOfBoardLocal > 0)
         {
             //wait until piece clicked
-
-            //check to make sure there are still pieces to play
-            if (outOfBoardLocal > 0)
+            //check to make sure the player is allowed to move there
+            if (game.validPlace(selected))
             {
-                //check to make sure the player is allowed to move there
-                if (game.validPlace(selected))
+                //Debug.Log("valid move");
+
+                game.placePiece(selected);
+
+                //send move over network
+                if(!Player.isSinglePlayer)
                 {
-                    //Debug.Log("valid move");
-
-                    game.placePiece(selected);
-
-                    //play move animation
-                    startPosition = localPieces[localIndex];
-                    endPosition = GameObject.Find(selected.ToString());
-                    animationPhaseOne(startPosition, startPosition, endPosition);
-                    localIndex++;
-                    outOfBoardLocal--;
-                    game.placePiece(selected);
-
-                    //check if created mill
-                    if (game.createdMill(selected))
-                    {
-                        //TODO: remove piece
-                        Debug.Log("created mill");
-
-                    }
-                    //opponent's turn
-                    changePlayer();
-                }
-                else
-                    Debug.Log("please select another");
-            }
-        }
-        //get move from AI
-        if ((!isLocalPlayerTurn && Player.isSinglePlayer) || (selected == -1 && Player.isSinglePlayer))
-        {
-            if (outOfBoardOpponent > 0)
-            {
-                //check to make sure the player is allowed to move there
-                
-                    StartCoroutine(executeAIMovePhaseOne());
-            }
-        }
-        //send move over Network
-        if (isLocalPlayerTurn && !Player.isSinglePlayer)
-        {
-            //check to make sure there are still pieces to play
-            if (outOfBoardLocal > 0)
-            {
-                if (game.validPlace(selected))
-                {
-                    //raise place piece event
                     networkManager.placePiece(selected);
-                    game.placePiece(selected);
-
-                    //play the animation
-                    startPosition = localPieces[localIndex];
-                    endPosition = GameObject.Find(selected.ToString());
-                    animationPhaseOne(startPosition, startPosition, endPosition);
-                    localIndex++;
-                    outOfBoardLocal--;
-
-                    //check if it created a mill
-                    if (game.createdMill(selected))
-                    {
-                        //remove a piece
-                    }
-
-                    changePlayer();
                 }
+
+                //play move animation
+                startPosition = localPieces[localIndex];
+                endPosition = GameObject.Find(selected.ToString());
+                animationPhaseOne(startPosition, startPosition, endPosition);
+                localIndex++;
+                outOfBoardLocal--;
+                game.placePiece(selected);
+
+                //check if created mill
+                if (game.createdMill(selected))
+                {
+                    //TODO: remove piece
+                    Debug.Log("created mill");
+
+                    //game.removePiece();
+
+                    if (!Player.isSinglePlayer)
+                    {
+                        //networkManager.removePiece();
+                    }
+                }
+                //opponent's turn
+                changePlayer();
+            }
+            else
+                Debug.Log("please select another");
+        }
+        //get move from AI or network
+        if ((!isLocalPlayerTurn || selected == -1) && outOfBoardOpponent > 0)
+        {
+            //get move from ai
+            if (Player.isSinglePlayer)
+            {
+                //check to make sure the player is allowed to move there
+                StartCoroutine(executeAIMovePhaseOne());
+            }
+            //get move from network
+            else if(!Player.isSinglePlayer)
+            {
+                //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
+                NetworkGameManager.placeIndex = 0;
+                StartCoroutine(getNetworkPlacement());
+                waitForNetworkPlaceIndex();
+                Debug.Log("recieved: " + NetworkGameManager.placeIndex);
             }
         }
-        //get move from network
-        if ((!isLocalPlayerTurn && !Player.isSinglePlayer) || (selected == -1 && !Player.isSinglePlayer))
-        {
-            //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
-            NetworkGameManager.setPlaceIndex(0);
-            StartCoroutine(getNetworkPlacement());
-            waitForNetworkPlaceIndex();
-            Debug.Log("recieved: " + NetworkGameManager.getPlaceIndex());
-        }
-
         if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
         {
             phase = 2;
@@ -440,10 +416,6 @@ public class App : MonoBehaviour
         }
     }
 
-
-    /// <summary>
-    /// UPDATE!!!!!!!!!!!!
-    /// </summary>
     private void Update()
     {
         if (gameOver)
@@ -692,37 +664,37 @@ public class App : MonoBehaviour
         if (eventCode == 0)
         {
             byte[] selected = (byte[])content;
-            NetworkGameManager.setPlaceIndex(selected[0]);
+            NetworkGameManager.placeIndex = selected[0];
         }
         //if eventCode is 1, then it's removePiece
         else if(eventCode == 1)
         {
             byte[] selected = (byte[])content;
-            NetworkGameManager.setRemoveIndex(selected[0]);
+            NetworkGameManager.removeIndex = selected[0];
         }
         //if eventCode is 2, then it's movePiece
         else if(eventCode == 2)
         {
             byte[] selected = (byte[])content;
-            NetworkGameManager.setMoveFromIndex(selected[0]);
-            NetworkGameManager.setMoveToIndex(selected[1]);
+            NetworkGameManager.moveFromIndex = selected[0];
+            NetworkGameManager.moveToIndex = selected[1];
         }
         //if eventCode is 3, then it's flyPiece
         else if(eventCode == 3)
         {
             byte[] selected = (byte[])content;
-            NetworkGameManager.setFlyFromIndex(selected[0]);
-            NetworkGameManager.setFlyToIndex(selected[1]);
+            NetworkGameManager.flyFromIndex = selected[0];
+            NetworkGameManager.flyToIndex = selected[1];
         }
 
     }
 
     IEnumerator getNetworkPlacement()
     {
-        yield return new WaitUntil(() => NetworkGameManager.getPlaceIndex() != 0);
+        yield return new WaitUntil(() => NetworkGameManager.placeIndex != 0);
         if (remainingOpponent > 0)
         {
-            NetworkGameManager.setPlaceIndex(to);
+            to = NetworkGameManager.placeIndex;
             startPosition = opponentPieces[opponentIndex];
             endPosition = GameObject.Find(to.ToString());
             animationPhaseOne(startPosition, startPosition, endPosition);
@@ -736,7 +708,7 @@ public class App : MonoBehaviour
     {
         float elapsedTime = 0.0f;
 
-        while (NetworkGameManager.getPlaceIndex() == 0)
+        while (NetworkGameManager.placeIndex == 0)
         {
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= 10.0f)
@@ -748,14 +720,14 @@ public class App : MonoBehaviour
 
     IEnumerator getNetworkRemove()
     {
-        yield return new WaitUntil(() => NetworkGameManager.getRemoveIndex() != 0);
+        yield return new WaitUntil(() => NetworkGameManager.removeIndex != 0);
     }
 
     private void waitForNetworkRemoveIndex()
     {
         float elapsedTime = 0.0f;
 
-        while (NetworkGameManager.getRemoveIndex() == 0)
+        while (NetworkGameManager.removeIndex == 0)
         {
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= 10.0f)
@@ -767,14 +739,14 @@ public class App : MonoBehaviour
 
     IEnumerator getNetworkMove()
     {
-        yield return new WaitUntil(() => NetworkGameManager.getMoveFromIndex() != 0 && NetworkGameManager.getMoveToIndex() != 0);
+        yield return new WaitUntil(() => NetworkGameManager.moveFromIndex != 0 && NetworkGameManager.moveToIndex != 0);
     }
 
     private void waitForNetworkMove()
     {
         float elapsedTime = 0.0f;
 
-        while (NetworkGameManager.getMoveFromIndex() == 0 && NetworkGameManager.getMoveToIndex() == 0)
+        while (NetworkGameManager.moveFromIndex == 0 && NetworkGameManager.moveToIndex == 0)
         {
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= 10.0f)
@@ -786,14 +758,14 @@ public class App : MonoBehaviour
 
     IEnumerator getNetworkFly()
     {
-        yield return new WaitUntil(() => NetworkGameManager.getFlyFromIndex() != 0 && NetworkGameManager.getFlyToIndex() != 0);
+        yield return new WaitUntil(() => NetworkGameManager.flyFromIndex != 0 && NetworkGameManager.flyToIndex != 0);
     }
 
     private void waitForNetworkFly()
     {
         float elapsedTime = 0.0f;
 
-        while (NetworkGameManager.getFlyFromIndex() == 0 && NetworkGameManager.getFlyToIndex() == 0)
+        while (NetworkGameManager.flyFromIndex == 0 && NetworkGameManager.flyToIndex == 0)
         {
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= 10.0f)
