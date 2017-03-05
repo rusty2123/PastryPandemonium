@@ -329,6 +329,7 @@ public class App : MonoBehaviour
                     {
                         //TODO: remove piece
                         Debug.Log("created mill");
+
                     }
                     //opponent's turn
                     changePlayer();
@@ -359,12 +360,6 @@ public class App : MonoBehaviour
                     networkManager.placePiece(selected);
                     game.placePiece(selected);
 
-                    //check if it created a mill
-                    if (game.createdMill(selected))
-                    {
-                        //remove a piece
-                    }
-
                     //play the animation
                     startPosition = localPieces[localIndex];
                     endPosition = GameObject.Find(selected.ToString());
@@ -372,10 +367,12 @@ public class App : MonoBehaviour
                     localIndex++;
                     outOfBoardLocal--;
 
-                    if (game.createdMill(Convert.ToInt32(selected.ToString())))
+                    //check if it created a mill
+                    if (game.createdMill(selected))
                     {
-                        //now get remove index from click
+                        //remove a piece
                     }
+
                     changePlayer();
                 }
             }
@@ -616,7 +613,6 @@ public class App : MonoBehaviour
         }
     }
 
-
     public void displayWinMessage()
     {
         //disable buttons and pieces
@@ -701,17 +697,22 @@ public class App : MonoBehaviour
         //if eventCode is 1, then it's removePiece
         else if(eventCode == 1)
         {
-
+            byte[] selected = (byte[])content;
+            NetworkGameManager.setRemoveIndex(selected[0]);
         }
         //if eventCode is 2, then it's movePiece
         else if(eventCode == 2)
         {
-
+            byte[] selected = (byte[])content;
+            NetworkGameManager.setMoveFromIndex(selected[0]);
+            NetworkGameManager.setMoveToIndex(selected[1]);
         }
         //if eventCode is 3, then it's flyPiece
         else if(eventCode == 3)
         {
-
+            byte[] selected = (byte[])content;
+            NetworkGameManager.setFlyFromIndex(selected[0]);
+            NetworkGameManager.setFlyToIndex(selected[1]);
         }
 
     }

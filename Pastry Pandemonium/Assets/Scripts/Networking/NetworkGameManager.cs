@@ -38,7 +38,7 @@ public class NetworkGameManager : Photon.PunBehaviour
         return placeIndex;
     }
 
-    public void setRemoveIndex(int i)
+    public static void setRemoveIndex(int i)
     {
         removeIndex = i;
     }
