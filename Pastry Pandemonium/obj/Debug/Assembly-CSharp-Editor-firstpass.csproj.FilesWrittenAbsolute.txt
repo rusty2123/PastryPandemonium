@@ -92,3 +92,4 @@
 /Users/paultoillion/Desktop/Game/PastryPandemonium/Pastry Pandemonium/Temp/bin/Debug/UnityEditor.iOS.Extensions.Common.dll.mdb
 /Users/paultoillion/Desktop/Game/PastryPandemonium/Pastry Pandemonium/Temp/bin/Debug/UnityEngine.Purchasing.dll
 /Users/paultoillion/Desktop/Game/PastryPandemonium/Pastry Pandemonium/Temp/bin/Debug/UnityEngine.Advertisements.dll
+/Users/paultoillion/Desktop/Game/PastryPandemonium/Pastry Pandemonium/Temp/bin/Debug/UnityEditor.LinuxStandalone.Extensions.dll

@@ -257,25 +257,29 @@ public class App : MonoBehaviour
         shadow.SetActive(true);
         gamePiece.transform.position = startPosition.transform.position;
         
-        shadow.transform.position = startPosition.transform.position;
+		shadow.transform.position = new Vector3(startPosition.transform.position.x, 
+			startPosition.transform.position.y,
+			startPosition.transform.position.z+2);
 
         //scale piece
-        LeanTween.scale(gamePiece, new Vector3(.7f, .7f, .7f), .6f).setDelay(.3f);
-        LeanTween.scale(gamePiece, new Vector3(0.5f, 0.5f, 0.5f), 1.3f).setDelay(2.9f);
+        LeanTween.scale(gamePiece, new Vector3(.65f, .65f, .65f), .6f).setDelay(.2f);
+        LeanTween.scale(gamePiece, new Vector3(0.5f, 0.5f, 0.5f), 1.3f).setDelay(2.7f);
 
         //move piece up and then to the endPosition
-        LeanTween.moveY(gamePiece, startPosition.transform.position.y + 22f, .6f).setDelay(.3f);
-        LeanTween.move(gamePiece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
+        LeanTween.moveY(gamePiece, startPosition.transform.position.y + 140f, .6f).setDelay(.2f);
+        LeanTween.move(gamePiece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.9f);
 
         //Move shadow
-        LeanTween.move(shadow, endPosition.transform.position, 4f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.25f);
+		LeanTween.move(shadow, new Vector3 (endPosition.transform.position.x,
+			endPosition.transform.position.y,
+			endPosition.transform.position.z+2), 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.93f);
 
         
     }
 
     IEnumerator executeAIMovePhaseOne()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
         
                 int[] move = opponentPlayer.getAIMove();
 
