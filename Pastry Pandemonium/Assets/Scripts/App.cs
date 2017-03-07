@@ -15,6 +15,7 @@ public class App : MonoBehaviour
     private GameObject startPosition, endPosition, piecePosition, board, characterLocalPlayer, characterOpponentPlayer, piece;
 
 	private GameObject turnPositionLeft, turnPositionRight, muffinTurnOff, muffinTurnOn, cupcakeTurnOff, cupcakeTurnOn;
+	private string firstPlayer;
 
     public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake;
 
@@ -64,8 +65,9 @@ public class App : MonoBehaviour
 
 
 		muffinTurnOn = GameObject.Find("muffinTurn");
-
 		cupcakeTurnOn = GameObject.Find("cupcakeTurn");
+		turnPositionLeft = GameObject.Find("TurnIndicator1");
+		turnPositionRight = GameObject.Find("TurnIndicator2");
 	
 		setUpTurnIndicator ();
 
@@ -77,7 +79,9 @@ public class App : MonoBehaviour
             {
                 Debug.Log("player goes first");
                 isLocalPlayerTurn = true;
+
                 //change UI turn indicator
+				changeTurnIndicator(true);
             }
             else
             {
@@ -86,6 +90,7 @@ public class App : MonoBehaviour
                 //start ai by passing it an invalid move
                 
                 //change UI turn indicator
+				changeTurnIndicator(false);
             }
             setUpPlayerPieces();
         }
@@ -94,11 +99,11 @@ public class App : MonoBehaviour
         {
             if (Player.firstPlayer)
             {
-                //change UI turn indicator 
+				changeTurnIndicator(true);
             }
             else
             {
-                //change UI turn indicator
+				changeTurnIndicator(false);
             }
             setUpMultiPlayerPieces();
         }
@@ -109,26 +114,58 @@ public class App : MonoBehaviour
 	{
 		muffinTurnOff = GameObject.Find("muffinTurnOff");
 		cupcakeTurnOff = GameObject.Find("cupcakeTurnOff");
-		turnPositionLeft = GameObject.Find("TurnIndicator1");
-		turnPositionRight = GameObject.Find("TurnIndicator2");
 
 		if (SinglePlayerMenu.selectedCharacter.Contains("Muffin")) 
 			{
 			muffinTurnOff.transform.position = turnPositionRight.transform.position;
 			cupcakeTurnOff.transform.position = turnPositionLeft.transform.position;
-			cupcakeTurnOn.transform.position = new Vector3(turnPositionLeft.transform.position.x+2,
-														   turnPositionLeft.transform.position.y+2, 
-											  			   turnPositionLeft.transform.position.z - 3f);
+			firstPlayer = "muffin";
+
 			} 
 		else 
 			{
 			cupcakeTurnOff.transform.position = turnPositionRight.transform.position;
 			muffinTurnOff.transform.position = turnPositionLeft.transform.position;
+			firstPlayer = "cupcake";
 			}
+
+		cupcakeTurnOn.transform.position = new Vector3(cupcakeTurnOff.transform.position.x+2,
+			cupcakeTurnOff.transform.position.y+2, 
+			cupcakeTurnOff.transform.position.z - 3f);
+
+		muffinTurnOn.transform.position = new Vector3(muffinTurnOff.transform.position.x-10,
+			muffinTurnOff.transform.position.y+5, 
+			muffinTurnOff.transform.position.z - 3f);
 	}
 
-	private void changeTurnIndicator()
+	private void changeTurnIndicator(bool firstPlayerTurn)
 	{
+
+		if (firstPlayerTurn) 
+		{
+			if (firstPlayer == "muffin") 
+			{
+				muffinTurnOn.GetComponent<Renderer> ().enabled = true;
+				cupcakeTurnOn.GetComponent<Renderer> ().enabled = false;
+			} 
+			else 
+			{
+				muffinTurnOn.GetComponent<Renderer> ().enabled = false;
+				cupcakeTurnOn.GetComponent<Renderer> ().enabled = true;
+			}
+		} 
+		else 
+		{
+
+			if (firstPlayer == "muffin") {
+				muffinTurnOn.GetComponent<Renderer> ().enabled = false;
+				cupcakeTurnOn.GetComponent<Renderer> ().enabled = true;
+			} else {
+				muffinTurnOn.GetComponent<Renderer> ().enabled = true;
+				cupcakeTurnOn.GetComponent<Renderer> ().enabled = false;
+			}
+
+		}
 
 	}
 
@@ -313,7 +350,6 @@ public class App : MonoBehaviour
 			endPosition.transform.position.y,
 			endPosition.transform.position.z+2), 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.93f);
 
-        
     }
 
     IEnumerator executeAIMovePhaseOne()
@@ -465,11 +501,11 @@ public class App : MonoBehaviour
 
             if (Player.firstPlayer)
             {
-                //change turn indicator
+				changeTurnIndicator(true);
             }
             else
             {
-                //change turn indicator
+				changeTurnIndicator(false);
             }
 
         }
@@ -479,18 +515,18 @@ public class App : MonoBehaviour
 
             if (isSinglePlayer)
             {
-                //change UI turn indicator
+				changeTurnIndicator(false);
 
             }
             else
             {
                 if (Player.firstPlayer)
                 {
-                    //change UI turn indicator
+					changeTurnIndicator(true);
                 }
                 else
                 {
-                    //change UI turn indicator
+					changeTurnIndicator(false);
                 }
 
             }

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 4fbfdfb98d1af41b28f201168d0c4a13
-timeCreated: 1487481395
+timeCreated: 1488851281
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -272,10 +272,10 @@ TextureImporter:
       name: muffinTurn
       rect:
         serializedVersion: 2
-        x: 2446
+        x: 2434
         y: 2199
-        width: 1578
-        height: 626
+        width: 1590
+        height: 657
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
