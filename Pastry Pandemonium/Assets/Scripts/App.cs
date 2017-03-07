@@ -38,7 +38,8 @@ public class App : MonoBehaviour
     private GameObject clickedFirst = null;
     private GameObject clickedSecond = null;
 
-    public static int from, to;
+    //goal is to use selectedGamePiece to indicate which piece is clicked when deciding when to remove or move a piece
+    public static int from, to, selectedGamePiece;
 
     #endregion
 
@@ -131,7 +132,6 @@ public class App : MonoBehaviour
 
 	}
 
-
     private void startGame()
     {
         if(isLocalPlayerTurn)
@@ -192,7 +192,6 @@ public class App : MonoBehaviour
         {
             int character = UnityEngine.Random.Range(0, 2);
             Player.characterOpponentPlayer = Player.characterSelection[character];
-
         }
 
         switch (Player.characterOpponentPlayer)
@@ -375,7 +374,9 @@ public class App : MonoBehaviour
                     //TODO: remove piece
                     Debug.Log("created mill");
 
-                    //game.removePiece();
+                    selectedGamePiece = 0;
+                    StartCoroutine(getSelectedGamePiece());
+                    getPieceToRemove();
 
                     if (!Player.isSinglePlayer)
                     {
@@ -414,6 +415,42 @@ public class App : MonoBehaviour
         }
     }
 
+    IEnumerator getSelectedGamePiece()
+    {
+        yield return new WaitUntil(() => selectedGamePiece != 0);
+
+        GameObject.Find("opponent" + selectedGamePiece.ToString()).SetActive(false);
+    }
+
+    private void getPieceToRemove()
+    {
+        if (isLocalPlayerTurn)
+        {
+            //choose an OPPONENT's piece to remove
+            float elapsedTime = 0.0f;
+
+            while (selectedGamePiece == 0)
+            {
+                elapsedTime += Time.deltaTime;
+                if (elapsedTime >= 10.0f)
+                {
+                    break;
+                }
+            }
+
+            game.removePiece(selectedGamePiece);
+            //if it's a network game then send the index over the network too
+            if (!isSinglePlayer)
+            {
+                networkManager.removePiece(selectedGamePiece);
+            }
+        }
+        else if (!isLocalPlayerTurn)
+        {
+            //if it's a network game then recieve the index from the network
+            //else if it's the ai then i don't know what to do
+        }
+    }
 
     public bool getTurn()
     {

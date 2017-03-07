@@ -199,12 +199,11 @@ public class Game : Photon.MonoBehaviour
     {
         Debug.Log("remove piece");
 
-        int pieceToRemove = 0;
-
-        if (gameBoard.isLocalPlayerPieceAt(pieceToRemove) == true
-            && (!piecePartOfMill(pieceToRemove) || allPiecesPartOfMill()))
+        //something here is going out of range
+        if (gameBoard.isLocalPlayerPieceAt(index) == true
+            && (!piecePartOfMill(index) || allPiecesPartOfMill()))
         {
-            gameBoard.removePiece(!App.isLocalPlayerTurn, pieceToRemove);
+            gameBoard.removePiece(!App.isLocalPlayerTurn, index);
         }
     }
 

@@ -39,7 +39,6 @@ public class pieceClick : MonoBehaviour
                 if (App.isLocalPlayerTurn)
                 {
                     gameObj.GetComponent<App>().piecePlacementPhase(Convert.ToInt32(gameObject.name));
-                    //gameObjects need to be unclickable until it's your turn again
                 }
                 break;
             case 2:
