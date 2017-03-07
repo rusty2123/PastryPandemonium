@@ -32,7 +32,7 @@ public class App : MonoBehaviour
     public GameObject[] outOfBoardSpaces = new GameObject[18];
     public GameObject[] boardSpaces = new GameObject[24];
 
-    public static bool isSinglePlayer, gameOver = false, isLocalPlayerTurn, localPlayerWon;
+    public static bool isSinglePlayer, gameOver = false, isLocalPlayerTurn, localPlayerWon, removePiece = false;
     public static Player localPlayer, opponentPlayer;
     public static int phase = 1;
 
@@ -40,7 +40,7 @@ public class App : MonoBehaviour
     private GameObject clickedSecond = null;
 
     //goal is to use selectedGamePiece to indicate which piece is clicked when deciding when to remove or move a piece
-    public static int from, to, selectedGamePiece;
+    public static int from, to, selectedGamePiece = 0;
 
     #endregion
 
@@ -410,9 +410,7 @@ public class App : MonoBehaviour
                     //TODO: remove piece
                     Debug.Log("created mill");
 
-                    selectedGamePiece = 0;
                     StartCoroutine(getSelectedGamePiece());
-                    getPieceToRemove();
 
                     if (!Player.isSinglePlayer)
                     {
@@ -453,9 +451,11 @@ public class App : MonoBehaviour
 
     IEnumerator getSelectedGamePiece()
     {
-        yield return new WaitUntil(() => selectedGamePiece != 0);
+        removePiece = true;
 
-        GameObject.Find("opponent" + selectedGamePiece.ToString()).SetActive(false);
+        yield return new WaitUntil(() => !removePiece);
+
+        Debug.Log("selected piece to remove: " + selectedGamePiece);
     }
 
     private void getPieceToRemove()
@@ -474,6 +474,7 @@ public class App : MonoBehaviour
                 }
             }
 
+            
             game.removePiece(selectedGamePiece);
             //if it's a network game then send the index over the network too
             if (!isSinglePlayer)

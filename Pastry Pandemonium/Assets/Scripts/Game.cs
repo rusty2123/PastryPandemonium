@@ -200,6 +200,7 @@ public class Game : Photon.MonoBehaviour
         Debug.Log("remove piece");
 
         //something here is going out of range
+        //this condition makes sure it's an opponent's piece, and that the piece isn't part of a mill unless all opponent's pieces are part of a mill
         if (gameBoard.isLocalPlayerPieceAt(index) == true
             && (!piecePartOfMill(index) || allPiecesPartOfMill()))
         {

@@ -23,7 +23,13 @@ public class GamePiece : MonoBehaviour
 
     public void OnMouseDown()
     {
+        if (App.removePiece && gamePiece.tag == "opponent")
+        {
+            Destroy(gamePiece);
+            App.removePiece = false;
+            //now update gameboard where the piece was selected
+        }
+
         App.selectedGamePiece = gamePiece.name[gamePiece.name.Length - 1];
-        //Debug.Log("piece selected: " + App.selectedGamePiece);
     }
 }

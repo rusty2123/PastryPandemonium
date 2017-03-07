@@ -124,8 +124,8 @@ public class MoveLookup : MonoBehaviour {
         Tuple.Create(22, 1, 10),
         Tuple.Create(23, 22, 24),
         Tuple.Create(23, 17, 20),
-        Tuple.Create(23, 22, 23),
-        Tuple.Create(23, 3, 15),
+        Tuple.Create(24, 3, 15),
+        Tuple.Create(24, 23, 22),
     };
 
 

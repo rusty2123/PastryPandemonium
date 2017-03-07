@@ -374,6 +374,8 @@ GameObject:
   - component: {fileID: 260187546}
   - component: {fileID: 260187545}
   - component: {fileID: 260187547}
+  - component: {fileID: 260187549}
+  - component: {fileID: 260187548}
   m_Layer: 0
   m_Name: lemonGamePiece
   m_TagString: Untagged
@@ -441,6 +443,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!58 &260187548
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 260187544}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 207.5
+--- !u!114 &260187549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 260187544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfab645c76fe8bc4a911f3d3e7d37193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gamePiece: {fileID: 260187544}
 --- !u!1 &369919247
 GameObject:
   m_ObjectHideFlags: 0
@@ -709,6 +737,8 @@ GameObject:
   - component: {fileID: 499816621}
   - component: {fileID: 499816620}
   - component: {fileID: 499816622}
+  - component: {fileID: 499816624}
+  - component: {fileID: 499816623}
   m_Layer: 0
   m_Name: chipGamePiece
   m_TagString: Untagged
@@ -776,6 +806,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!58 &499816623
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 499816619}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 212.5
+--- !u!114 &499816624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 499816619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfab645c76fe8bc4a911f3d3e7d37193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gamePiece: {fileID: 499816619}
 --- !u!1 &513017786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,6 +1505,8 @@ GameObject:
   - component: {fileID: 786462293}
   - component: {fileID: 786462292}
   - component: {fileID: 786462294}
+  - component: {fileID: 786462296}
+  - component: {fileID: 786462295}
   m_Layer: 0
   m_Name: chocolateGamePiece
   m_TagString: Untagged
@@ -1516,6 +1574,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!58 &786462295
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 786462291}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 215
+--- !u!114 &786462296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 786462291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfab645c76fe8bc4a911f3d3e7d37193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gamePiece: {fileID: 786462291}
 --- !u!1 &862476365
 GameObject:
   m_ObjectHideFlags: 0
@@ -2748,6 +2832,8 @@ GameObject:
   - component: {fileID: 1837875800}
   - component: {fileID: 1837875799}
   - component: {fileID: 1837875801}
+  - component: {fileID: 1837875803}
+  - component: {fileID: 1837875802}
   m_Layer: 0
   m_Name: whiteGamePiece
   m_TagString: Untagged
@@ -2815,6 +2901,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!58 &1837875802
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1837875798}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 215
+--- !u!114 &1837875803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1837875798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfab645c76fe8bc4a911f3d3e7d37193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gamePiece: {fileID: 1837875798}
 --- !u!1 &1882621334
 GameObject:
   m_ObjectHideFlags: 0
@@ -3261,6 +3373,8 @@ GameObject:
   - component: {fileID: 2063266128}
   - component: {fileID: 2063266127}
   - component: {fileID: 2063266129}
+  - component: {fileID: 2063266131}
+  - component: {fileID: 2063266130}
   m_Layer: 0
   m_Name: berryGamePiece
   m_TagString: Untagged
@@ -3328,6 +3442,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+--- !u!58 &2063266130
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2063266126}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 207.5
+--- !u!114 &2063266131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2063266126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfab645c76fe8bc4a911f3d3e7d37193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gamePiece: {fileID: 2063266126}
 --- !u!1 &2078356845
 GameObject:
   m_ObjectHideFlags: 0
