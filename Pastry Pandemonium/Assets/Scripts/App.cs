@@ -14,6 +14,8 @@ public class App : MonoBehaviour
 
     private GameObject startPosition, endPosition, piecePosition, board, characterLocalPlayer, characterOpponentPlayer, piece;
 
+	private GameObject turnPositionLeft, turnPositionRight, muffinTurnOff, muffinTurnOn, cupcakeTurnOff, cupcakeTurnOn;
+
     public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake;
 
     public NetworkGameManager networkManager;
@@ -57,6 +59,15 @@ public class App : MonoBehaviour
         localPlayer = gameObject.AddComponent<Player>();
         opponentPlayer = gameObject.AddComponent<Player>();
 
+	
+
+
+		muffinTurnOn = GameObject.Find("muffinTurn");
+
+		cupcakeTurnOn = GameObject.Find("cupcakeTurn");
+	
+		setUpTurnIndicator ();
+
         if (isSinglePlayer)
         {
             Debug.Log(Player.playerGoFirst);
@@ -92,6 +103,35 @@ public class App : MonoBehaviour
         }
         startGame();
     }
+
+	private void setUpTurnIndicator()
+	{
+		muffinTurnOff = GameObject.Find("muffinTurnOff");
+		cupcakeTurnOff = GameObject.Find("cupcakeTurnOff");
+		turnPositionLeft = GameObject.Find("TurnIndicator1");
+		turnPositionRight = GameObject.Find("TurnIndicator2");
+
+		if (SinglePlayerMenu.selectedCharacter.Contains("Muffin")) 
+			{
+			muffinTurnOff.transform.position = turnPositionRight.transform.position;
+			cupcakeTurnOff.transform.position = turnPositionLeft.transform.position;
+			cupcakeTurnOn.transform.position = new Vector3(turnPositionLeft.transform.position.x+2,
+														   turnPositionLeft.transform.position.y+2, 
+											  			   turnPositionLeft.transform.position.z - 3f);
+			} 
+		else 
+			{
+			cupcakeTurnOff.transform.position = turnPositionRight.transform.position;
+			muffinTurnOff.transform.position = turnPositionLeft.transform.position;
+			}
+	}
+
+	private void changeTurnIndicator()
+	{
+
+	}
+
+
     private void startGame()
     {
         if(isLocalPlayerTurn)
