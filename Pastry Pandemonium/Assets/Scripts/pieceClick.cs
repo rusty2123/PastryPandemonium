@@ -40,10 +40,10 @@ public class pieceClick : MonoBehaviour
                 if (App.isLocalPlayerTurn)
                 {
                     gameObj.GetComponent<App>().piecePlacementPhase(Convert.ToInt32(gameObject.name));
-                    if (App.removePiece && !gameBoard.isLocalPlayerPieceAt(Convert.ToInt32(gameObject.name)))
-                    {
-                        Debug.Log("remove piece index: " + gameObject.name);
-                    }
+                    //if (App.removePiece && !gameBoard.isLocalPlayerPieceAt(Convert.ToInt32(gameObject.name)))
+                    //{
+                    //    Debug.Log("remove piece index: " + gameObject.name);
+                    //}
                 }
                 break;
             case 2:

@@ -43,7 +43,7 @@ public class Board : MonoBehaviour
             return false;
     }
 
-    public Board getInstance
+    public static Board getInstance
     {
         get
         {
@@ -108,11 +108,15 @@ public class Board : MonoBehaviour
     {
         if (isLocalPlayer)
         {
+            Debug.Log("removing piece: " + playerOne[index - 1]);
             playerOne[index - 1] = false;
+            Debug.Log("removing piece: " + playerOne[index - 1]);
         }
         else
         {
+            Debug.Log("removing piece: " + playerTwo[index - 1]);
             playerTwo[index - 1] = false;
+            Debug.Log("removing piece: " + playerTwo[index - 1]);
         }
     }
 
@@ -120,7 +124,6 @@ public class Board : MonoBehaviour
     {
         if (App.isLocalPlayerTurn)
         {
-            Debug.Log("piece placed at: " + (index - 1));
             playerOne[index - 1] = true;
         }
         else

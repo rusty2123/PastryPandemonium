@@ -6,8 +6,11 @@ public class GamePiece : MonoBehaviour
 {
 
     public GameObject gamePiece;
+    public Game game = Game.gameInstance;
 
-    //public static int location = 0;
+    public int location = 0;
+
+    public string owner = "";
 
     // Use this for initialization
     void Start()
@@ -23,13 +26,12 @@ public class GamePiece : MonoBehaviour
 
     public void OnMouseDown()
     {
-        if (App.removePiece && gamePiece.tag == "opponent")
+        if (App.removePiece && owner == "opponent")
         {
+            App.pieceToRemove = location;
             Destroy(gamePiece);
+            //game.removePiece(location);
             App.removePiece = false;
-            //now update gameboard where the piece was selected
         }
-
-        App.selectedGamePiece = gamePiece.name[gamePiece.name.Length - 1];
     }
 }

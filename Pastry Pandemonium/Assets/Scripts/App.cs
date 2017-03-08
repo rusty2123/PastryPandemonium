@@ -40,7 +40,7 @@ public class App : MonoBehaviour
     private GameObject clickedSecond = null;
 
     //goal is to use selectedGamePiece to indicate which piece is clicked when deciding when to remove or move a piece
-    public static int from, to, selectedGamePiece = 0;
+    public static int from, to, pieceToRemove;
 
     #endregion
 
@@ -299,15 +299,15 @@ public class App : MonoBehaviour
     {
         for (int i = 1; i < 10; i++)
         {
-
             piece = Instantiate(localCharacter) as GameObject;
             piecePosition = GameObject.Find("L-" + i);
             piece.transform.position = piecePosition.transform.position;
             piece.SetActive(true);
             piece.tag = "local";
             piece.name = "local" + (i).ToString();
+            piece.GetComponent<GamePiece>().location = 0;
+            piece.GetComponent<GamePiece>().owner = "local";
             localPieces[i - 1] = piece;
-
         }
 
     }
@@ -323,12 +323,14 @@ public class App : MonoBehaviour
             piece.SetActive(true);
             piece.name = "opponent" + (i).ToString();
             piece.tag = "opponent";
+            piece.GetComponent<GamePiece>().location = 0;
+            piece.GetComponent<GamePiece>().owner = "opponent";
             opponentPieces[i - 1] = piece;
 
         }
     }
 
-    private void animationPhaseOne(GameObject gamePiece,GameObject startPosition, GameObject endPosition)
+    private void animationPhaseOne(GameObject gamePiece, GameObject startPosition, GameObject endPosition)
     {
         shadow.SetActive(true);
         gamePiece.transform.position = startPosition.transform.position;
@@ -349,6 +351,8 @@ public class App : MonoBehaviour
 		LeanTween.move(shadow, new Vector3 (endPosition.transform.position.x,
 			endPosition.transform.position.y,
 			endPosition.transform.position.z+2), 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.93f);
+
+        gamePiece.GetComponent<GamePiece>().location = Convert.ToInt32(endPosition.name);
 
     }
 
@@ -400,6 +404,7 @@ public class App : MonoBehaviour
                 startPosition = localPieces[localIndex];
                 endPosition = GameObject.Find(selected.ToString());
                 animationPhaseOne(startPosition, startPosition, endPosition);
+                //Debug.Log("location: " + localPieces[localIndex].GetComponent<GamePiece>().location);
                 localIndex++;
                 outOfBoardLocal--;
                 game.placePiece(selected);
@@ -410,12 +415,7 @@ public class App : MonoBehaviour
                     //TODO: remove piece
                     Debug.Log("created mill");
 
-                    StartCoroutine(getSelectedGamePiece());
-
-                    if (!Player.isSinglePlayer)
-                    {
-                        //networkManager.removePiece();
-                    }
+                    StartCoroutine(getPieceToRemove());
                 }
                 //opponent's turn
                 changePlayer();
@@ -449,43 +449,17 @@ public class App : MonoBehaviour
         }
     }
 
-    IEnumerator getSelectedGamePiece()
+    IEnumerator getPieceToRemove()
     {
         removePiece = true;
 
         yield return new WaitUntil(() => !removePiece);
 
-        Debug.Log("selected piece to remove: " + selectedGamePiece);
-    }
+        game.removePiece(pieceToRemove);
 
-    private void getPieceToRemove()
-    {
-        if (isLocalPlayerTurn)
+        if (!Player.isSinglePlayer)
         {
-            //choose an OPPONENT's piece to remove
-            float elapsedTime = 0.0f;
-
-            while (selectedGamePiece == 0)
-            {
-                elapsedTime += Time.deltaTime;
-                if (elapsedTime >= 10.0f)
-                {
-                    break;
-                }
-            }
-
-            
-            game.removePiece(selectedGamePiece);
-            //if it's a network game then send the index over the network too
-            if (!isSinglePlayer)
-            {
-                networkManager.removePiece(selectedGamePiece);
-            }
-        }
-        else if (!isLocalPlayerTurn)
-        {
-            //if it's a network game then recieve the index from the network
-            //else if it's the ai then i don't know what to do
+            networkManager.removePiece(pieceToRemove);
         }
     }
 

@@ -14,7 +14,7 @@ public class Game : Photon.MonoBehaviour
     public static Game gameInstance = null;
 
     private int input, pieceCount, moveToIndex;
-    private Board gameBoard = new Board();
+    private Board gameBoard = Board.getInstance;
     private MoveLookup gameBoardMoves = new MoveLookup();
 
     public static Player localPlayer;
@@ -50,47 +50,6 @@ public class Game : Photon.MonoBehaviour
         gameBoard.placePiece(index);
 
     }
-
-    //public void UpdatePlacePiece()
-    //{
-    //    if (!photonView.isMine)
-    //    {
-    //        return;
-    //    }
-    //    if (PhotonNetwork.offlineMode)
-    //    {
-    //        ai place piece
-    //            }
-    //    send move
-    //            else
-    //            {
-    //        photonView.RPC(
-    //            "placePiece",
-    //            PhotonTargets.OthersBuffered,
-    //            moveToIndex
-    //            );
-    //    }
-
-
-    //public void placePiece()
-    //{
-    //    Debug.Log("place piece");
-
-    //   int index = gameSpaces.getIndexClicked();
-
-    //    Debug.Log(index);
-
-    //    if (gameBoard.isEmptySpotAt(index))
-    //    {
-    //        gameBoard.placePiece(index);
-
-    //        if (createdMill(index))
-    //        {
-    //            removePiece();
-    //        }
-    //        appInstance.changePlayer();
-    //    }
-    //}
 
     public bool gameOver()
     {
@@ -197,15 +156,14 @@ public class Game : Photon.MonoBehaviour
 
     public void removePiece(int index)
     {
-        Debug.Log("remove piece");
 
         //something here is going out of range
         //this condition makes sure it's an opponent's piece, and that the piece isn't part of a mill unless all opponent's pieces are part of a mill
-        if (gameBoard.isLocalPlayerPieceAt(index) == true
-            && (!piecePartOfMill(index) || allPiecesPartOfMill()))
-        {
+        //if (gameBoard.isLocalPlayerPieceAt(index) == true
+        //    && (!piecePartOfMill(index) || allPiecesPartOfMill()))
+        //{
             gameBoard.removePiece(!App.isLocalPlayerTurn, index);
-        }
+        //}
     }
 
     public bool createdMill(int to)

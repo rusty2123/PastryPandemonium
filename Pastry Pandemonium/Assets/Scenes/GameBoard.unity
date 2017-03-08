@@ -252,6 +252,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gamePiece: {fileID: 41723249}
+  game: {fileID: 1831984957}
+  location: 0
+  owner: 
 --- !u!1 &136911998
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +472,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gamePiece: {fileID: 260187544}
+  game: {fileID: 1831984957}
+  location: 0
+  owner: 
 --- !u!1 &369919247
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,6 +838,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gamePiece: {fileID: 499816619}
+  game: {fileID: 1831984957}
+  location: 0
+  owner: 
 --- !u!1 &513017786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1600,6 +1609,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gamePiece: {fileID: 786462291}
+  game: {fileID: 1831984957}
+  location: 0
+  owner: 
 --- !u!1 &862476365
 GameObject:
   m_ObjectHideFlags: 0
@@ -2927,6 +2939,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gamePiece: {fileID: 1837875798}
+  game: {fileID: 1831984957}
+  location: 0
+  owner: 
 --- !u!1 &1882621334
 GameObject:
   m_ObjectHideFlags: 0
@@ -3468,6 +3483,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gamePiece: {fileID: 2063266126}
+  game: {fileID: 1831984957}
+  location: 0
+  owner: 
 --- !u!1 &2078356845
 GameObject:
   m_ObjectHideFlags: 0
