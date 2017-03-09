@@ -13,21 +13,21 @@ public class HelpExitButtons : MonoBehaviour {
 	{
 		if (current.name != "background") {
 			//Scales menu options to indicate that you can click on them
-			LeanTween.scale (current, new Vector3 (.2f, .2f, .2f), .075f);
+			LeanTween.scale (current, new Vector3 (.37f, .37f, .37f), .075f);
 		}
 	}
 	public void OnMouseExit()
 	{
 		if (current.name != "background") {
 			//Sets menu options back to their original size
-			LeanTween.scale (current, new Vector3 (0.1188901f, 0.1188901f, 0.1188901f), .05f);
+			LeanTween.scale (current, new Vector3 (0.2958171f, 0.2958171f, 0.2958171f), .05f);
 		}
 	}
 
 	public void OnMouseUp()
 	{
 		if (current.name != "background") {
-			LeanTween.scale (current, new Vector3 (0.1188901f, 0.1188901f, 0.1188901f), .05f);
+			LeanTween.scale (current, new Vector3 (0.2958171f, 0.2958171f, 0.2958171f), .05f);
 			if (current.name == "exitButton") {
 				Application.Quit ();
 				Debug.Log ("quit application");
