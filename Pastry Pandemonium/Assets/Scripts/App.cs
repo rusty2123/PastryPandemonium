@@ -69,7 +69,7 @@ public class App : MonoBehaviour
 		turnPositionLeft = GameObject.Find("TurnIndicator1");
 		turnPositionRight = GameObject.Find("TurnIndicator2");
 	
-		setUpTurnIndicator ();
+		//setUpTurnIndicator ();
 
         if (isSinglePlayer)
         {
@@ -353,7 +353,6 @@ public class App : MonoBehaviour
 			endPosition.transform.position.z+2), 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.93f);
 
         gamePiece.GetComponent<GamePiece>().location = Convert.ToInt32(endPosition.name);
-
     }
 
     IEnumerator executeAIMovePhaseOne()
@@ -440,6 +439,11 @@ public class App : MonoBehaviour
                 StartCoroutine(getNetworkPlacement());
                 waitForNetworkPlaceIndex();
                 Debug.Log("recieved: " + NetworkGameManager.placeIndex);
+
+                //recieve an index to remove if opponent created a mill
+                StartCoroutine(getNetworkRemove());
+                waitForNetworkRemoveIndex();
+                Debug.Log("recieved index to remove: " + NetworkGameManager.removeIndex);
             }
         }
         if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
@@ -763,6 +767,14 @@ public class App : MonoBehaviour
         {
             byte[] selected = (byte[])content;
             NetworkGameManager.removeIndex = selected[0];
+            foreach (GameObject gObj in localPieces)
+            {
+                if(gObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
+                {
+                    Destroy(gObj);
+                    break;
+                }
+            }
         }
         //if eventCode is 2, then it's movePiece
         else if(eventCode == 2)
@@ -813,6 +825,8 @@ public class App : MonoBehaviour
     IEnumerator getNetworkRemove()
     {
         yield return new WaitUntil(() => NetworkGameManager.removeIndex != 0);
+
+        //destroy removed piece
     }
 
     private void waitForNetworkRemoveIndex()
