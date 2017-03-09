@@ -30,7 +30,6 @@ public class GamePiece : MonoBehaviour
         {
             App.pieceToRemove = location;
             Destroy(gamePiece);
-            //game.removePiece(location);
             App.removePiece = false;
         }
     }

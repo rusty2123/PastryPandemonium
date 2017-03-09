@@ -162,7 +162,7 @@ public class Game : Photon.MonoBehaviour
         //if (gameBoard.isLocalPlayerPieceAt(index) == true
         //    && (!piecePartOfMill(index) || allPiecesPartOfMill()))
         //{
-            gameBoard.removePiece(!App.isLocalPlayerTurn, index);
+            gameBoard.removePiece(index);
         //}
     }
 

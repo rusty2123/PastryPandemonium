@@ -55,9 +55,17 @@ public class NetworkGameManager : Photon.PunBehaviour
         PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 
+    public void placePiece(int i, int j)
+    {
+        //code 1 for placing piece and removing a piece
+        byte code = 1;
+        byte[] content = new byte[] { (byte)i, (byte)j };
+        PhotonNetwork.RaiseEvent(code, content, true, null);
+    }
+
     public void removePiece(int i)
     {
-        //code 0 for placing piece
+        //code 1 for removing piece
         byte code = 1;
         //data must be sent in byte array
         byte[] content = new byte[] { (byte)i };
@@ -66,7 +74,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public void movePiece(int from, int to)
     {
-        //code 0 for placing piece
+        //code 2 for moving piece
         byte code = 2;
         //data must be sent in byte array
         byte[] content = new byte[] { (byte)from, (byte)to };
@@ -75,7 +83,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public void flyPiece(int from, int to)
     {
-        //code 0 for placing piece
+        //code 3 for flying piece
         byte code = 3;
         //data must be sent in byte array
         byte[] content = new byte[] { (byte)from, (byte)to };

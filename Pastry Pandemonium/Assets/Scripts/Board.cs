@@ -104,9 +104,9 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void removePiece(bool isLocalPlayer, int index)
+    public void removePiece(int index)
     {
-        if (isLocalPlayer)
+        if (!App.isLocalPlayerTurn)
         {
             Debug.Log("removing piece: " + playerOne[index - 1]);
             playerOne[index - 1] = false;
