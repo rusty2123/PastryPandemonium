@@ -45,9 +45,10 @@ public class Game : Photon.MonoBehaviour
 
     }
 
-    public void placePiece(int index, bool isLocalPiece)
+    public void placePiece(int index)
     {
-        gameBoard.placePiece(index, isLocalPiece);
+        gameBoard.placePiece(index);
+
     }
 
     public bool gameOver()
@@ -153,7 +154,7 @@ public class Game : Photon.MonoBehaviour
         return false;
     }
 
-    public void removePiece(int index, bool isLocalPiece)
+    public void removePiece(int index)
     {
 
         //something here is going out of range
@@ -161,7 +162,7 @@ public class Game : Photon.MonoBehaviour
         //if (gameBoard.isLocalPlayerPieceAt(index) == true
         //    && (!piecePartOfMill(index) || allPiecesPartOfMill()))
         //{
-            gameBoard.removePiece(index, isLocalPiece);
+            gameBoard.removePiece(index);
         //}
     }
 
@@ -173,6 +174,7 @@ public class Game : Photon.MonoBehaviour
               (gameBoard.isLocalPlayerPieceAt(entry.Item2) &&
                gameBoard.isLocalPlayerPieceAt(entry.Item3)))
             {
+                Debug.Log("created mill");
                 return true;
             }
         }

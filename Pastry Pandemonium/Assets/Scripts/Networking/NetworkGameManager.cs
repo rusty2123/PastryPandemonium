@@ -9,7 +9,6 @@ public class NetworkGameManager : Photon.PunBehaviour
 {
 
     public Game game = Game.gameInstance;
-    public App app;
     public static Player localPlayer, opponentPlayer;
     public static int placeIndex = 0, removeIndex = 0, moveFromIndex = 0, moveToIndex = 0, flyFromIndex = 0, flyToIndex = 0;
 
@@ -45,12 +44,6 @@ public class NetworkGameManager : Photon.PunBehaviour
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-    }
-
-    public void changePlayer()
-    {
-        PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("changePlayerRPC", PhotonTargets.All);
     }
 
     public void placePiece(int i)
@@ -120,19 +113,6 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     #region RPCs
 
-    [PunRPC]
-    void changePlayerRPC()
-    {
-        if (App.isLocalPlayerTurn) // also check if it a draw ?
-        {
-            App.isLocalPlayerTurn = false;
-        }
-        else if (!App.isLocalPlayerTurn)
-        {
-            App.isLocalPlayerTurn = true;
-        }
-        Debug.Log("changed player");
-    }
 
     #endregion
 }

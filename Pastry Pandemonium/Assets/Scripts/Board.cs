@@ -104,30 +104,30 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void removePiece(int index, bool isLocalPiece)
+    public void removePiece(int index)
     {
-        if (isLocalPiece)
+        if (!App.isLocalPlayerTurn)
         {
-            Debug.Log("removing local piece");
+            Debug.Log("removing piece: " + playerOne[index - 1]);
             playerOne[index - 1] = false;
+            Debug.Log("removing piece: " + playerOne[index - 1]);
         }
         else
         {
-            Debug.Log("removing opponent piece");
+            Debug.Log("removing piece: " + playerTwo[index - 1]);
             playerTwo[index - 1] = false;
+            Debug.Log("removing piece: " + playerTwo[index - 1]);
         }
     }
 
-    public void placePiece(int index, bool isLocalPiece)
+    public void placePiece(int index)
     {
-        if (isLocalPiece)
+        if (App.isLocalPlayerTurn)
         {
-            Debug.Log("local piece placed");
             playerOne[index - 1] = true;
         }
         else
         {
-            Debug.Log("opponent piece placed");
             playerTwo[index - 1] = true;
         }
     }

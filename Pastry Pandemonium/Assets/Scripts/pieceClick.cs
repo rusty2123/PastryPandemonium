@@ -37,7 +37,7 @@ public class pieceClick : MonoBehaviour
        switch (App.phase)
         {
             case 1:
-                if (App.isLocalPlayerTurn && !App.removePiece)
+                if (App.isLocalPlayerTurn)
                 {
                     gameObj.GetComponent<App>().piecePlacementPhase(Convert.ToInt32(gameObject.name));
                     //if (App.removePiece && !gameBoard.isLocalPlayerPieceAt(Convert.ToInt32(gameObject.name)))
