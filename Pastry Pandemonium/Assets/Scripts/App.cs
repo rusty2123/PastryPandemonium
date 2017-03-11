@@ -376,65 +376,82 @@ public class App : MonoBehaviour
         animationPhaseOne(startPosition, startPosition, endPosition);
         opponentIndex++;
         outOfBoardOpponent--;
-        game.placePiece(to);
+        game.placePiece(to, false);
        
         print("delay");
-        changePlayer();
     }
+
+    IEnumerator localPlacePiece(int index)
+    {
+        //check to make sure the player is allowed to move there
+        if (game.validPlace(index))
+        {
+            //place the piece and update the gameboard
+            game.placePiece(index, true);
+
+            //send move over network if it's a networked game
+            if (!Player.isSinglePlayer)
+            {
+                networkManager.placePiece(index);
+            }
+
+            //play move animation
+            startPosition = localPieces[localIndex];
+            endPosition = GameObject.Find(index.ToString());
+            animationPhaseOne(startPosition, startPosition, endPosition);
+            localIndex++;
+            outOfBoardLocal--;
+
+            //check if the placement created a mill
+            if (game.createdMill(index))
+            {
+                //allow the local player to select an opponent's piece to remove
+                yield return StartCoroutine("getPieceToRemove");
+            }
+
+            if (!Player.isSinglePlayer)
+            {
+                Debug.Log("your turn: " + isLocalPlayerTurn);
+                networkManager.changePlayer();
+            }
+        }
+        else
+        {
+            Debug.Log("please select another");
+        }
+    }
+
+    IEnumerator opponentPlacePiece()
+    {
+        Debug.Log("your turn: " + isLocalPlayerTurn);
+
+        //get move from ai
+        if (Player.isSinglePlayer)
+        {
+            //check to make sure the player is allowed to move there
+            yield return StartCoroutine("executeAIMovePhaseOne");
+        }
+        //get move from network
+        else if (!Player.isSinglePlayer)
+        {
+            //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
+            yield return StartCoroutine("getNetworkPlacement");
+        }
+    }
+
 
     public void piecePlacementPhase(int selected)
     {
         //if it's the local player's turn, and there are still pieces left to place
         if (isLocalPlayerTurn && outOfBoardLocal > 0)
         {
-            //check to make sure the player is allowed to move there
-            if (game.validPlace(selected))
-            {
-                //place the piece and update the gameboard
-                game.placePiece(selected);
-
-                //send move over network if it's a networked game
-                if (!Player.isSinglePlayer)
-                {
-                    networkManager.placePiece(selected);
-                }
-
-                //check if the placement created a mill
-                if (game.createdMill(selected))
-                {
-                    //allow the local player to select an opponent's piece to remove
-                    StartCoroutine(getPieceToRemove());
-                    //need to figure out how to pause the game until this is true
-                }
-
-                //play move animation (i would like this to be it's own function)
-                startPosition = localPieces[localIndex];
-                endPosition = GameObject.Find(selected.ToString());
-                animationPhaseOne(startPosition, startPosition, endPosition);
-                localIndex++;
-                outOfBoardLocal--;
-
-
-                changePlayer();
-            }
-            else
-                Debug.Log("please select another");
+            StartCoroutine(localPlacePiece(selected));
         }
+        
         //get move from AI or network
         if ((!isLocalPlayerTurn || selected == -1) && outOfBoardOpponent > 0)
         {
-            //get move from ai
-            if (Player.isSinglePlayer)
-            {
-                //check to make sure the player is allowed to move there
-                StartCoroutine(executeAIMovePhaseOne());
-            }
-            //get move from network
-            else if(!Player.isSinglePlayer)
-            {
-                //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
-                StartCoroutine(getNetworkPlacement());
-            }
+            StartCoroutine(opponentPlacePiece());
         }
         if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
         {
@@ -450,7 +467,8 @@ public class App : MonoBehaviour
         yield return new WaitUntil(() => !removePiece);
 
         //pieceToRemove is set by the user clicking on a piece in GamePiece.cs
-        game.removePiece(pieceToRemove);
+        //second parameter is false because we're removing an opponent's piece
+        game.removePiece(pieceToRemove, false);
 
         if (!Player.isSinglePlayer)
         {
@@ -501,6 +519,7 @@ public class App : MonoBehaviour
 
             }
         }
+        Debug.Log("changed player");
     }
 
     private void Update()
@@ -785,7 +804,7 @@ public class App : MonoBehaviour
         Debug.Log("recieved place: " + NetworkGameManager.placeIndex);
 
         //update gameboard
-        game.placePiece(NetworkGameManager.placeIndex);
+        game.placePiece(NetworkGameManager.placeIndex, false);
 
         //run the animation
         if (remainingOpponent > 0)
@@ -801,11 +820,8 @@ public class App : MonoBehaviour
         //i first have to check if it creates a mill so i can get the remove index before the animation
         if (game.createdMill(NetworkGameManager.placeIndex))
         {
-            Debug.Log("opponent created mill: " + game.createdMill(NetworkGameManager.placeIndex));
             yield return StartCoroutine(getNetworkRemove());
         }
-
-        changePlayer();
     }
 
     IEnumerator getNetworkRemove()
@@ -816,18 +832,16 @@ public class App : MonoBehaviour
 
         Debug.Log("recieved remove: " + NetworkGameManager.removeIndex);
 
-        //i have to check if it creates a mill a second time so i can delete the object
-        if (game.createdMill(NetworkGameManager.placeIndex))
+        Debug.Log("opponent created mill");
+
+        foreach (GameObject gameObj in localPieces)
         {
-            foreach (GameObject gameObj in localPieces)
+            if (gameObj != null && gameObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
             {
-                if (gameObj != null && gameObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
-                {
-                    yield return new WaitForSeconds(1);
-                    Destroy(gameObj);
-                    game.removePiece(NetworkGameManager.removeIndex);
-                    Debug.Log("removed.");
-                }
+                yield return new WaitForSeconds(1);
+                Destroy(gameObj);
+                game.removePiece(NetworkGameManager.removeIndex, true);
+                Debug.Log("removed.");
             }
         }
     }
@@ -887,7 +901,5 @@ public class App : MonoBehaviour
     #endregion
 
 }
-
-
 
 

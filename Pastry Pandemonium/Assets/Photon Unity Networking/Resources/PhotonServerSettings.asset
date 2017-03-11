@@ -47,4 +47,5 @@ MonoBehaviour:
   - placePieceRPC
   - sendInteger
   - sendIntRPC
+  - changePlayerRPC
   DisableAutoOpenWizard: 1
