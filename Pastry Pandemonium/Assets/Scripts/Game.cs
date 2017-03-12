@@ -23,7 +23,7 @@ public class Game : Photon.MonoBehaviour
 
 
 
-    private List<Tuple<int, int>> moves; 
+    private List<Tuple<int, int>> moves;
     private List<Tuple<int, int, int>> mills;
 
 
@@ -45,10 +45,9 @@ public class Game : Photon.MonoBehaviour
 
     }
 
-    public void placePiece(int index)
+    public void placePiece(int index, bool isLocalPiece)
     {
-        gameBoard.placePiece(index);
-
+        gameBoard.placePiece(index, isLocalPiece);
     }
 
     public bool gameOver()
@@ -149,12 +148,12 @@ public class Game : Photon.MonoBehaviour
         if (gameBoard.isEmptySpotAt(index))
         {
             return true;
-        }  
-       
+        }
+
         return false;
     }
 
-    public void removePiece(int index)
+    public void removePiece(int index, bool isLocalPiece)
     {
 
         //something here is going out of range
@@ -162,7 +161,7 @@ public class Game : Photon.MonoBehaviour
         //if (gameBoard.isLocalPlayerPieceAt(index) == true
         //    && (!piecePartOfMill(index) || allPiecesPartOfMill()))
         //{
-            gameBoard.removePiece(index);
+        gameBoard.removePiece(index, isLocalPiece);
         //}
     }
 
@@ -174,7 +173,6 @@ public class Game : Photon.MonoBehaviour
               (gameBoard.isLocalPlayerPieceAt(entry.Item2) &&
                gameBoard.isLocalPlayerPieceAt(entry.Item3)))
             {
-                Debug.Log("created mill");
                 return true;
             }
         }

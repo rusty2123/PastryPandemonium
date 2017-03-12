@@ -14,8 +14,8 @@ public class App : MonoBehaviour
 
     private GameObject startPosition, endPosition, piecePosition, board, characterLocalPlayer, characterOpponentPlayer, piece;
 
-	private GameObject turnPositionLeft, turnPositionRight, muffinTurnOff, muffinTurnOn, cupcakeTurnOff, cupcakeTurnOn;
-	private string firstPlayer;
+    private GameObject turnPositionLeft, turnPositionRight, muffinTurnOff, muffinTurnOn, cupcakeTurnOff, cupcakeTurnOn;
+    private string firstPlayer;
 
     public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake;
 
@@ -62,15 +62,15 @@ public class App : MonoBehaviour
         localPlayer = gameObject.AddComponent<Player>();
         opponentPlayer = gameObject.AddComponent<Player>();
 
-	
 
 
-		muffinTurnOn = GameObject.Find("muffinTurn");
-		cupcakeTurnOn = GameObject.Find("cupcakeTurn");
-		turnPositionLeft = GameObject.Find("TurnIndicator1");
-		turnPositionRight = GameObject.Find("TurnIndicator2");
-	
-		//setUpTurnIndicator ();
+
+        muffinTurnOn = GameObject.Find("muffinTurn");
+        cupcakeTurnOn = GameObject.Find("cupcakeTurn");
+        turnPositionLeft = GameObject.Find("TurnIndicator1");
+        turnPositionRight = GameObject.Find("TurnIndicator2");
+
+        //setUpTurnIndicator ();
 
         if (isSinglePlayer)
         {
@@ -82,16 +82,16 @@ public class App : MonoBehaviour
                 isLocalPlayerTurn = true;
 
                 //change UI turn indicator
-				changeTurnIndicator(true);
+                changeTurnIndicator(true);
             }
             else
             {
                 Debug.Log("ai goes first");
                 isLocalPlayerTurn = false;
                 //start ai by passing it an invalid move
-                
+
                 //change UI turn indicator
-				changeTurnIndicator(false);
+                changeTurnIndicator(false);
             }
             setUpPlayerPieces();
         }
@@ -100,79 +100,82 @@ public class App : MonoBehaviour
         {
             if (Player.firstPlayer)
             {
-				changeTurnIndicator(true);
+                changeTurnIndicator(true);
             }
             else
             {
-				changeTurnIndicator(false);
+                changeTurnIndicator(false);
             }
             setUpMultiPlayerPieces();
         }
         startGame();
     }
 
-	private void setUpTurnIndicator()
-	{
-		muffinTurnOff = GameObject.Find("muffinTurnOff");
-		cupcakeTurnOff = GameObject.Find("cupcakeTurnOff");
+    private void setUpTurnIndicator()
+    {
+        muffinTurnOff = GameObject.Find("muffinTurnOff");
+        cupcakeTurnOff = GameObject.Find("cupcakeTurnOff");
 
-		if (SinglePlayerMenu.selectedCharacter.Contains("Muffin")) 
-			{
-			muffinTurnOff.transform.position = turnPositionRight.transform.position;
-			cupcakeTurnOff.transform.position = turnPositionLeft.transform.position;
-			firstPlayer = "muffin";
+        if (SinglePlayerMenu.selectedCharacter.Contains("Muffin"))
+        {
+            muffinTurnOff.transform.position = turnPositionRight.transform.position;
+            cupcakeTurnOff.transform.position = turnPositionLeft.transform.position;
+            firstPlayer = "muffin";
 
-			} 
-		else 
-			{
-			cupcakeTurnOff.transform.position = turnPositionRight.transform.position;
-			muffinTurnOff.transform.position = turnPositionLeft.transform.position;
-			firstPlayer = "cupcake";
-			}
+        }
+        else
+        {
+            cupcakeTurnOff.transform.position = turnPositionRight.transform.position;
+            muffinTurnOff.transform.position = turnPositionLeft.transform.position;
+            firstPlayer = "cupcake";
+        }
 
-		cupcakeTurnOn.transform.position = new Vector3(cupcakeTurnOff.transform.position.x+2,
-			cupcakeTurnOff.transform.position.y+2, 
-			cupcakeTurnOff.transform.position.z - 3f);
+        cupcakeTurnOn.transform.position = new Vector3(cupcakeTurnOff.transform.position.x + 2,
+            cupcakeTurnOff.transform.position.y + 2,
+            cupcakeTurnOff.transform.position.z - 3f);
 
-		muffinTurnOn.transform.position = new Vector3(muffinTurnOff.transform.position.x-10,
-			muffinTurnOff.transform.position.y+5, 
-			muffinTurnOff.transform.position.z - 3f);
-	}
+        muffinTurnOn.transform.position = new Vector3(muffinTurnOff.transform.position.x - 10,
+            muffinTurnOff.transform.position.y + 5,
+            muffinTurnOff.transform.position.z - 3f);
+    }
 
-	private void changeTurnIndicator(bool firstPlayerTurn)
-	{
+    private void changeTurnIndicator(bool firstPlayerTurn)
+    {
 
-		if (firstPlayerTurn) 
-		{
-			if (firstPlayer == "muffin") 
-			{
-				muffinTurnOn.GetComponent<Renderer> ().enabled = true;
-				cupcakeTurnOn.GetComponent<Renderer> ().enabled = false;
-			} 
-			else 
-			{
-				muffinTurnOn.GetComponent<Renderer> ().enabled = false;
-				cupcakeTurnOn.GetComponent<Renderer> ().enabled = true;
-			}
-		} 
-		else 
-		{
+        if (firstPlayerTurn)
+        {
+            if (firstPlayer == "muffin")
+            {
+                muffinTurnOn.GetComponent<Renderer>().enabled = true;
+                cupcakeTurnOn.GetComponent<Renderer>().enabled = false;
+            }
+            else
+            {
+                muffinTurnOn.GetComponent<Renderer>().enabled = false;
+                cupcakeTurnOn.GetComponent<Renderer>().enabled = true;
+            }
+        }
+        else
+        {
 
-			if (firstPlayer == "muffin") {
-				muffinTurnOn.GetComponent<Renderer> ().enabled = false;
-				cupcakeTurnOn.GetComponent<Renderer> ().enabled = true;
-			} else {
-				muffinTurnOn.GetComponent<Renderer> ().enabled = true;
-				cupcakeTurnOn.GetComponent<Renderer> ().enabled = false;
-			}
+            if (firstPlayer == "muffin")
+            {
+                muffinTurnOn.GetComponent<Renderer>().enabled = false;
+                cupcakeTurnOn.GetComponent<Renderer>().enabled = true;
+            }
+            else
+            {
+                muffinTurnOn.GetComponent<Renderer>().enabled = true;
+                cupcakeTurnOn.GetComponent<Renderer>().enabled = false;
+            }
 
-		}
+        }
 
-	}
+    }
 
     private void startGame()
     {
-        if(isLocalPlayerTurn)
+        if (isLocalPlayerTurn)
         {
 
         }
@@ -336,10 +339,10 @@ public class App : MonoBehaviour
     {
         shadow.SetActive(true);
         gamePiece.transform.position = startPosition.transform.position;
-        
-		shadow.transform.position = new Vector3(startPosition.transform.position.x, 
-			startPosition.transform.position.y,
-			startPosition.transform.position.z+2);
+
+        shadow.transform.position = new Vector3(startPosition.transform.position.x,
+            startPosition.transform.position.y,
+            startPosition.transform.position.z + 2);
 
         //scale piece
         LeanTween.scale(gamePiece, new Vector3(.65f, .65f, .65f), .6f).setDelay(.2f);
@@ -350,9 +353,9 @@ public class App : MonoBehaviour
         LeanTween.move(gamePiece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.9f);
 
         //Move shadow
-		LeanTween.move(shadow, new Vector3 (endPosition.transform.position.x,
-			endPosition.transform.position.y,
-			endPosition.transform.position.z+2), 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.93f);
+        LeanTween.move(shadow, new Vector3(endPosition.transform.position.x,
+            endPosition.transform.position.y,
+            endPosition.transform.position.z + 2), 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.93f);
 
         gamePiece.GetComponent<GamePiece>().location = Convert.ToInt32(endPosition.name);
     }
@@ -360,10 +363,10 @@ public class App : MonoBehaviour
     IEnumerator executeAIMovePhaseOne()
     {
         yield return new WaitForSeconds(4);
-        
-                int[] move = opponentPlayer.getAIMove();
 
-                to = move[1];
+        int[] move = opponentPlayer.getAIMove();
+
+        to = move[1];
 
         if (game.validPlace(to))
         {
@@ -376,65 +379,80 @@ public class App : MonoBehaviour
         animationPhaseOne(startPosition, startPosition, endPosition);
         opponentIndex++;
         outOfBoardOpponent--;
-        game.placePiece(to);
-       
+        game.placePiece(to, false);
+
         print("delay");
-        changePlayer();
     }
+
+    IEnumerator localPlacePiece(int index)
+    {
+        //check to make sure the player is allowed to move there
+        if (game.validPlace(index))
+        {
+            //place the piece and update the gameboard
+            game.placePiece(index, true);
+
+            //send move over network if it's a networked game
+            if (!Player.isSinglePlayer)
+            {
+                networkManager.placePiece(index);
+            }
+
+            //play move animation
+            startPosition = localPieces[localIndex];
+            endPosition = GameObject.Find(index.ToString());
+            animationPhaseOne(startPosition, startPosition, endPosition);
+            localIndex++;
+            outOfBoardLocal--;
+
+            //check if the placement created a mill
+            if (game.createdMill(index))
+            {
+                //allow the local player to select an opponent's piece to remove
+                yield return StartCoroutine("getPieceToRemove");
+            }
+
+            Debug.Log("your turn: " + isLocalPlayerTurn);
+            changePlayer();
+            networkManager.changePlayer();
+        }
+        else
+        {
+            Debug.Log("please select another");
+        }
+    }
+
+    IEnumerator opponentPlacePiece()
+    {
+        Debug.Log("your turn: " + isLocalPlayerTurn);
+
+        //get move from ai
+        if (Player.isSinglePlayer)
+        {
+            //check to make sure the player is allowed to move there
+            yield return StartCoroutine("executeAIMovePhaseOne");
+        }
+        //get move from network
+        else if (!Player.isSinglePlayer)
+        {
+            //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
+            yield return StartCoroutine("waitForChangePlayer");
+        }
+    }
+
 
     public void piecePlacementPhase(int selected)
     {
         //if it's the local player's turn, and there are still pieces left to place
         if (isLocalPlayerTurn && outOfBoardLocal > 0)
         {
-            //check to make sure the player is allowed to move there
-            if (game.validPlace(selected))
-            {
-                //place the piece and update the gameboard
-                game.placePiece(selected);
-
-                //send move over network if it's a networked game
-                if (!Player.isSinglePlayer)
-                {
-                    networkManager.placePiece(selected);
-                }
-
-                //check if the placement created a mill
-                if (game.createdMill(selected))
-                {
-                    //allow the local player to select an opponent's piece to remove
-                    StartCoroutine(getPieceToRemove());
-                    //need to figure out how to pause the game until this is true
-                }
-
-                //play move animation (i would like this to be it's own function)
-                startPosition = localPieces[localIndex];
-                endPosition = GameObject.Find(selected.ToString());
-                animationPhaseOne(startPosition, startPosition, endPosition);
-                localIndex++;
-                outOfBoardLocal--;
-
-
-                changePlayer();
-            }
-            else
-                Debug.Log("please select another");
+            StartCoroutine(localPlacePiece(selected));
         }
+
         //get move from AI or network
         if ((!isLocalPlayerTurn || selected == -1) && outOfBoardOpponent > 0)
         {
-            //get move from ai
-            if (Player.isSinglePlayer)
-            {
-                //check to make sure the player is allowed to move there
-                StartCoroutine(executeAIMovePhaseOne());
-            }
-            //get move from network
-            else if(!Player.isSinglePlayer)
-            {
-                //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
-                StartCoroutine(getNetworkPlacement());
-            }
+            StartCoroutine(opponentPlacePiece());
         }
         if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
         {
@@ -450,12 +468,17 @@ public class App : MonoBehaviour
         yield return new WaitUntil(() => !removePiece);
 
         //pieceToRemove is set by the user clicking on a piece in GamePiece.cs
-        game.removePiece(pieceToRemove);
+        //second parameter is false because we're removing an opponent's piece
+        game.removePiece(pieceToRemove, false);
 
         if (!Player.isSinglePlayer)
         {
             networkManager.removePiece(pieceToRemove);
         }
+        Debug.Log("your turn: " + isLocalPlayerTurn);
+
+        //unknown problem where you don't receive opponent's move after you remove one of their pieces.
+        //i will try to remove a piece like the very first time, but the opponent won't be able to move until it recieves it's turn.
     }
 
     public bool getTurn()
@@ -471,11 +494,11 @@ public class App : MonoBehaviour
 
             if (Player.firstPlayer)
             {
-				changeTurnIndicator(true);
+                changeTurnIndicator(true);
             }
             else
             {
-				changeTurnIndicator(false);
+                changeTurnIndicator(false);
             }
 
         }
@@ -485,22 +508,23 @@ public class App : MonoBehaviour
 
             if (isSinglePlayer)
             {
-				changeTurnIndicator(false);
+                changeTurnIndicator(false);
 
             }
             else
             {
                 if (Player.firstPlayer)
                 {
-					changeTurnIndicator(true);
+                    changeTurnIndicator(true);
                 }
                 else
                 {
-					changeTurnIndicator(false);
+                    changeTurnIndicator(false);
                 }
 
             }
         }
+        Debug.Log("changed player");
     }
 
     private void Update()
@@ -752,28 +776,62 @@ public class App : MonoBehaviour
         {
             byte[] selected = (byte[])content;
             NetworkGameManager.placeIndex = selected[0];
+
+            Debug.Log("recieved place: " + NetworkGameManager.placeIndex);
+
+            //update gameboard
+            game.placePiece(NetworkGameManager.placeIndex, false);
+
+            //run the animation
+            if (remainingOpponent > 0)
+            {
+                to = NetworkGameManager.placeIndex;
+                startPosition = opponentPieces[opponentIndex];
+                endPosition = GameObject.Find(to.ToString());
+                animationPhaseOne(startPosition, startPosition, endPosition);
+                opponentIndex++;
+                outOfBoardOpponent--;
+            }
+
         }
         //if eventCode is 1, then it's removePiece
-        else if(eventCode == 1)
+        else if (eventCode == 1)
         {
             byte[] selected = (byte[])content;
             NetworkGameManager.removeIndex = selected[0];
+
+            Debug.Log("recieved remove: " + NetworkGameManager.removeIndex);
+
+            foreach (GameObject gameObj in localPieces)
+            {
+                if (gameObj != null && gameObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
+                {
+                    Destroy(gameObj);
+                    game.removePiece(NetworkGameManager.removeIndex, true);
+                    Debug.Log("removed.");
+                    break;
+                }
+            }
+
         }
         //if eventCode is 2, then it's movePiece
-        else if(eventCode == 2)
+        else if (eventCode == 2)
         {
             byte[] selected = (byte[])content;
             NetworkGameManager.moveFromIndex = selected[0];
             NetworkGameManager.moveToIndex = selected[1];
         }
         //if eventCode is 3, then it's flyPiece
-        else if(eventCode == 3)
+        else if (eventCode == 3)
         {
             byte[] selected = (byte[])content;
             NetworkGameManager.flyFromIndex = selected[0];
             NetworkGameManager.flyToIndex = selected[1];
         }
-
+        else if (eventCode == 4)
+        {
+            changePlayer();
+        }
     }
 
     IEnumerator getNetworkPlacement()
@@ -785,7 +843,7 @@ public class App : MonoBehaviour
         Debug.Log("recieved place: " + NetworkGameManager.placeIndex);
 
         //update gameboard
-        game.placePiece(NetworkGameManager.placeIndex);
+        game.placePiece(NetworkGameManager.placeIndex, false);
 
         //run the animation
         if (remainingOpponent > 0)
@@ -801,11 +859,9 @@ public class App : MonoBehaviour
         //i first have to check if it creates a mill so i can get the remove index before the animation
         if (game.createdMill(NetworkGameManager.placeIndex))
         {
-            Debug.Log("opponent created mill: " + game.createdMill(NetworkGameManager.placeIndex));
             yield return StartCoroutine(getNetworkRemove());
         }
-
-        changePlayer();
+        yield return StartCoroutine("waitForChangePlayer");
     }
 
     IEnumerator getNetworkRemove()
@@ -816,34 +872,24 @@ public class App : MonoBehaviour
 
         Debug.Log("recieved remove: " + NetworkGameManager.removeIndex);
 
-        //i have to check if it creates a mill a second time so i can delete the object
-        if (game.createdMill(NetworkGameManager.placeIndex))
+        Debug.Log("opponent created mill");
+
+        foreach (GameObject gameObj in localPieces)
         {
-            foreach (GameObject gameObj in localPieces)
+            if (gameObj != null && gameObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
             {
-                if (gameObj != null && gameObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
-                {
-                    yield return new WaitForSeconds(1);
-                    Destroy(gameObj);
-                    game.removePiece(NetworkGameManager.removeIndex);
-                    Debug.Log("removed.");
-                }
+                yield return new WaitForSeconds(1);
+                Destroy(gameObj);
+                game.removePiece(NetworkGameManager.removeIndex, true);
+                Debug.Log("removed.");
+                break;
             }
         }
     }
 
-    private void waitForNetworkPlaceIndex()
+    IEnumerator waitForChangePlayer()
     {
-        float elapsedTime = 0.0f;
-
-        while (NetworkGameManager.placeIndex == 0)
-        {
-            elapsedTime += Time.deltaTime;
-            if (elapsedTime >= 10.0f)
-            {
-                break;
-            }
-        }
+        yield return new WaitUntil(() => isLocalPlayerTurn);
     }
 
     IEnumerator getNetworkMove()
@@ -887,7 +933,5 @@ public class App : MonoBehaviour
     #endregion
 
 }
-
-
 
 
