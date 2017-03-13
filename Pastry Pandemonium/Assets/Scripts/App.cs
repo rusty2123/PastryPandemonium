@@ -415,6 +415,8 @@ public class App : MonoBehaviour
             Debug.Log("your turn: " + isLocalPlayerTurn);
             changePlayer();
             networkManager.changePlayer();
+
+
         }
         else
         {
@@ -463,6 +465,8 @@ public class App : MonoBehaviour
 
     IEnumerator getPieceToRemove()
     {
+        yield return new WaitForSeconds(2);
+
         removePiece = true;
 
         yield return new WaitUntil(() => !removePiece);
@@ -475,10 +479,6 @@ public class App : MonoBehaviour
         {
             networkManager.removePiece(pieceToRemove);
         }
-        Debug.Log("your turn: " + isLocalPlayerTurn);
-
-        //unknown problem where you don't receive opponent's move after you remove one of their pieces.
-        //i will try to remove a piece like the very first time, but the opponent won't be able to move until it recieves it's turn.
     }
 
     public bool getTurn()
@@ -834,58 +834,6 @@ public class App : MonoBehaviour
         }
     }
 
-    IEnumerator getNetworkPlacement()
-    {
-        NetworkGameManager.placeIndex = 0;
-
-        yield return new WaitUntil(() => NetworkGameManager.placeIndex != 0);
-
-        Debug.Log("recieved place: " + NetworkGameManager.placeIndex);
-
-        //update gameboard
-        game.placePiece(NetworkGameManager.placeIndex, false);
-
-        //run the animation
-        if (remainingOpponent > 0)
-        {
-            to = NetworkGameManager.placeIndex;
-            startPosition = opponentPieces[opponentIndex];
-            endPosition = GameObject.Find(to.ToString());
-            animationPhaseOne(startPosition, startPosition, endPosition);
-            opponentIndex++;
-            outOfBoardOpponent--;
-        }
-
-        //i first have to check if it creates a mill so i can get the remove index before the animation
-        if (game.createdMill(NetworkGameManager.placeIndex))
-        {
-            yield return StartCoroutine(getNetworkRemove());
-        }
-        yield return StartCoroutine("waitForChangePlayer");
-    }
-
-    IEnumerator getNetworkRemove()
-    {
-        NetworkGameManager.removeIndex = 0;
-
-        yield return new WaitUntil(() => NetworkGameManager.removeIndex != 0);
-
-        Debug.Log("recieved remove: " + NetworkGameManager.removeIndex);
-
-        Debug.Log("opponent created mill");
-
-        foreach (GameObject gameObj in localPieces)
-        {
-            if (gameObj != null && gameObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
-            {
-                yield return new WaitForSeconds(1);
-                Destroy(gameObj);
-                game.removePiece(NetworkGameManager.removeIndex, true);
-                Debug.Log("removed.");
-                break;
-            }
-        }
-    }
 
     IEnumerator waitForChangePlayer()
     {
