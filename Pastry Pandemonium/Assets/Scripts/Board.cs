@@ -59,14 +59,7 @@ public class Board : MonoBehaviour
     //if the local player controls the place on the board at index
     public bool isLocalPlayerPieceAt(int index)
     {
-        if (App.isLocalPlayerTurn)
-        {
-            return playerOne[index - 1];
-        }
-        else
-        {
-            return playerTwo[index - 1];
-        }
+        return playerOne[index - 1];
     }
 
     public BitArray getPlayerBoard()
@@ -124,11 +117,13 @@ public class Board : MonoBehaviour
         {
             Debug.Log("local piece placed");
             playerOne[index - 1] = true;
+            playerTwo[index - 1] = false;
         }
         else
         {
             Debug.Log("opponent piece placed");
             playerTwo[index - 1] = true;
+            playerOne[index - 1] = false;
         }
     }
 

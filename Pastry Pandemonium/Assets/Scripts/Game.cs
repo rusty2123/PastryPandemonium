@@ -173,6 +173,7 @@ public class Game : Photon.MonoBehaviour
               (gameBoard.isLocalPlayerPieceAt(entry.Item2) &&
                gameBoard.isLocalPlayerPieceAt(entry.Item3)))
             {
+                Debug.Log(entry.Item1 + " " + entry.Item2 + " " + entry.Item3);
                 return true;
             }
         }
