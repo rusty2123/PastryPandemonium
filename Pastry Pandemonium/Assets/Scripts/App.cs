@@ -33,7 +33,7 @@ public class App : MonoBehaviour
     public GameObject[] outOfBoardSpaces = new GameObject[18];
     public GameObject[] boardSpaces = new GameObject[24];
 
-    public static bool isSinglePlayer, gameOver = false, isLocalPlayerTurn, localPlayerWon, removePiece = false;
+    public static bool isSinglePlayer, gameOver = false, isLocalPlayerTurn, localPlayerWon, removePiece = false, placePiece = false;
     public static Player localPlayer, opponentPlayer;
     public static int phase = 1;
 
@@ -41,7 +41,7 @@ public class App : MonoBehaviour
     private GameObject clickedSecond = null;
 
     //goal is to use selectedGamePiece to indicate which piece is clicked when deciding when to remove or move a piece
-    public static int from, to, pieceToRemove;
+    public static int placeIndex, from, to, pieceToRemove;
 
     #endregion
 
@@ -108,7 +108,7 @@ public class App : MonoBehaviour
             }
             setUpMultiPlayerPieces();
         }
-        startGame();
+        StartCoroutine(startGame());
     }
 
     private void setUpTurnIndicator()
@@ -173,16 +173,15 @@ public class App : MonoBehaviour
 
     }
 
-    private void startGame()
+    IEnumerator startGame()
     {
-        if (isLocalPlayerTurn)
+        //18 because piecePlacementPhase is called every time it is not your turn and when it is your turn
+        for (int i = 0; i < 18; ++i)
         {
-
+            yield return StartCoroutine(piecePlacementPhase());
         }
-        else
-        {
-            piecePlacementPhase(-1);
-        }
+        phase = 2;
+        Debug.Log("phase 2");
     }
 
     public void setUpPlayerPieces()
@@ -380,34 +379,37 @@ public class App : MonoBehaviour
         opponentIndex++;
         outOfBoardOpponent--;
         game.placePiece(to, false);
-
+        changePlayer();
         print("delay");
     }
 
-    IEnumerator localPlacePiece(int index)
+    IEnumerator localPlacePiece()
     {
+        yield return StartCoroutine("getPlaceIndex");
+
         //check to make sure the player is allowed to move there
-        if (game.validPlace(index))
+        if (game.validPlace(placeIndex))
         {
             //place the piece and update the gameboard
-            game.placePiece(index, true);
+            game.placePiece(placeIndex, true);
 
             //send move over network if it's a networked game
             if (!Player.isSinglePlayer)
             {
-                networkManager.placePiece(index);
+                networkManager.placePiece(placeIndex);
             }
 
             //play move animation
             startPosition = localPieces[localIndex];
-            endPosition = GameObject.Find(index.ToString());
+            endPosition = GameObject.Find(placeIndex.ToString());
             animationPhaseOne(startPosition, startPosition, endPosition);
             localIndex++;
             outOfBoardLocal--;
 
             //check if the placement created a mill
-            if (game.createdMill(index))
+            if (game.createdMill(placeIndex))
             {
+                Debug.Log("you created mill");
                 //allow the local player to select an opponent's piece to remove
                 yield return StartCoroutine("getPieceToRemove");
             }
@@ -443,33 +445,38 @@ public class App : MonoBehaviour
     }
 
 
-    public void piecePlacementPhase(int selected)
+    IEnumerator piecePlacementPhase()
     {
         //if it's the local player's turn, and there are still pieces left to place
         if (isLocalPlayerTurn && outOfBoardLocal > 0)
         {
-            StartCoroutine(localPlacePiece(selected));
+            yield return StartCoroutine(localPlacePiece());
         }
 
         //get move from AI or network
-        if ((!isLocalPlayerTurn || selected == -1) && outOfBoardOpponent > 0)
+        if (!isLocalPlayerTurn && outOfBoardOpponent > 0)
         {
-            StartCoroutine(opponentPlacePiece());
+            yield return StartCoroutine(opponentPlacePiece());
         }
         if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
         {
-            phase = 2;
-            Debug.Log("phase 2");
+            //phase = 2;
+            //Debug.Log("phase 2");
         }
+    }
+
+    IEnumerator getPlaceIndex()
+    {
+        placePiece = true;
+
+        yield return new WaitWhile(() => placePiece);
     }
 
     IEnumerator getPieceToRemove()
     {
-        yield return new WaitForSeconds(2);
-
         removePiece = true;
 
-        yield return new WaitUntil(() => !removePiece);
+        yield return new WaitWhile(() => removePiece);
 
         //pieceToRemove is set by the user clicking on a piece in GamePiece.cs
         //second parameter is false because we're removing an opponent's piece
