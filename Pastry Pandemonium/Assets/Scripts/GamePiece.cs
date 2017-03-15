@@ -26,11 +26,23 @@ public class GamePiece : MonoBehaviour
 
     public void OnMouseDown()
     {
-        if (App.removePiece && owner == "opponent")
+        if (App.removePiece && owner == "opponent" && !game.piecePartOfMill(location))
         {
             App.pieceToRemove = location;
             Destroy(gamePiece);
             App.removePiece = false;
+        }
+        else if(App.moveFromPiece && owner == "local")
+        {
+            App.moveFromIndex = location;
+            App.moveFromPiece = false;
+            Debug.Log("flying from location: " + App.moveFromIndex);
+        }
+        else if (App.flyFromPiece && owner == "local")
+        {
+            App.flyFromIndex = location;
+            App.flyFromPiece = false;
+            Debug.Log("flying from location: " + App.flyFromIndex);
         }
     }
 }

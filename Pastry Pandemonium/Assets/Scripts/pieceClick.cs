@@ -41,16 +41,23 @@ public class pieceClick : MonoBehaviour
                 {
                     App.placeIndex = Convert.ToInt32(gameObject.name);
                     App.placePiece = false;
-                    //gameObj.GetComponent<App>().piecePlacementPhase(Convert.ToInt32(gameObject.name));
-                    //if (App.removePiece && !gameBoard.isLocalPlayerPieceAt(Convert.ToInt32(gameObject.name)))
-                    //{
-                    //    Debug.Log("remove piece index: " + gameObject.name);
-                    //}
                 }
                 break;
             case 2:
+                if(App.isLocalPlayerTurn && App.moveToPiece)
+                {
+                    App.moveToIndex = Convert.ToInt32(gameObject.name);
+                    App.moveToPiece = false;
+                    Debug.Log("moving to location: " + App.moveToIndex);
+                }
                 break;
             case 3:
+                if (App.isLocalPlayerTurn && App.flyToPiece)
+                {
+                    App.flyToIndex = Convert.ToInt32(gameObject.name);
+                    App.flyToPiece = false;
+                    Debug.Log("flying to location: " + App.flyToIndex);
+                }
                 break;
         }
 
