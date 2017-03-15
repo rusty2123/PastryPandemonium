@@ -84,17 +84,20 @@ public class Game : Photon.MonoBehaviour
         if (validMove(from, to))
         {
             gameBoard.movePiece(from, to);
+        }
+    }
 
-            if (createdMill(to))
-            {
-                //removePiece();
-            }
-            appInstance.changePlayer();
-        }
-        else
+    public void moveLocalPiece(int from, int to)
+    {
+        if (validMove(from, to))
         {
-            Debug.Log("Invalid Move");
+            gameBoard.moveLocalPiece(from, to);
         }
+    }
+
+    public void moveOpponentPiece(int from, int to)
+    {
+        gameBoard.moveOpponentPiece(from, to);
     }
 
     public void flyPiece(int from, int to)
@@ -105,10 +108,6 @@ public class Game : Photon.MonoBehaviour
         {
             gameBoard.movePiece(from, to);
 
-            if (createdMill(to))
-            {
-                //removePiece();
-            }
             appInstance.changePlayer();
         }
         else
@@ -149,20 +148,12 @@ public class Game : Photon.MonoBehaviour
         {
             return true;
         }
-
         return false;
     }
 
     public void removePiece(int index, bool isLocalPiece)
     {
-
-        //something here is going out of range
-        //this condition makes sure it's an opponent's piece, and that the piece isn't part of a mill unless all opponent's pieces are part of a mill
-        //if (gameBoard.isLocalPlayerPieceAt(index) == true
-        //    && (!piecePartOfMill(index) || allPiecesPartOfMill()))
-        //{
         gameBoard.removePiece(index, isLocalPiece);
-        //}
     }
 
     public bool createdMill(int to)
@@ -205,13 +196,13 @@ public class Game : Photon.MonoBehaviour
         return false;
     }
 
-    private bool piecePartOfMill(int index)
+    public bool piecePartOfMill(int index)
     {
         foreach (Tuple<int, int, int> entry in gameBoardMoves.Mills)
         {
             if (entry.Item1 == index &&
-              (gameBoard.isLocalPlayerPieceAt(entry.Item2) &&
-               gameBoard.isLocalPlayerPieceAt(entry.Item3)))
+              (gameBoard.isOpponentPlayerPieceAt(entry.Item2) &&
+               gameBoard.isOpponentPlayerPieceAt(entry.Item3)))
             {
                 return true;
             }

@@ -62,6 +62,11 @@ public class Board : MonoBehaviour
         return playerOne[index - 1];
     }
 
+    public bool isOpponentPlayerPieceAt(int index)
+    {
+        return playerTwo[index - 1];
+    }
+
     public BitArray getPlayerBoard()
     {
         if (App.isLocalPlayerTurn)
@@ -95,6 +100,18 @@ public class Board : MonoBehaviour
             playerTwo[from - 1] = false;
             playerTwo[to - 1] = true;
         }
+    }
+
+    public void moveLocalPiece(int from, int to)
+    {
+        playerOne[from - 1] = false;
+        playerOne[to - 1] = true;
+    }
+
+    public void moveOpponentPiece(int from, int to)
+    {
+        playerTwo[from - 1] = false;
+        playerTwo[to - 1] = true;
     }
 
     public void removePiece(int index, bool isLocalPiece)
