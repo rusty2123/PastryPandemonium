@@ -9,6 +9,9 @@ public class MainMenuButton : MonoBehaviour {
     public GameObject canvas;
 	private GameObject multiplayer, tutorial, options, singleplayer, help, exit;
 
+	public AudioClip menuClick;
+	private AudioSource audioSource;
+
 
 	private void Awake()
 	{
@@ -40,6 +43,7 @@ public class MainMenuButton : MonoBehaviour {
 		options.SetActive (false);
 		help.SetActive (false);
 		exit.SetActive (false);
+		//		audioSource.PlayOneShot (menuClick, .5f);
     }
 
 
