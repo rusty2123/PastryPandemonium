@@ -8,7 +8,7 @@ public class MainMenuButton : MonoBehaviour {
     public GameObject current;
     public GameObject canvas;
 	private GameObject multiplayer, tutorial, options, singleplayer, help, exit;
-
+	private Vector3 popupSize;
 	public AudioClip menuClick;
 	private AudioSource audioSource;
 
@@ -22,6 +22,8 @@ public class MainMenuButton : MonoBehaviour {
 		singleplayer = GameObject.FindGameObjectWithTag("singleplayer");
 		help = GameObject.FindGameObjectWithTag("help");
 		exit = GameObject.FindGameObjectWithTag("exit");
+
+
 
     }
     public void OnMouseEnter()
@@ -37,6 +39,8 @@ public class MainMenuButton : MonoBehaviour {
 
     public void OnMouseUp()
     {
+
+
 		playSound ();
 		StartCoroutine(setPopup());
 
@@ -45,9 +49,7 @@ public class MainMenuButton : MonoBehaviour {
 
 	private void playSound(){
 
-
 		audioSource.PlayOneShot (menuClick, .5f);
-
 
 	}
 
