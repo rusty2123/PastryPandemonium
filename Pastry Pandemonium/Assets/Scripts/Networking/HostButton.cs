@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class HostButton : MonoBehaviour
 {
@@ -17,12 +16,12 @@ public class HostButton : MonoBehaviour
     public void OnMouseEnter()
     {
         //Scales menu options to indicate that you can click on them
-        LeanTween.scale(hostButton, new Vector3(.23f, .23f, .23f), .075f);
+        LeanTween.scale(hostButton, new Vector3(.15f, .15f, .15f), .075f);
     }
     public void OnMouseExit()
     {
         //Sets menu options back to their original size
-        LeanTween.scale(hostButton, new Vector3(0.2f, 0.2f, 0.2f), .05f);
+        LeanTween.scale(hostButton, new Vector3(0.12f, 0.12f, 0.12f), .05f);
     }
 
     public void OnMouseUp()

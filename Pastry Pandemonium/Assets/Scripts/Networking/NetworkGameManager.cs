@@ -22,7 +22,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public override void OnJoinedRoom()
     {
-        LoadNetworkGame();
+        SceneManager.LoadScene("Room");
     }
 
     #endregion
@@ -67,14 +67,6 @@ public class NetworkGameManager : Photon.PunBehaviour
         PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 
-    public void placePiece(int i, int j)
-    {
-        //code 1 for placing piece and removing a piece
-        byte code = 1;
-        byte[] content = new byte[] { (byte)i, (byte)j };
-        PhotonNetwork.RaiseEvent(code, content, true, null);
-    }
-
     public void removePiece(int i)
     {
         //code 1 for removing piece
@@ -99,6 +91,24 @@ public class NetworkGameManager : Photon.PunBehaviour
         byte code = 3;
         //data must be sent in byte array
         byte[] content = new byte[] { (byte)from, (byte)to };
+        PhotonNetwork.RaiseEvent(code, content, true, null);
+    }
+
+    public void chooseCharacter(int character)
+    {
+        //code 4 for your selected character
+        byte code = 4;
+        //data must be sent in byte array
+        byte[] content = new byte[] { (byte)character };
+        PhotonNetwork.RaiseEvent(code, content, true, null);
+    }
+
+    public void ready(int ready)
+    {
+        //code 5 for readying up
+        byte code = 5;
+        //data must be sent in byte array
+        byte[] content = new byte[] { (byte)ready };
         PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 

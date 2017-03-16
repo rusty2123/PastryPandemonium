@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Lobby : Photon.PunBehaviour
 {
@@ -55,7 +55,6 @@ public class Lobby : Photon.PunBehaviour
 
     #endregion
 
-
     #region Public Methods
 
     /// <summary>
@@ -88,28 +87,33 @@ public class Lobby : Photon.PunBehaviour
         roomOptions.MaxPlayers = 2;
         string roomName = PhotonNetwork.playerName + "'s game";
 
-        if (PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default))
+        StartCoroutine(createRoom(roomOptions, roomName));
+    }
+
+    IEnumerator createRoom(RoomOptions roomOptions, string roomName)
+    {
+        while(!PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default))
         {
-            gameManager.LoadNetworkGame();
-            Debug.Log(roomName + " created");
+            yield return null;
         }
-        else
-        {
-            Debug.Log("room creation failed");
-        }
+        SceneManager.LoadScene("Room");
     }
 
     public void Join()
     {
         if (PhotonNetwork.JoinRoom(roomSelection))
         {
-            gameManager.LoadNetworkGame();
             Debug.Log("joined " + roomSelection);
         }
         else
         {
             Debug.Log("failed to join room");
         }    
+    }
+
+    public void Leave()
+    {
+        PhotonNetwork.LeaveRoom();
     }
 
     public void populateRoomList()

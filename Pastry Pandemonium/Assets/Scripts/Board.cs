@@ -134,13 +134,11 @@ public class Board : MonoBehaviour
         {
             Debug.Log("local piece placed");
             playerOne[index - 1] = true;
-            playerTwo[index - 1] = false;
         }
         else
         {
             Debug.Log("opponent piece placed");
             playerTwo[index - 1] = true;
-            playerOne[index - 1] = false;
         }
     }
 

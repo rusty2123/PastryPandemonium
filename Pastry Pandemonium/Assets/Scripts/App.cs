@@ -571,7 +571,11 @@ public class App : MonoBehaviour
 
     IEnumerator localMovePiece()
     {
-        yield return StartCoroutine(getMoveIndex());
+        do
+        {
+            yield return StartCoroutine(getMoveIndex());
+
+        } while (game.validMove(moveToIndex, moveFromIndex));
 
         //place the piece and update the gameboard
         game.moveLocalPiece(moveToIndex, moveFromIndex);
@@ -589,6 +593,7 @@ public class App : MonoBehaviour
             {
                 //start position needs to be the gamepiece with location at moveFromIndex
                 startPosition = piece;
+                piece.GetComponent<GamePiece>().location = moveToIndex;
                 break;
             }
         }
@@ -1105,6 +1110,8 @@ public class App : MonoBehaviour
             {
                 if (gameObj != null && gameObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
                 {
+                    gameObj.GetComponent<GamePiece>().location = 0;
+                    localPiecesList.Remove(gameObj);
                     Destroy(gameObj);
                     game.removePiece(NetworkGameManager.removeIndex, true);
                     Debug.Log("removed.");
@@ -1128,6 +1135,7 @@ public class App : MonoBehaviour
                 {
                     //start position needs to be the gamepiece with location at moveFromIndex
                     startPosition = piece;
+                    piece.GetComponent<GamePiece>().location = NetworkGameManager.moveToIndex;
                     break;
                 }
             }

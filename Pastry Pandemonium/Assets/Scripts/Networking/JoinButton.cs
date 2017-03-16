@@ -17,12 +17,12 @@ public class JoinButton : MonoBehaviour
     public void OnMouseEnter()
     {
         //Scales menu options to indicate that you can click on them
-        LeanTween.scale(joinButton, new Vector3(.23f, .23f, .23f), .075f);
+        LeanTween.scale(joinButton, new Vector3(.15f, .15f, .15f), .075f);
     }
     public void OnMouseExit()
     {
         //Sets menu options back to their original size
-        LeanTween.scale(joinButton, new Vector3(.2f, 0.2f, 0.2f), .05f);
+        LeanTween.scale(joinButton, new Vector3(.12f, 0.12f, 0.12f), .05f);
     }
 
     public void OnMouseUp()
