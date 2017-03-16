@@ -44,7 +44,7 @@ public class pieceClick : MonoBehaviour
                 }
                 break;
             case 2:
-                if(App.isLocalPlayerTurn && App.moveToPiece)
+                if(App.isLocalPlayerTurn && App.moveToPiece && !App.moveFromPiece)
                 {
                     App.moveToIndex = Convert.ToInt32(gameObject.name);
                     App.moveToPiece = false;

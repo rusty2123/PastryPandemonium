@@ -10,7 +10,17 @@ public class Board : MonoBehaviour
 
     private BitArray playerOne = new BitArray(24);
     private BitArray playerTwo = new BitArray(24);
-    public static Board boardInstance = null;
+    public static Board boardInstance;
+
+    void Awake()
+    {
+        if (boardInstance != null)
+            Destroy(boardInstance);
+        else
+            boardInstance = this;
+
+        DontDestroyOnLoad(this);
+    }
 
     public Board()
     { }
@@ -126,6 +136,18 @@ public class Board : MonoBehaviour
             Debug.Log("removing opponent piece");
             playerTwo[index - 1] = false;
         }
+    }
+
+    public void removeLocalPiece(int index)
+    {
+        Debug.Log("removing local piece");
+        playerOne[index - 1] = false;
+    }
+
+    public void removeOpponentPiece(int index)
+    {
+        Debug.Log("removing opponent piece");
+        playerTwo[index - 1] = false;
     }
 
     public void placePiece(int index, bool isLocalPiece)

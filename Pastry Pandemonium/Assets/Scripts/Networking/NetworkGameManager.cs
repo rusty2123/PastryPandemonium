@@ -47,17 +47,6 @@ public class NetworkGameManager : Photon.PunBehaviour
         PhotonNetwork.LeaveRoom();
     }
 
-    public void changePlayer()
-    {
-        //code 4 for changing player
-        byte code = 4;
-        //data must be sent in byte array
-        byte[] content = new byte[] { };
-        PhotonNetwork.RaiseEvent(code, content, true, null);
-        //PhotonView photonView = PhotonView.Get(this);
-        //photonView.RPC("changePlayerRPC", PhotonTargets.All);
-    }
-
     public void placePiece(int i)
     {
         //code 0 for placing piece
@@ -93,11 +82,21 @@ public class NetworkGameManager : Photon.PunBehaviour
         byte[] content = new byte[] { (byte)from, (byte)to };
         PhotonNetwork.RaiseEvent(code, content, true, null);
     }
+    public void changePlayer()
+    {
+        //code 4 for changing player
+        byte code = 4;
+        //data must be sent in byte array
+        byte[] content = new byte[] { };
+        PhotonNetwork.RaiseEvent(code, content, true, null);
+        //PhotonView photonView = PhotonView.Get(this);
+        //photonView.RPC("changePlayerRPC", PhotonTargets.All);
+    }
 
     public void chooseCharacter(int character)
     {
-        //code 4 for your selected character
-        byte code = 4;
+        //code 5 for your selected character
+        byte code = 5;
         //data must be sent in byte array
         byte[] content = new byte[] { (byte)character };
         PhotonNetwork.RaiseEvent(code, content, true, null);
@@ -105,8 +104,8 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public void ready(int ready)
     {
-        //code 5 for readying up
-        byte code = 5;
+        //code 6 for readying up
+        byte code = 6;
         //data must be sent in byte array
         byte[] content = new byte[] { (byte)ready };
         PhotonNetwork.RaiseEvent(code, content, true, null);

@@ -362,20 +362,7 @@ public class App : MonoBehaviour
         //if it's the local player's turn, and there are still pieces left to place
         if (isLocalPlayerTurn && outOfBoardLocal > 0)
         {
-            foreach (GameObject boardSpace in boardSpaces)
-            {
-                boardSpace.GetComponent<BoxCollider2D>().enabled = true;
-            }
-            foreach (GameObject piece in localPieces)
-            {
-                if (piece != null)
-                    piece.GetComponent<CircleCollider2D>().enabled = true;
-            }
-            foreach (GameObject piece in opponentPieces)
-            {
-                if (piece != null)
-                    piece.GetComponent<CircleCollider2D>().enabled = true;
-            }
+            enableGameObjects(true);
 
             yield return StartCoroutine(localPlacePiece());
         }
@@ -383,20 +370,7 @@ public class App : MonoBehaviour
         //get move from AI or network
         if (!isLocalPlayerTurn && outOfBoardOpponent > 0)
         {
-            foreach (GameObject boardSpace in boardSpaces)
-            {
-                boardSpace.GetComponent<BoxCollider2D>().enabled = false;
-            }
-            foreach (GameObject piece in localPieces)
-            {
-                if (piece != null)
-                    piece.GetComponent<CircleCollider2D>().enabled = false;
-            }
-            foreach (GameObject piece in opponentPieces)
-            {
-                if (piece != null)
-                    piece.GetComponent<CircleCollider2D>().enabled = false;
-            }
+            enableGameObjects(false);
 
             yield return StartCoroutine(opponentPlacePiece());
         }
@@ -422,7 +396,7 @@ public class App : MonoBehaviour
 
         to = move[1];
 
-        if (game.validPlace(to))
+        if (Game.gameInstance.validPlace(to))
         {
             Debug.Log("ai not valid move");
         }
@@ -433,7 +407,7 @@ public class App : MonoBehaviour
         animationPhaseOne(startPosition, startPosition, endPosition);
         opponentIndex++;
         outOfBoardOpponent--;
-        game.placePiece(to, false);
+        Game.gameInstance.placePiece(to, false);
         changePlayer();
         print("delay");
     }
@@ -443,7 +417,7 @@ public class App : MonoBehaviour
         yield return StartCoroutine("getPlaceIndex");
 
         //place the piece and update the gameboard
-        game.placePiece(placeIndex, true);
+        Game.gameInstance.placePiece(placeIndex, true);
 
         //send move over network if it's a networked game
         if (!Player.isSinglePlayer)
@@ -459,15 +433,16 @@ public class App : MonoBehaviour
         outOfBoardLocal--;
 
         //check if the placement created a mill
-        if (game.createdMill(placeIndex))
+        if (Game.gameInstance.createdMill(placeIndex))
         {
             Debug.Log("you created mill");
             //allow the local player to select an opponent's piece to remove
             yield return StartCoroutine("getPieceToRemove");
         }
 
-        Debug.Log("your turn: " + isLocalPlayerTurn);
-        isLocalPlayerTurn = false;
+        Debug.Log("turn over");
+        //isLocalPlayerTurn = false;
+        changePlayer();
         networkManager.changePlayer();
     }
 
@@ -486,7 +461,7 @@ public class App : MonoBehaviour
         {
             //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
             yield return StartCoroutine("waitForChangePlayer");
-            yield return StartCoroutine(waitForSeconds(3));
+            yield return StartCoroutine(waitForSeconds(2));
         }
     }
 
@@ -524,20 +499,7 @@ public class App : MonoBehaviour
         //if it's the local player's turn, and there are still pieces left to place
         if (isLocalPlayerTurn)
         {
-            foreach (GameObject boardSpace in boardSpaces)
-            {
-                boardSpace.GetComponent<BoxCollider2D>().enabled = true;
-            }
-            foreach (GameObject piece in localPieces)
-            {
-                if (piece != null)
-                    piece.GetComponent<CircleCollider2D>().enabled = true;
-            }
-            foreach (GameObject piece in opponentPieces)
-            {
-                if (piece != null)
-                    piece.GetComponent<CircleCollider2D>().enabled = true;
-            }
+            enableGameObjects(true);
 
             yield return StartCoroutine(localMovePiece());
         }
@@ -545,22 +507,9 @@ public class App : MonoBehaviour
         //get move from AI or network
         if (!isLocalPlayerTurn && outOfBoardOpponent > 0)
         {
-            foreach (GameObject boardSpace in boardSpaces)
-            {
-                boardSpace.GetComponent<BoxCollider2D>().enabled = false;
-            }
-            foreach (GameObject piece in localPieces)
-            {
-                if (piece != null)
-                    piece.GetComponent<CircleCollider2D>().enabled = false;
-            }
-            foreach (GameObject piece in opponentPieces)
-            {
-                if (piece != null)
-                    piece.GetComponent<CircleCollider2D>().enabled = false;
-            }
+            enableGameObjects(false);
 
-            yield return StartCoroutine(opponentPlacePiece());
+            yield return StartCoroutine(opponentMovePiece());
         }
     }
 
@@ -575,10 +524,10 @@ public class App : MonoBehaviour
         {
             yield return StartCoroutine(getMoveIndex());
 
-        } while (game.validMove(moveToIndex, moveFromIndex));
+        } while (Game.gameInstance.validMove(moveToIndex, moveFromIndex));
 
         //place the piece and update the gameboard
-        game.moveLocalPiece(moveToIndex, moveFromIndex);
+        Game.gameInstance.moveLocalPiece(moveToIndex, moveFromIndex);
 
         //send move over network if it's a networked game
         if (!Player.isSinglePlayer)
@@ -601,28 +550,27 @@ public class App : MonoBehaviour
         animationPhaseOne(startPosition, startPosition, endPosition);
 
         //check if the placement created a mill
-        if (game.createdMill(moveToIndex))
+        if (Game.gameInstance.createdMill(moveToIndex))
         {
             Debug.Log("you created mill");
             //allow the local player to select an opponent's piece to remove
             yield return StartCoroutine("getPieceToRemove");
         }
 
-        Debug.Log("your turn: " + isLocalPlayerTurn);
-        isLocalPlayerTurn = false;
+        Debug.Log("turn over");
+        changePlayer();
         networkManager.changePlayer();
     }
 
     IEnumerator opponentMovePiece()
     {
 
-
         //get move from network
         if (!Player.isSinglePlayer)
         {
             //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
             yield return StartCoroutine("waitForChangePlayer");
-            yield return StartCoroutine(waitForSeconds(3));
+            yield return StartCoroutine(waitForSeconds(2));
         }
     }
 
@@ -693,7 +641,7 @@ public class App : MonoBehaviour
         yield return StartCoroutine(getFlyIndex());
 
         //place the piece and update the gameboard
-        game.flyPiece(flyToIndex, flyFromIndex);
+        Game.gameInstance.flyPiece(flyToIndex, flyFromIndex);
 
         //send move over network if it's a networked game
         if (!Player.isSinglePlayer)
@@ -715,7 +663,7 @@ public class App : MonoBehaviour
         animationPhaseOne(startPosition, startPosition, endPosition);
 
         //check if the placement created a mill
-        if (game.createdMill(flyToIndex))
+        if (Game.gameInstance.createdMill(flyToIndex))
         {
             Debug.Log("you created mill");
             //allow the local player to select an opponent's piece to remove
@@ -751,6 +699,44 @@ public class App : MonoBehaviour
 
     #region utility methods
 
+    private void enableGameObjects(bool enable)
+    {
+        if(enable)
+        {
+            foreach (GameObject boardSpace in boardSpaces)
+            {
+                boardSpace.GetComponent<BoxCollider2D>().enabled = true;
+            }
+            foreach (GameObject piece in localPieces)
+            {
+                if (piece != null)
+                    piece.GetComponent<CircleCollider2D>().enabled = true;
+            }
+            foreach (GameObject piece in opponentPieces)
+            {
+                if (piece != null)
+                    piece.GetComponent<CircleCollider2D>().enabled = true;
+            }
+        }
+        else
+        {
+            foreach (GameObject boardSpace in boardSpaces)
+            {
+                boardSpace.GetComponent<BoxCollider2D>().enabled = false;
+            }
+            foreach (GameObject piece in localPieces)
+            {
+                if (piece != null)
+                    piece.GetComponent<CircleCollider2D>().enabled = false;
+            }
+            foreach (GameObject piece in opponentPieces)
+            {
+                if (piece != null)
+                    piece.GetComponent<CircleCollider2D>().enabled = false;
+            }
+        }
+    }
+
     IEnumerator getPieceToRemove()
     {
         //set all of the boardspaces inactive while selecting a piece to remove
@@ -761,11 +747,10 @@ public class App : MonoBehaviour
 
         removePiece = true;
 
-        yield return new WaitWhile(() => removePiece && !game.validPlace(placeIndex));
+        yield return new WaitWhile(() => removePiece && !Game.gameInstance.validPlace(placeIndex));
 
         //pieceToRemove is set by the user clicking on a piece in GamePiece.cs
-        //second parameter is false because we're removing an opponent's piece
-        game.removePiece(pieceToRemove, false);
+        Game.gameInstance.removeOpponentPiece(pieceToRemove);
         --remainingOpponent;
 
         if (!Player.isSinglePlayer)
@@ -779,6 +764,7 @@ public class App : MonoBehaviour
             boardSpace.GetComponent<BoxCollider2D>().enabled = true;
         }
     }
+
     IEnumerator waitForSeconds(int seconds)
     {
         yield return new WaitForSeconds(seconds);
@@ -1084,7 +1070,7 @@ public class App : MonoBehaviour
             Debug.Log("recieved place: " + NetworkGameManager.placeIndex);
 
             //update gameboard
-            game.placePiece(NetworkGameManager.placeIndex, false);
+            Game.gameInstance.placePiece(NetworkGameManager.placeIndex, false);
 
             //run the animation
             if (remainingOpponent > 0)
@@ -1113,7 +1099,7 @@ public class App : MonoBehaviour
                     gameObj.GetComponent<GamePiece>().location = 0;
                     localPiecesList.Remove(gameObj);
                     Destroy(gameObj);
-                    game.removePiece(NetworkGameManager.removeIndex, true);
+                    Game.gameInstance.removeLocalPiece(NetworkGameManager.removeIndex);
                     Debug.Log("removed.");
                     break;
                 }
@@ -1127,7 +1113,7 @@ public class App : MonoBehaviour
             NetworkGameManager.moveFromIndex = selected[0];
             NetworkGameManager.moveToIndex = selected[1];
 
-            game.moveOpponentPiece(NetworkGameManager.moveFromIndex, NetworkGameManager.moveToIndex);
+            Game.gameInstance.moveOpponentPiece(NetworkGameManager.moveFromIndex, NetworkGameManager.moveToIndex);
 
             foreach (GameObject piece in opponentPieces)
             {

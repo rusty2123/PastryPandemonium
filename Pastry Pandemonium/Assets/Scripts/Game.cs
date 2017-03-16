@@ -11,8 +11,6 @@ public class Game : Photon.MonoBehaviour
 
     App appInstance = null;
 
-    public static Game gameInstance = null;
-
     private int input, pieceCount, moveToIndex;
     private Board gameBoard = Board.getInstance;
     private MoveLookup gameBoardMoves = new MoveLookup();
@@ -27,27 +25,31 @@ public class Game : Photon.MonoBehaviour
     private List<Tuple<int, int, int>> mills;
 
 
-    private void Awake()
+    public static Game gameInstance;
+
+    void Awake()
     {
-        if (gameInstance == null)
+        if (gameInstance != null)
+        {
+            Destroy(gameInstance);
+        }
+        else
         {
             gameInstance = this;
         }
 
+        DontDestroyOnLoad(this);
+
         moves = new List<Tuple<int, int>>(gameInstance.gameBoardMoves.Moves);
         mills = new List<Tuple<int, int, int>>(gameInstance.gameBoardMoves.Mills);
-        //else if (gameInstance != this)
-        //    Destroy(gameInstance);
 
         localPlayer = App.localPlayer;
         opponentPlayer = App.opponentPlayer;
-
-
     }
 
     public void placePiece(int index, bool isLocalPiece)
     {
-        gameBoard.placePiece(index, isLocalPiece);
+        Board.boardInstance.placePiece(index, isLocalPiece);
     }
 
     public bool gameOver()
@@ -83,21 +85,18 @@ public class Game : Photon.MonoBehaviour
 
         if (validMove(from, to))
         {
-            gameBoard.movePiece(from, to);
+            Board.boardInstance.movePiece(from, to);
         }
     }
 
     public void moveLocalPiece(int from, int to)
     {
-        if (validMove(from, to))
-        {
-            gameBoard.moveLocalPiece(from, to);
-        }
+        Board.boardInstance.moveLocalPiece(from, to);
     }
 
     public void moveOpponentPiece(int from, int to)
     {
-        gameBoard.moveOpponentPiece(from, to);
+        Board.boardInstance.moveOpponentPiece(from, to);
     }
 
     public void flyPiece(int from, int to)
@@ -106,7 +105,7 @@ public class Game : Photon.MonoBehaviour
 
         if (validFly(from, to))
         {
-            gameBoard.movePiece(from, to);
+            Board.boardInstance.movePiece(from, to);
 
             appInstance.changePlayer();
         }
@@ -118,9 +117,9 @@ public class Game : Photon.MonoBehaviour
 
     public bool playerCanMove()
     {
-        BitArray boardConfig = gameBoard.findEmptySpots();
+        BitArray boardConfig = Board.boardInstance.findEmptySpots();
 
-        BitArray playerConfig = gameBoard.getPlayerBoard();
+        BitArray playerConfig = Board.boardInstance.getPlayerBoard();
 
         for (int i = 0; i < 24; i++)
         {
@@ -144,7 +143,7 @@ public class Game : Photon.MonoBehaviour
 
     public bool validPlace(int index)
     {
-        if (gameBoard.isEmptySpotAt(index))
+        if (Board.boardInstance.isEmptySpotAt(index))
         {
             return true;
         }
@@ -153,7 +152,17 @@ public class Game : Photon.MonoBehaviour
 
     public void removePiece(int index, bool isLocalPiece)
     {
-        gameBoard.removePiece(index, isLocalPiece);
+        Board.boardInstance.removePiece(index, isLocalPiece);
+    }
+
+    public void removeLocalPiece(int index)
+    {
+        Board.boardInstance.removeLocalPiece(index);
+    }
+
+    public void removeOpponentPiece(int index)
+    {
+        Board.boardInstance.removeOpponentPiece(index);
     }
 
     public bool createdMill(int to)
@@ -161,8 +170,8 @@ public class Game : Photon.MonoBehaviour
         foreach (Tuple<int, int, int> entry in gameBoardMoves.Mills)
         {
             if (entry.Item1 == to &&
-              (gameBoard.isLocalPlayerPieceAt(entry.Item2) &&
-               gameBoard.isLocalPlayerPieceAt(entry.Item3)))
+              (Board.boardInstance.isLocalPlayerPieceAt(entry.Item2) &&
+               Board.boardInstance.isLocalPlayerPieceAt(entry.Item3)))
             {
                 Debug.Log(entry.Item1 + " " + entry.Item2 + " " + entry.Item3);
                 return true;
@@ -173,11 +182,11 @@ public class Game : Photon.MonoBehaviour
 
     public bool validMove(int from, int to)
     {
-        if (gameBoard.isLocalPlayerPieceAt(from) == true)
+        if (Board.boardInstance.isLocalPlayerPieceAt(from) == true)
         {
             foreach (Tuple<int, int> entry in gameBoardMoves.Moves)
             {
-                if (from == entry.Item1 && gameBoard.isEmptySpotAt(to))
+                if (from == entry.Item1 && Board.boardInstance.isEmptySpotAt(to))
                 {
                     return true;
                 }
@@ -188,8 +197,8 @@ public class Game : Photon.MonoBehaviour
 
     private bool validFly(int from, int to)
     {
-        if ((gameBoard.isLocalPlayerPieceAt(from) == true) &&
-             gameBoard.isEmptySpotAt(to) == true)
+        if ((Board.boardInstance.isLocalPlayerPieceAt(from) == true) &&
+             Board.boardInstance.isEmptySpotAt(to) == true)
         {
             return true;
         }
@@ -201,8 +210,8 @@ public class Game : Photon.MonoBehaviour
         foreach (Tuple<int, int, int> entry in gameBoardMoves.Mills)
         {
             if (entry.Item1 == index &&
-              (gameBoard.isOpponentPlayerPieceAt(entry.Item2) &&
-               gameBoard.isOpponentPlayerPieceAt(entry.Item3)))
+              (Board.boardInstance.isOpponentPlayerPieceAt(entry.Item2) &&
+               Board.boardInstance.isOpponentPlayerPieceAt(entry.Item3)))
             {
                 return true;
             }
@@ -215,7 +224,7 @@ public class Game : Photon.MonoBehaviour
         int pieceCount = 0;
         for (int i = 1; i <= 24; i++)
         {
-            if (gameBoard.isLocalPlayerPieceAt(i) && piecePartOfMill(i))
+            if (Board.boardInstance.isLocalPlayerPieceAt(i) && piecePartOfMill(i))
             {
                 pieceCount++;
             }

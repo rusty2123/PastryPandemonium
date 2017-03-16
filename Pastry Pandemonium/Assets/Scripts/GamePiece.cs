@@ -36,7 +36,7 @@ public class GamePiece : MonoBehaviour
         {
             App.moveFromIndex = location;
             App.moveFromPiece = false;
-            Debug.Log("flying from location: " + App.moveFromIndex);
+            Debug.Log("moving from location: " + App.moveFromIndex);
         }
         else if (App.flyFromPiece && owner == "local")
         {
