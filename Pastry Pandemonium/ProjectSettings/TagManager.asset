@@ -15,6 +15,7 @@ TagManager:
   - local
   - opponent
   - gameBoard
+  - popupCard
   layers:
   - Default
   - TransparentFX
