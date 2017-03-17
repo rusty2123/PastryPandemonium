@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuButton : MonoBehaviour {
 
     public GameObject current;
-    public GameObject canvas;
+	public GameObject canvas, volSlider;
 	private GameObject multiplayer, tutorial, options, singleplayer, help, exit;
 	private Vector3 popupSize;
 	public AudioClip menuClick;
@@ -22,7 +22,7 @@ public class MainMenuButton : MonoBehaviour {
 		singleplayer = GameObject.FindGameObjectWithTag("singleplayer");
 		help = GameObject.FindGameObjectWithTag("help");
 		exit = GameObject.FindGameObjectWithTag("exit");
-
+		volSlider.SetActive (false);
 
 
     }
@@ -59,6 +59,10 @@ public class MainMenuButton : MonoBehaviour {
 
 		LeanTween.scale(current, new Vector3(0.3615471f, 0.3615471f, 0.3615471f), .05f);
 		canvas.SetActive(true);
+
+		if (canvas.name == "OptionsPopup") {
+			volSlider.SetActive (true);
+		}
 
 
 		singleplayer.SetActive(false);

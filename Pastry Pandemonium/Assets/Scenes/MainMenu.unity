@@ -350,7 +350,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2460901e18dfe4fa4ad2e0f0e74c94bd, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.754
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2041,7 +2041,7 @@ GameObject:
   - component: {fileID: 532518291}
   - component: {fileID: 532518290}
   - component: {fileID: 532518289}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: OptionsPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2316,6 +2316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current: {fileID: 574194612}
   canvas: {fileID: 1146805017}
+  volSlider: {fileID: 0}
   menuClick: {fileID: 8300000, guid: db6da9560848e4aef839b322b3cd6b50, type: 3}
 --- !u!65 &574194614
 BoxCollider:
@@ -3877,6 +3878,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current: {fileID: 1167252540}
   canvas: {fileID: 415225118}
+  volSlider: {fileID: 0}
   menuClick: {fileID: 8300000, guid: db6da9560848e4aef839b322b3cd6b50, type: 3}
 --- !u!65 &1167252542
 BoxCollider:
@@ -5037,7 +5039,7 @@ GameObject:
   - component: {fileID: 1531162184}
   - component: {fileID: 1531162186}
   - component: {fileID: 1531162185}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5197,6 +5199,7 @@ GameObject:
   - component: {fileID: 1595385219}
   - component: {fileID: 1595385218}
   - component: {fileID: 1595385217}
+  - component: {fileID: 1595385220}
   m_Layer: 0
   m_Name: menuButton
   m_TagString: Untagged
@@ -5278,6 +5281,18 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!114 &1595385220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1595385215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8874f97615211462ca4615567ea61ff3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  current: {fileID: 1595385215}
 --- !u!1 &1612207152
 GameObject:
   m_ObjectHideFlags: 0
@@ -5324,7 +5339,7 @@ GameObject:
   - component: {fileID: 1629645879}
   - component: {fileID: 1629645878}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: volSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5336,9 +5351,9 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1629645876}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -9}
+  m_LocalScale: {x: 1.919799, y: 1.919799, z: 1.919799}
   m_Children:
   - {fileID: 1741763009}
   m_Father: {fileID: 0}
@@ -5346,9 +5361,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 342.5652, y: 144.93143}
+  m_SizeDelta: {x: 900, y: 506.25}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1629645878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5394,10 +5409,10 @@ Canvas:
   m_GameObject: {fileID: 1629645876}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 2
+  m_Camera: {fileID: 1895028791}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -5709,7 +5724,7 @@ GameObject:
   - component: {fileID: 1741763010}
   m_Layer: 5
   m_Name: Slider
-  m_TagString: Untagged
+  m_TagString: volSlider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5720,7 +5735,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1741763008}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -5732,7 +5747,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -66, y: -179}
+  m_AnchoredPosition: {x: -194.1255, y: -184.86678}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1741763010
@@ -5777,7 +5792,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.748
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -6174,6 +6189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current: {fileID: 1839417470}
   canvas: {fileID: 532518288}
+  volSlider: {fileID: 1741763008}
   menuClick: {fileID: 8300000, guid: db6da9560848e4aef839b322b3cd6b50, type: 3}
 --- !u!65 &1839417472
 BoxCollider:
@@ -6506,7 +6522,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8f2a4752bfef949b9805a225a0aa6acf, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.306
+  m_Volume: 0.243
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6856,6 +6872,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current: {fileID: 2004320580}
   canvas: {fileID: 918682568}
+  volSlider: {fileID: 0}
   menuClick: {fileID: 8300000, guid: db6da9560848e4aef839b322b3cd6b50, type: 3}
 --- !u!65 &2004320582
 BoxCollider:

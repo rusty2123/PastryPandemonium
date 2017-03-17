@@ -16,6 +16,7 @@ TagManager:
   - opponent
   - gameBoard
   - popupCard
+  - volSlider
   layers:
   - Default
   - TransparentFX

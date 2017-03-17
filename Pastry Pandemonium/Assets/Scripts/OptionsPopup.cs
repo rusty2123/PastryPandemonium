@@ -18,6 +18,8 @@ public class OptionsPopup : MonoBehaviour {
 		singlePlayer = GameObject.FindGameObjectWithTag ("singleplayer");
 		help = GameObject.FindGameObjectWithTag ("help");
 		exit = GameObject.FindGameObjectWithTag ("exit");
+
+
 	}
 
 
