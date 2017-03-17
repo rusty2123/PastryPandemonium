@@ -191,6 +191,7 @@
 'Assets/Scripts/HelpExitButtons.cs'
 'Assets/Scripts/MainMenuButton.cs'
 'Assets/Scripts/MoveLookup.cs'
+'Assets/Scripts/Music.cs'
 'Assets/Scripts/Networking/BackButton.cs'
 'Assets/Scripts/Networking/HostButton.cs'
 'Assets/Scripts/Networking/JoinButton.cs'
