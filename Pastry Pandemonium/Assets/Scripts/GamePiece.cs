@@ -26,7 +26,7 @@ public class GamePiece : MonoBehaviour
 
     public void OnMouseDown()
     {
-        if (App.removePiece && owner == "opponent" && !game.piecePartOfMill(location))
+        if (App.removePiece && owner == "opponent" && !game.piecePartOfMill(location) && !App.placePiece && !App.moveToPiece && !App.moveFromPiece)
         {
             App.pieceToRemove = location;
             Destroy(gamePiece);

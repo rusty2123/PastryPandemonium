@@ -184,6 +184,7 @@ public class App : MonoBehaviour
         for (int i = 0; i < 18; ++i)
         {
             yield return StartCoroutine(piecePlacementPhase());
+            Board.boardInstance.printBoard();
         }
 
         phase = 2;
@@ -579,6 +580,8 @@ public class App : MonoBehaviour
         moveFromPiece = moveToPiece = true;
 
         yield return new WaitWhile(() => moveFromPiece || moveToPiece);
+
+        moveFromPiece = moveToPiece = false;
     }
 
 
@@ -747,7 +750,9 @@ public class App : MonoBehaviour
 
         removePiece = true;
 
-        yield return new WaitWhile(() => removePiece && !Game.gameInstance.validPlace(placeIndex));
+        yield return new WaitWhile(() => removePiece);
+
+        removePiece = false;
 
         //pieceToRemove is set by the user clicking on a piece in GamePiece.cs
         Game.gameInstance.removeOpponentPiece(pieceToRemove);
@@ -1097,7 +1102,6 @@ public class App : MonoBehaviour
                 if (gameObj != null && gameObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
                 {
                     gameObj.GetComponent<GamePiece>().location = 0;
-                    localPiecesList.Remove(gameObj);
                     Destroy(gameObj);
                     Game.gameInstance.removeLocalPiece(NetworkGameManager.removeIndex);
                     Debug.Log("removed.");

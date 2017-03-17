@@ -44,8 +44,10 @@ public class Board : MonoBehaviour
 
     public bool isEmptySpotAt(int index)
     {
+        BitArray bitArray1 = new BitArray(playerOne);
+        BitArray bitArray2 = new BitArray(playerTwo);
 
-        if (playerOne.Xor(playerTwo)[index - 1] == false)
+        if (bitArray1.Xor(bitArray2)[index-1] == false)
         {
             return true;
         }
@@ -162,6 +164,21 @@ public class Board : MonoBehaviour
             Debug.Log("opponent piece placed");
             playerTwo[index - 1] = true;
         }
+    }
+
+    public void printBoard()
+    {
+        string bitArray1 = "";
+        string bitArray2 = "";
+
+        for(int i = 0; i < 24; ++i)
+        {
+            bitArray1 = bitArray1 + playerOne[i] + i;
+            bitArray2 = bitArray2 + playerTwo[i] + i;
+        }
+
+        Debug.Log(bitArray1);
+        Debug.Log(bitArray2);
     }
 
     void Start()
