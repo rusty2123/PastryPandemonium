@@ -5264,6 +5264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 1595385215}
+  musicSlider: {fileID: 0}
 --- !u!212 &1595385219
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5311,6 +5312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 1595385215}
+  musicSlider: {fileID: 1741763008}
 --- !u!1 &1612207152
 GameObject:
   m_ObjectHideFlags: 0

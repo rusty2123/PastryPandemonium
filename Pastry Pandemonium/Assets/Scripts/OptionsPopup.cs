@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OptionsPopup : MonoBehaviour {
 
-	public GameObject current;
+	public GameObject current, musicSlider;
 
 	private GameObject menu, singlePlayer, multiplayer, tutorial, options, help, exit;
 
@@ -55,6 +55,8 @@ public class OptionsPopup : MonoBehaviour {
 				singlePlayer.SetActive (true);
 				help.SetActive (true);
 				exit.SetActive (true);
+				musicSlider.SetActive (false);
+
 				break;
 			default:
 				break;          

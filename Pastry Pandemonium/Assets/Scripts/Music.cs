@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Music : MonoBehaviour {
 
@@ -12,18 +13,32 @@ public class Music : MonoBehaviour {
 
 	void Awake()
 	{
-		audioSource = GetComponent<AudioSource> ();
-
+		
 		if (!AudioBegin) {
-
-
-			audioSource.Play ();
-			DontDestroyOnLoad (audioSource);
+			
+			setMusic ();
 
 			AudioBegin = true;
+		} else 
+		{
+			if (SceneManager.GetActiveScene().name == "MainMenu") 
+			{
+				Destroy (GameObject.Find("music"));
+				setMusic ();
+			}
 		}
+
 	}
 
+	private void setMusic()
+	{
+		audioSource = GetComponent<AudioSource> ();
+
+		audioSource.Play ();
+		DontDestroyOnLoad (audioSource);
+		DontDestroyOnLoad (vol);
+
+	}
 
 	public void changeVolume()
 	{
