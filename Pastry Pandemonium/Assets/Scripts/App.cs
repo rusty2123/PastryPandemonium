@@ -184,7 +184,7 @@ public class App : MonoBehaviour
         for (int i = 0; i < 18; ++i)
         {
             yield return StartCoroutine(piecePlacementPhase());
-            Board.boardInstance.printBoard();
+            //Board.boardInstance.printBoard();
         }
 
         phase = 2;
@@ -193,6 +193,7 @@ public class App : MonoBehaviour
         while(remainingLocal > 3)
         {
             yield return StartCoroutine(pieceMovePhase());
+            //Board.boardInstance.printBoard();
         }
 
         phase = 3;
@@ -516,19 +517,32 @@ public class App : MonoBehaviour
 
     private void animationPhaseTwo(GameObject gamePiece, GameObject startPosition, GameObject endPosition)
     {
+        shadow.SetActive(true);
+        shadow.transform.position = new Vector3(startPosition.transform.position.x,
+            startPosition.transform.position.y,
+            startPosition.transform.position.z + 2);
+
+        //scale piece
+        LeanTween.scale(gamePiece, new Vector3(.65f, .65f, .65f), .6f).setDelay(.2f);
+        LeanTween.scale(gamePiece, new Vector3(0.5f, 0.5f, 0.5f), 1.3f).setDelay(2.7f);
+
 
     }
 
     IEnumerator localMovePiece()
     {
-        do
-        {
-            yield return StartCoroutine(getMoveIndex());
+        moveToIndex = 0; moveFromIndex = 0;
 
-        } while (Game.gameInstance.validMove(moveToIndex, moveFromIndex));
+       // do
+       // {
+            yield return StartCoroutine(getMoveFromIndex());
+            yield return StartCoroutine(getMoveToIndex());
+
+       // } while (Game.gameInstance.validMove(moveFromIndex, moveToIndex));
 
         //place the piece and update the gameboard
-        Game.gameInstance.moveLocalPiece(moveToIndex, moveFromIndex);
+        Game.gameInstance.moveLocalPiece(moveFromIndex, moveToIndex);
+
 
         //send move over network if it's a networked game
         if (!Player.isSinglePlayer)
@@ -543,17 +557,20 @@ public class App : MonoBehaviour
             {
                 //start position needs to be the gamepiece with location at moveFromIndex
                 startPosition = piece;
+                endPosition = GameObject.Find(moveToIndex.ToString());
+                animationPhaseOne(startPosition, startPosition, endPosition);
                 piece.GetComponent<GamePiece>().location = moveToIndex;
                 break;
             }
         }
-        endPosition = GameObject.Find(moveToIndex.ToString());
-        animationPhaseOne(startPosition, startPosition, endPosition);
+
+        printPieceLocations();
 
         //check if the placement created a mill
         if (Game.gameInstance.createdMill(moveToIndex))
         {
             Debug.Log("you created mill");
+            Board.boardInstance.printBoard();
             //allow the local player to select an opponent's piece to remove
             yield return StartCoroutine("getPieceToRemove");
         }
@@ -575,15 +592,30 @@ public class App : MonoBehaviour
         }
     }
 
-    IEnumerator getMoveIndex()
+    IEnumerator getMoveFromIndex()
     {
-        moveFromPiece = moveToPiece = true;
+        foreach (GameObject boardSpace in boardSpaces)
+        {
+            boardSpace.GetComponent<BoxCollider2D>().enabled = false;
+        }
 
-        yield return new WaitWhile(() => moveFromPiece || moveToPiece);
+        moveFromPiece = true;
 
-        moveFromPiece = moveToPiece = false;
+        yield return new WaitWhile(() => moveFromPiece);
+
+        moveFromPiece = false;
     }
 
+    IEnumerator getMoveToIndex()
+    {
+        enableGameObjects(true);
+
+        moveToPiece = true;
+
+        yield return new WaitWhile(() => moveToPiece);
+
+        moveToPiece = false;
+    }
 
     #endregion
 
@@ -701,6 +733,30 @@ public class App : MonoBehaviour
     #endregion
 
     #region utility methods
+
+    public void printPieceLocations()
+    {
+        string localPieceLocations = "";
+        string opponentPieceLocations = "";
+
+        foreach (GameObject piece in localPieces)
+        {
+            if (piece != null)
+            {
+                localPieceLocations = localPieceLocations + piece.GetComponent<GamePiece>().location + " ";
+            }
+        }
+        foreach (GameObject piece in opponentPieces)
+        {
+            if (piece != null)
+            {
+                opponentPieceLocations = opponentPieceLocations + piece.GetComponent<GamePiece>().location + " ";
+            }
+        }
+
+        Debug.Log("local pieces: " + localPieceLocations);
+        Debug.Log("local opponent: " + opponentPieceLocations);
+    }
 
     private void enableGameObjects(bool enable)
     {
