@@ -186,7 +186,7 @@ public class Game : Photon.MonoBehaviour
         {
             foreach (Tuple<int, int> entry in gameBoardMoves.Moves)
             {
-                if (from == entry.Item1 && Board.boardInstance.isEmptySpotAt(to))
+                if (from == entry.Item1 && to == entry.Item2 && Board.boardInstance.isEmptySpotAt(to))
                 {
                     return true;
                 }
@@ -195,7 +195,7 @@ public class Game : Photon.MonoBehaviour
         return false;
     }
 
-    private bool validFly(int from, int to)
+    public bool validFly(int from, int to)
     {
         if ((Board.boardInstance.isLocalPlayerPieceAt(from) == true) &&
              Board.boardInstance.isEmptySpotAt(to) == true)

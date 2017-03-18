@@ -44,7 +44,7 @@ public class pieceClick : MonoBehaviour
                 }
                 break;
             case 2:
-                if(App.isLocalPlayerTurn && App.moveToPiece && !App.moveFromPiece)
+                if (App.isLocalPlayerTurn && App.moveToPiece && !App.moveFromPiece)
                 {
                     App.moveToIndex = Convert.ToInt32(gameObject.name);
                     App.moveToPiece = false;
@@ -52,7 +52,7 @@ public class pieceClick : MonoBehaviour
                 }
                 break;
             case 3:
-                if (App.isLocalPlayerTurn && App.flyToPiece)
+                if (App.isLocalPlayerTurn && App.flyToPiece && !App.flyFromPiece)
                 {
                     App.flyToIndex = Convert.ToInt32(gameObject.name);
                     App.flyToPiece = false;

@@ -34,6 +34,7 @@ public class GamePiece : MonoBehaviour
         }
         else if(App.moveFromPiece && owner == "local")
         {
+            //highlight gamePiece
             App.moveFromIndex = location;
             App.moveFromPiece = false;
             Debug.Log("moving from location: " + App.moveFromIndex);
