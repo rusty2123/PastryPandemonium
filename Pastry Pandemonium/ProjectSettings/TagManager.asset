@@ -17,6 +17,7 @@ TagManager:
   - gameBoard
   - popupCard
   - volSlider
+  - character
   layers:
   - Default
   - TransparentFX

@@ -294,24 +294,84 @@ public class App : MonoBehaviour
     {
         if (networkManager.isMasterClient())
         {
-            Debug.Log("starting game");
-            //for now host will always go second, and will play as red cupcakes
+        //    Debug.Log("starting game");
+        //    //for now host will always go second, and will play as red cupcakes
             isLocalPlayerTurn = true;
-            characterLocalPlayer = redCupcake;
-            setUpPiecesLocal(characterLocalPlayer);
+        //    characterLocalPlayer = redCupcake;
+        //    setUpPiecesLocal(characterLocalPlayer);
 
-            characterOpponentPlayer = berryMuffin;
-            setUpPiecesOpponent(characterOpponentPlayer);
+        //    characterOpponentPlayer = berryMuffin;
+        //    setUpPiecesOpponent(characterOpponentPlayer);
         }
         else
         {
-            //for now client will always go first, and will play as berry muffins
+        //    //for now client will always go first, and will play as berry muffins
             isLocalPlayerTurn = false;
-            characterLocalPlayer = berryMuffin;
-            setUpPiecesLocal(characterLocalPlayer);
+        //    characterLocalPlayer = berryMuffin;
+        //    setUpPiecesLocal(characterLocalPlayer);
 
-            characterOpponentPlayer = redCupcake;
-            setUpPiecesOpponent(characterOpponentPlayer);
+        //    characterOpponentPlayer = redCupcake;
+        //    setUpPiecesOpponent(characterOpponentPlayer);
+        }
+
+        switch (Player.characterLocalPlayer)
+        {
+            case "berryMuffin":
+                characterLocalPlayer = berryMuffin;
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "chipMuffin":
+                characterLocalPlayer = chipMuffin;
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "lemonMuffin":
+                characterLocalPlayer = lemonMuffin;
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "chocolateCupcake":
+                characterLocalPlayer = chocolateCupcake;
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "redCupcake":
+                characterLocalPlayer = redCupcake;
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            case "whiteCupcake":
+                characterLocalPlayer = whiteCupcake;
+                setUpPiecesLocal(characterLocalPlayer);
+                break;
+            default:
+                break;
+        }
+        switch (Player.characterOpponentPlayer)
+        {
+            case "berryMuffin":
+                characterOpponentPlayer = berryMuffin;
+                setUpPiecesOpponent(characterOpponentPlayer);
+                break;
+            case "chipMuffin":
+                characterOpponentPlayer = chipMuffin;
+                setUpPiecesOpponent(characterOpponentPlayer);
+                break;
+            case "lemonMuffin":
+                characterOpponentPlayer = lemonMuffin;
+                setUpPiecesOpponent(characterOpponentPlayer);
+                break;
+            case "chocolateCupcake":
+                characterOpponentPlayer = chocolateCupcake;
+                setUpPiecesOpponent(characterOpponentPlayer);
+                break;
+            case "redCupcake":
+                characterOpponentPlayer = redCupcake;
+                setUpPiecesOpponent(characterOpponentPlayer);
+                break;
+            case "whiteCupcake":
+                characterOpponentPlayer = whiteCupcake;
+                setUpPiecesOpponent(characterOpponentPlayer);
+                break;
+            default:
+                break;
+
         }
 
         localPlayer.Pieces = localPieces;

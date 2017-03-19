@@ -48,4 +48,5 @@ MonoBehaviour:
   - sendInteger
   - sendIntRPC
   - changePlayerRPC
+  - chooseCharacterRPC
   DisableAutoOpenWizard: 1

@@ -300,9 +300,11 @@ GameObject:
   m_Component:
   - component: {fileID: 947543734}
   - component: {fileID: 947543733}
+  - component: {fileID: 947543735}
+  - component: {fileID: 947543736}
   m_Layer: 0
   m_Name: berryMuffin
-  m_TagString: Untagged
+  m_TagString: character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -355,6 +357,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &947543735
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 947543732}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 600.99994, y: 539.99994}
+--- !u!114 &947543736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 947543732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36103487f42cda54785aad2f78020855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 947543732}
+  networkManager: {fileID: 2117881540}
 --- !u!1 &1031794666
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,9 +638,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1425446570}
   - component: {fileID: 1425446569}
+  - component: {fileID: 1425446571}
+  - component: {fileID: 1425446572}
   m_Layer: 0
   m_Name: lemonMuffin
-  m_TagString: Untagged
+  m_TagString: character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -664,6 +695,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1425446571
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1425446568}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 599.99994, y: 540.99994}
+--- !u!114 &1425446572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1425446568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36103487f42cda54785aad2f78020855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 1425446568}
+  networkManager: {fileID: 2117881540}
 --- !u!1 &1557031276
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,9 +731,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1557031278}
   - component: {fileID: 1557031277}
+  - component: {fileID: 1557031279}
+  - component: {fileID: 1557031280}
   m_Layer: 0
   m_Name: chocolateCupcake
-  m_TagString: Untagged
+  m_TagString: character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -728,6 +788,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1557031279
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1557031276}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 521.99994, y: 631.99994}
+--- !u!114 &1557031280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1557031276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36103487f42cda54785aad2f78020855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 1557031276}
+  networkManager: {fileID: 2117881540}
 --- !u!1 &1559079259
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,9 +979,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1867997457}
   - component: {fileID: 1867997456}
+  - component: {fileID: 1867997458}
+  - component: {fileID: 1867997459}
   m_Layer: 0
   m_Name: whiteCupcake
-  m_TagString: Untagged
+  m_TagString: character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -947,6 +1036,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1867997458
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1867997455}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 521.99994, y: 631.99994}
+--- !u!114 &1867997459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1867997455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36103487f42cda54785aad2f78020855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 1867997455}
+  networkManager: {fileID: 2117881540}
 --- !u!1 &2089058361
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,9 +1072,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2089058363}
   - component: {fileID: 2089058362}
+  - component: {fileID: 2089058364}
+  - component: {fileID: 2089058365}
   m_Layer: 0
   m_Name: redCupcake
-  m_TagString: Untagged
+  m_TagString: character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1011,6 +1129,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2089058364
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2089058361}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 521.99994, y: 632.99994}
+--- !u!114 &2089058365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2089058361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36103487f42cda54785aad2f78020855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 2089058361}
+  networkManager: {fileID: 2117881540}
 --- !u!1 &2104568719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,9 +1165,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2104568721}
   - component: {fileID: 2104568720}
+  - component: {fileID: 2104568722}
+  - component: {fileID: 2104568723}
   m_Layer: 0
   m_Name: chipMuffin
-  m_TagString: Untagged
+  m_TagString: character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1075,6 +1222,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2104568722
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2104568719}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 634.99994, y: 560.99994}
+--- !u!114 &2104568723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2104568719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36103487f42cda54785aad2f78020855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 2104568719}
+  networkManager: {fileID: 2117881540}
 --- !u!1 &2117881539
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class NetworkGameManager : Photon.PunBehaviour
     public App app;
     public static Player localPlayer, opponentPlayer;
     public static int placeIndex = 0, removeIndex = 0, moveFromIndex = 0, moveToIndex = 0, flyFromIndex = 0, flyToIndex = 0;
+    public static bool opponentReady = false;
 
     #region Photon Messages
 
@@ -89,8 +90,6 @@ public class NetworkGameManager : Photon.PunBehaviour
         //data must be sent in byte array
         byte[] content = new byte[] { };
         PhotonNetwork.RaiseEvent(code, content, true, null);
-        //PhotonView photonView = PhotonView.Get(this);
-        //photonView.RPC("changePlayerRPC", PhotonTargets.All);
     }
 
     public void chooseCharacter(int character)
@@ -102,12 +101,12 @@ public class NetworkGameManager : Photon.PunBehaviour
         PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 
-    public void ready(int ready)
+    public void ready()
     {
         //code 6 for readying up
         byte code = 6;
         //data must be sent in byte array
-        byte[] content = new byte[] { (byte)ready };
+        byte[] content = new byte[] { };
         PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 
