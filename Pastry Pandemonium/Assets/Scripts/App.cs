@@ -183,7 +183,7 @@ public class App : MonoBehaviour
     IEnumerator startGame()
     {
         //18 because piecePlacementPhase is called every time it is not your turn and when it is your turn
-        for (int i = 0; i < 18; ++i)
+        for (int i = 0; i < 18; i++)
         {
             yield return StartCoroutine(piecePlacementPhase());
             //Board.boardInstance.printBoard();
@@ -196,6 +196,12 @@ public class App : MonoBehaviour
                 Debug.Log("phase 2");
                 yield return StartCoroutine(pieceMovePhase());
                 //Board.boardInstance.printBoard();
+            }
+            else if (remainingOpponent > 3)
+            {
+                phase = 2;
+                Debug.Log("phase 2");
+                yield return StartCoroutine(pieceMovePhase());
             }
             else
             {
@@ -377,7 +383,11 @@ public class App : MonoBehaviour
 
             yield return StartCoroutine(opponentPlacePiece());
         }
-   
+
+        if (remainingOpponent < 3 || remainingLocal < 3)
+        {
+            gameOver = true;
+        }
     }
 
     IEnumerator getPlaceIndex()
@@ -416,6 +426,7 @@ public class App : MonoBehaviour
             outOfBoardOpponent--;
 
             //check if the placement created a mill
+            //if (createdMill)
             if (Game.gameInstance.createdMill(to))
             {
                 Debug.Log("you created mill");
@@ -423,6 +434,7 @@ public class App : MonoBehaviour
                 yield return StartCoroutine("removeAIPiece");
             }
 
+           // createdMill = true;
             changePlayer();
             print("AI move done");
 
@@ -521,13 +533,22 @@ public class App : MonoBehaviour
 
             yield return StartCoroutine(localMovePiece());
         }
+        else if (!isLocalPlayerTurn && Player.isSinglePlayer)
+        {
+            yield return StartCoroutine(executeAIMovePhaseTwo());
+        }
 
         //get move from AI or network
-        if (!isLocalPlayerTurn && outOfBoardOpponent > 0)
+        if (!isLocalPlayerTurn && !Player.isSinglePlayer && remainingOpponent > 3)
         {
             enableGameObjects(false);
 
             yield return StartCoroutine(opponentMovePiece());
+        }
+
+        if (remainingOpponent < 3 || remainingLocal < 3)
+        {
+            gameOver = true;
         }
     }
 
@@ -582,6 +603,47 @@ public class App : MonoBehaviour
         networkManager.changePlayer();
     }
 
+    IEnumerator executeAIMovePhaseTwo()
+    {
+        yield return new WaitForSeconds(2);
+
+        int[] move = opponentPlayer.getAIMove();
+
+        from = move[0];
+        to = move[1];
+
+        positionIndex = to + 1;
+        if (!Game.gameInstance.validPlace(to))
+        {
+            Debug.Log("ai not valid move");
+        }
+        else if (Game.gameInstance.validPlace(to))
+        {
+
+            Debug.Log("valid move");
+            Game.gameInstance.placePiece(to, false);
+
+            //piecesPositions[to] = opponentPieces[opponentIndex];
+            //Debug.Log(piecesPositions[to].name);
+
+            startPosition = piecesPositions[from];
+            endPosition = GameObject.Find(positionIndex.ToString());
+            animationPhaseOne(startPosition, startPosition, endPosition);
+
+
+            //check if the placement created a mill
+            if (Game.gameInstance.createdMill(to))
+            {
+                Debug.Log("you created mill");
+                //allow the local player to select an opponent's piece to remove
+                yield return StartCoroutine("removeAIPiece");
+            }
+
+            changePlayer();
+            print("AI move done");
+
+        }
+    }
 
     IEnumerator opponentMovePiece()
     {
@@ -844,7 +906,7 @@ public class App : MonoBehaviour
 
         pieceToRemove = 0;
 
-        Debug.Log(piecesPositions[pieceToRemove].name);
+        //Debug.Log(piecesPositions[pieceToRemove].name);
         Destroy(piecesPositions[pieceToRemove]);
 
 
@@ -911,6 +973,7 @@ public class App : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("update has been called");
         if (gameOver)
         {
             //change turn text to game over text

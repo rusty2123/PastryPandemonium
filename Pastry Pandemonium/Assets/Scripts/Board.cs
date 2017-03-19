@@ -92,6 +92,7 @@ public class Board : MonoBehaviour
         return playerTwo[index - 1];
     }
 
+
     public BitArray getPlayerBoard()
     {
         if (App.isLocalPlayerTurn)

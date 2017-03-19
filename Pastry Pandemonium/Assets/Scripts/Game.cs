@@ -169,13 +169,28 @@ public class Game : Photon.MonoBehaviour
     {
         foreach (Tuple<int, int, int> entry in gameBoardMoves.Mills)
         {
-            if (entry.Item1 == to &&
-              (Board.boardInstance.isLocalPlayerPieceAt(entry.Item2) &&
-               Board.boardInstance.isLocalPlayerPieceAt(entry.Item3)))
+            if (!App.isLocalPlayerTurn)
             {
-                Debug.Log(entry.Item1 + " " + entry.Item2 + " " + entry.Item3);
-                return true;
+                if (entry.Item1 == to+1 &&
+                (Board.boardInstance.isOpponentPlayerPieceAt(entry.Item2) &&
+                 Board.boardInstance.isOpponentPlayerPieceAt(entry.Item3)))
+                {
+                    Debug.Log(entry.Item1 + " " + entry.Item2 + " " + entry.Item3);
+                    return true;
+                }
+
             }
+            else
+            {
+                if (entry.Item1 == to &&
+                (Board.boardInstance.isLocalPlayerPieceAt(entry.Item2) &&
+                 Board.boardInstance.isLocalPlayerPieceAt(entry.Item3)))
+                {
+                    Debug.Log(entry.Item1 + " " + entry.Item2 + " " + entry.Item3);
+                    return true;
+                }
+            }
+           
         }
         return false;
     }
