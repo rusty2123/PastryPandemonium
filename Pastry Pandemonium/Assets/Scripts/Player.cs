@@ -7,7 +7,7 @@ using System;
 public class Player : MonoBehaviour
 {
 
-    public static bool isSinglePlayer;
+    public static bool isSinglePlayer = false;
     public static bool playerGoFirst = true;
     public static bool firstPlayer = true;
     public static int gamePhase;

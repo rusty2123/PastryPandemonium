@@ -47,12 +47,25 @@ public class Board : MonoBehaviour
         BitArray bitArray1 = new BitArray(playerOne);
         BitArray bitArray2 = new BitArray(playerTwo);
 
-        if (bitArray1.Xor(bitArray2)[index-1] == false)
+        if (Player.isSinglePlayer && !App.isLocalPlayerTurn)
         {
-            return true;
+            if (bitArray1.Xor(bitArray2)[index] == false)
+            {
+                return true;
+            }
+            else
+                return false;
         }
         else
-            return false;
+        {
+            if (bitArray1.Xor(bitArray2)[index - 1] == false)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+      
     }
 
     public static Board getInstance
@@ -78,6 +91,7 @@ public class Board : MonoBehaviour
     {
         return playerTwo[index - 1];
     }
+
 
     public BitArray getPlayerBoard()
     {
@@ -122,8 +136,8 @@ public class Board : MonoBehaviour
 
     public void moveOpponentPiece(int from, int to)
     {
-        playerTwo[from - 1] = false;
-        playerTwo[to - 1] = true;
+        playerTwo[from] = false;
+        playerTwo[to] = true;
     }
 
     public void removePiece(int index, bool isLocalPiece)
@@ -143,7 +157,7 @@ public class Board : MonoBehaviour
     public void removeLocalPiece(int index)
     {
         Debug.Log("removing local piece");
-        playerOne[index - 1] = false;
+        playerOne[index] = false;
     }
 
     public void removeOpponentPiece(int index)
@@ -154,15 +168,23 @@ public class Board : MonoBehaviour
 
     public void placePiece(int index, bool isLocalPiece)
     {
-        if (isLocalPiece)
+        if (Player.isSinglePlayer && !App.isLocalPlayerTurn)
         {
-            Debug.Log("local piece placed");
-            playerOne[index - 1] = true;
+            Debug.Log("opponent piece placed");
+            playerTwo[index] = true;
         }
         else
         {
-            Debug.Log("opponent piece placed");
-            playerTwo[index - 1] = true;
+            if (isLocalPiece)
+            {
+                Debug.Log("local piece placed");
+                playerOne[index - 1] = true;
+            }
+            else
+            {
+                Debug.Log("opponent piece placed");
+                playerTwo[index - 1] = true;
+            }
         }
     }
 
@@ -179,16 +201,6 @@ public class Board : MonoBehaviour
 
         Debug.Log(bitArray1);
         Debug.Log(bitArray2);
-    }
-
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
     }
 
 }

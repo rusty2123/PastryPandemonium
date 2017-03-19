@@ -22,8 +22,9 @@ public class MainMenuButton : MonoBehaviour {
 		singleplayer = GameObject.FindGameObjectWithTag("singleplayer");
 		help = GameObject.FindGameObjectWithTag("help");
 		exit = GameObject.FindGameObjectWithTag("exit");
-		volSlider.SetActive (false);
+		
 
+		volSlider.SetActive (false);
 
     }
     public void OnMouseEnter()
@@ -40,20 +41,20 @@ public class MainMenuButton : MonoBehaviour {
     public void OnMouseUp()
     {
 
-
 		playSound ();
 		StartCoroutine(setPopup());
 
 
     }
 
-	private void playSound(){
+    private void playSound()
+    {
 
-		audioSource.PlayOneShot (menuClick, .5f);
+        audioSource.PlayOneShot(menuClick, .5f);
 
-	}
+    }
 
-	IEnumerator setPopup()
+    IEnumerator setPopup()
 	{
 		yield return new WaitForSeconds (.3f);
 
