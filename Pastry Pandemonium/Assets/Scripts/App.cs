@@ -32,18 +32,20 @@ public class App : MonoBehaviour
     private List<GameObject> localPiecesList = new List<GameObject>(9);
     public GameObject[] outOfBoardSpaces = new GameObject[18];
     public GameObject[] boardSpaces = new GameObject[24];
+    private  GameObject[] piecesPositions = new GameObject[24];
 
     public static bool isSinglePlayer, gameOver = false, isLocalPlayerTurn, localPlayerWon, removePiece = false, placePiece = false, 
                         moveFromPiece = false, moveToPiece = false, flyFromPiece = false, flyToPiece = false;
 
     public static Player localPlayer, opponentPlayer;
     public static int phase = 1;
+    bool createdMill = false;
 
     private GameObject clickedFirst = null;
     private GameObject clickedSecond = null;
 
     //goal is to use selectedGamePiece to indicate which piece is clicked when deciding when to remove or move a piece
-    public static int placeIndex, moveFromIndex, moveToIndex, flyFromIndex, flyToIndex, from, to, pieceToRemove;
+    public static int placeIndex, moveFromIndex, moveToIndex, flyFromIndex, flyToIndex, from, to, pieceToRemove, positionIndex;
 
     #endregion
 
@@ -375,11 +377,7 @@ public class App : MonoBehaviour
 
             yield return StartCoroutine(opponentPlacePiece());
         }
-        if (outOfBoardOpponent == 0 && outOfBoardLocal == 0)
-        {
-            //phase = 2;
-            //Debug.Log("phase 2");
-        }
+   
     }
 
     IEnumerator getPlaceIndex()
@@ -396,21 +394,39 @@ public class App : MonoBehaviour
         int[] move = opponentPlayer.getAIMove();
 
         to = move[1];
+        positionIndex = to + 1;
 
-        if (Game.gameInstance.validPlace(to))
+        if (!Game.gameInstance.validPlace(to))
         {
             Debug.Log("ai not valid move");
         }
+        else if (Game.gameInstance.validPlace(to))
+        {
 
-        Debug.Log("valid move");
-        startPosition = opponentPieces[opponentIndex];
-        endPosition = GameObject.Find(to.ToString());
-        animationPhaseOne(startPosition, startPosition, endPosition);
-        opponentIndex++;
-        outOfBoardOpponent--;
-        Game.gameInstance.placePiece(to, false);
-        changePlayer();
-        print("delay");
+            Debug.Log("valid move");
+            Game.gameInstance.placePiece(to, false);
+            piecesPositions[to] = opponentPieces[opponentIndex];
+            Debug.Log(piecesPositions[to].name);
+
+            startPosition = opponentPieces[opponentIndex];
+            endPosition = GameObject.Find(positionIndex.ToString());
+            animationPhaseOne(startPosition, startPosition, endPosition);
+
+            opponentIndex++;
+            outOfBoardOpponent--;
+
+            //check if the placement created a mill
+            if (Game.gameInstance.createdMill(to))
+            {
+                Debug.Log("you created mill");
+                //allow the local player to select an opponent's piece to remove
+                yield return StartCoroutine("removeAIPiece");
+            }
+
+            changePlayer();
+            print("AI move done");
+
+        } 
     }
 
     IEnumerator localPlacePiece()
@@ -419,6 +435,7 @@ public class App : MonoBehaviour
 
         //place the piece and update the gameboard
         Game.gameInstance.placePiece(placeIndex, true);
+        piecesPositions[placeIndex - 1] = localPieces[localIndex];
 
         //send move over network if it's a networked game
         if (!Player.isSinglePlayer)
@@ -564,6 +581,7 @@ public class App : MonoBehaviour
         changePlayer();
         networkManager.changePlayer();
     }
+
 
     IEnumerator opponentMovePiece()
     {
@@ -808,6 +826,37 @@ public class App : MonoBehaviour
             boardSpace.GetComponent<BoxCollider2D>().enabled = true;
         }
     }
+
+
+    IEnumerator removeAIPiece()
+    {
+        yield return new WaitForSeconds(2);
+
+        Debug.Log("removeAIPiece called");
+
+        //get AI piece to remove
+        
+
+        foreach (GameObject boardSpace in boardSpaces)
+        {
+            boardSpace.GetComponent<BoxCollider2D>().enabled = false;
+        }
+
+        pieceToRemove = 0;
+
+        Debug.Log(piecesPositions[pieceToRemove].name);
+        Destroy(piecesPositions[pieceToRemove]);
+
+
+        Game.gameInstance.removeLocalPiece(pieceToRemove);
+        remainingLocal--;
+
+        foreach (GameObject boardSpace in boardSpaces)
+        {
+            boardSpace.GetComponent<BoxCollider2D>().enabled = true;
+        }
+    }
+
 
     IEnumerator waitForSeconds(int seconds)
     {

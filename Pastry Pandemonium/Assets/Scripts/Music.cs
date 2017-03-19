@@ -42,6 +42,6 @@ public class Music : MonoBehaviour {
 
 	public void changeVolume()
 	{
-		audioSource.volume = vol.value;
+		//audioSource.volume = vol.value;
 	}
 }

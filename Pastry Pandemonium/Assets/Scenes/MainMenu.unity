@@ -5358,6 +5358,7 @@ GameObject:
   - component: {fileID: 1629645880}
   - component: {fileID: 1629645879}
   - component: {fileID: 1629645878}
+  - component: {fileID: 1629645881}
   m_Layer: 5
   m_Name: volSlider
   m_TagString: Untagged
@@ -5440,6 +5441,21 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1629645881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1629645876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1afc9100268dfdd409b790e638a1acb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  current: {fileID: 0}
+  canvas: {fileID: 0}
+  volSlider: {fileID: 1629645876}
+  menuClick: {fileID: 0}
 --- !u!1 &1632589249
 GameObject:
   m_ObjectHideFlags: 0
