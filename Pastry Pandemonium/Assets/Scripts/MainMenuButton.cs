@@ -24,6 +24,7 @@ public class MainMenuButton : MonoBehaviour {
 		exit = GameObject.FindGameObjectWithTag("exit");
 		
 
+		volSlider.SetActive (false);
 
     }
     public void OnMouseEnter()

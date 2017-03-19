@@ -5215,7 +5215,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1595385216}
   - component: {fileID: 1595385219}
-  - component: {fileID: 1595385218}
   - component: {fileID: 1595385217}
   - component: {fileID: 1595385220}
   m_Layer: 0
@@ -5252,19 +5251,6 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 164, y: 507}
---- !u!114 &1595385218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1595385215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8874f97615211462ca4615567ea61ff3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  current: {fileID: 1595385215}
-  musicSlider: {fileID: 0}
 --- !u!212 &1595385219
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6266,7 +6252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current: {fileID: 1839417470}
   canvas: {fileID: 532518288}
-  volSlider: {fileID: 1741763008}
+  volSlider: {fileID: 1629645876}
   menuClick: {fileID: 8300000, guid: db6da9560848e4aef839b322b3cd6b50, type: 3}
 --- !u!65 &1839417472
 BoxCollider:
