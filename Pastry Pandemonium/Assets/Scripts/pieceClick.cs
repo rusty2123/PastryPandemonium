@@ -23,12 +23,6 @@ public class pieceClick : MonoBehaviour
 
     }
 
-    //IEnumerator startAnimation()
-    //{
-    //    yield return new WaitForSeconds(range);
-    //    gameObject.GetComponent<Animation>().Play();
-    //}
-
     public void OnMouseDown()
     {
         gameObj = GameObject.FindWithTag("gameBoard");
@@ -39,9 +33,20 @@ public class pieceClick : MonoBehaviour
             case 1:
                 if (App.isLocalPlayerTurn && App.placePiece)
                 {
-                    App.placeIndex = Convert.ToInt32(gameObject.name);
-                    App.placePiece = false;
+                    Debug.Log(gameObject.name + "chosen");
+                    if ((gameObject.name.Contains("local")) || (gameObject.name.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name)-1] != null))
+                    {
+                        App.validMove = false;
+                    }
+                    else
+                    {
+                        App.placeIndex = Convert.ToInt32(gameObject.name);
+                        App.placePiece = false;
+                        App.validMove = true;
+                    }
+                        
                 }
+                                
                 break;
             case 2:
                 if (App.isLocalPlayerTurn && App.moveToPiece && !App.moveFromPiece)

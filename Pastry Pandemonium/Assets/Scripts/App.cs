@@ -5,7 +5,7 @@ using System;
 
 
 public class App : MonoBehaviour
-{
+{ 
     //we need these documented, so we know what all of these variables do. some are obvious, but many are not
 
     #region variables
@@ -32,10 +32,10 @@ public class App : MonoBehaviour
     private List<GameObject> localPiecesList = new List<GameObject>(9);
     public GameObject[] outOfBoardSpaces = new GameObject[18];
     public GameObject[] boardSpaces = new GameObject[24];
-    private  GameObject[] piecesPositions = new GameObject[24];
+    public static  GameObject[] piecesPositions = new GameObject[24];
 
-    public static bool isSinglePlayer, gameOver = false, isLocalPlayerTurn, localPlayerWon, removePiece = false, placePiece = false, 
-                        moveFromPiece = false, moveToPiece = false, flyFromPiece = false, flyToPiece = false;
+    public static bool isSinglePlayer, gameOver = false, isLocalPlayerTurn, localPlayerWon, removePiece = false, placePiece = false,
+                        moveFromPiece = false, moveToPiece = false, flyFromPiece = false, flyToPiece = false, validMove=false;
 
     public static Player localPlayer, opponentPlayer;
     public static int phase = 1;
@@ -469,6 +469,7 @@ public class App : MonoBehaviour
         if (!Game.gameInstance.validPlace(to))
         {
             Debug.Log("ai not valid move");
+            yield return StartCoroutine("executeAIMovePhaseOne");
         }
         else if (Game.gameInstance.validPlace(to))
         {
@@ -506,6 +507,14 @@ public class App : MonoBehaviour
         yield return StartCoroutine("getPlaceIndex");
 
         //place the piece and update the gameboard
+
+        while (!validMove)
+        {
+            Debug.Log("not valid move.. select another place");
+            yield return StartCoroutine("getPlaceIndex");
+
+        }
+
         Game.gameInstance.placePiece(placeIndex, true);
         piecesPositions[placeIndex - 1] = localPieces[localIndex];
 
