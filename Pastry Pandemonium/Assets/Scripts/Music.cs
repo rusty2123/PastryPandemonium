@@ -44,4 +44,5 @@ public class Music : MonoBehaviour {
 	{
 		audioSource.volume = vol.value;
 	}
+		
 }

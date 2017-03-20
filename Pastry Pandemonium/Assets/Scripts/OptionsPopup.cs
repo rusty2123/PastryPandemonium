@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OptionsPopup : MonoBehaviour {
 
 	public GameObject current, musicSlider;
+	public Slider slider;
 
 	private GameObject menu, singlePlayer, multiplayer, tutorial, options, help, exit;
-
 
 	private void Awake()
 	{
@@ -57,6 +58,9 @@ public class OptionsPopup : MonoBehaviour {
 				exit.SetActive (true);
 				musicSlider.SetActive (false);
 
+				break;
+			case "mute":
+				slider.value = 0f;
 				break;
 			default:
 				break;          
