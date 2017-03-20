@@ -5298,7 +5298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 1595385215}
-  musicSlider: {fileID: 1741763008}
+  musicSlider: {fileID: 1629645876}
 --- !u!1 &1612207152
 GameObject:
   m_ObjectHideFlags: 0
