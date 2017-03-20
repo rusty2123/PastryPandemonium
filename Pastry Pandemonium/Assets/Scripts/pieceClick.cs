@@ -33,7 +33,7 @@ public class pieceClick : MonoBehaviour
             case 1:
                 if (App.isLocalPlayerTurn && App.placePiece)
                 {
-                    Debug.Log(gameObject.name + "chosen");
+                    //Debug.Log(gameObject.name + "chosen");
                     if ((gameObject.name.Contains("local")) || (gameObject.name.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name)-1] != null))
                     {
                         App.validMove = false;

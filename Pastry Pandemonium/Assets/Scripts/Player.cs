@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
 
     public int[] getAIMove()
     {
-        print("Calling AI");
+       // print("Calling AI");
         int[] move = new int[2];
 
         if (difficultyLevel == "easy")

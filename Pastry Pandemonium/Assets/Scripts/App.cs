@@ -434,6 +434,11 @@ public class App : MonoBehaviour
             enableGameObjects(true);
 
             yield return StartCoroutine(localPlacePiece());
+
+            if (remainingOpponent < 3 || remainingLocal < 3)
+            {
+                gameOver = true;
+            }
         }
 
         //get move from AI or network
@@ -442,12 +447,15 @@ public class App : MonoBehaviour
             enableGameObjects(false);
 
             yield return StartCoroutine(opponentPlacePiece());
-        }
 
-        if (remainingOpponent < 3 || remainingLocal < 3)
-        {
-            gameOver = true;
+            if (remainingOpponent < 3 || remainingLocal < 3)
+            {
+                gameOver = true;
+            }
         }
+    
+        Debug.Log("local= " + remainingLocal + " opponent= " + remainingOpponent);
+        Debug.Log(gameOver);     
     }
 
     IEnumerator getPlaceIndex()
@@ -474,7 +482,7 @@ public class App : MonoBehaviour
         else if (Game.gameInstance.validPlace(to))
         {
 
-            Debug.Log("valid move");
+            //Debug.Log("valid move");
             Game.gameInstance.placePiece(to, false);
             piecesPositions[to] = opponentPieces[opponentIndex];
             Debug.Log(piecesPositions[to].name);
@@ -497,7 +505,7 @@ public class App : MonoBehaviour
 
            // createdMill = true;
             changePlayer();
-            print("AI move done");
+            //print("AI move done");
 
         } 
     }
@@ -1045,169 +1053,19 @@ public class App : MonoBehaviour
         Debug.Log("update has been called");
         if (gameOver)
         {
-            //change turn text to game over text
-
-            if (!gameInstance.GetComponent<Game>().isDraw())
+            if (remainingOpponent < 3)
             {
-                if (isSinglePlayer)
-                {
-                    if (localPlayerWon)
-                    {
-                        //check if audio is enabled
-                        //play win audio
-
-                        displayWinMessage();
-                    }
-                }
+                Debug.Log("you won");
             }
-            else
+            else if (remainingLocal < 3)
             {
-                //check if audio is enabled
-                //play loss audio
-
-                displayLossMessage();
+                Debug.Log("you lost");
             }
+
         }
-        else
-        {
-            // continues 
-
-            if (Player.firstPlayer)
-            {
-
-                if (localPlayerWon)
-                {
-                    //check if audio is enabled
-                    //play win audio
-
-                    displayWinMessage();
-                }
-                else
-                {
-                    //check if audio is enabled
-                    //play win loss audio
-
-                    displayLossMessage();
-
-                }
-
-            }
-            else
-            {
-                if (localPlayerWon)
-                {
-                    //check if audio is enabled
-                    //play win loss audio
-                }
-                else
-                {
-                    //check if audio is enabled
-                    //play win audio
-
-                }
-
-            }
-        }
-        disableButtons();
-        disablePieces();
+       
     }
 
-    public int setMoveFrom(GameObject obj)
-    {
-        if (obj.tag == null)
-        {
-            obj.tag = "-1";
-            return Convert.ToInt32(obj.tag);
-
-        }
-        else
-        {
-            return Convert.ToInt32(obj.tag);
-        }
-
-    }
-
-    public int setMoveTo(GameObject obj)
-    {
-        return Convert.ToInt32(obj.tag);
-    }
-
-    //works with the networking part
-    public void setClickedObjects(GameObject obj)
-    {
-
-
-        if (clickedFirst == null)
-        {
-            if (obj.name.Contains("local") && isLocalPlayerTurn)
-            {
-                if (!isSinglePlayer)
-                {
-                    if (Player.firstPlayer) //both connected
-                        from = setMoveFrom(obj);
-                }
-                else
-                {
-                    from = setMoveFrom(obj);
-
-                }
-            }
-            else if (obj.name.Contains("opponent") && !isLocalPlayerTurn && !Player.firstPlayer) // &&check if both players are connected
-            {
-                from = setMoveFrom(obj);
-            }
-            else
-            {
-                //do nothing, empty space clicked
-            }
-        }
-        else
-        {
-
-            to = setMoveTo(obj);
-
-            if (clickedSecond.tag == "Empty")
-            {
-                //two valid clicks registered
-                if ((gameInstance.GetComponent<Game>().validMove(from, to)))
-                {
-                    //was a valid move, go ahead and move the piece
-                    if (isSinglePlayer)
-                    {
-                        //move(clickedFirst, clickedSecond.transform.position);
-                    }
-                    else//else if multiplayer TO MOVE PIECES, TRANSFORM MUST BE IN SEPARATE FUNCTION
-                    {
-
-                    }
-                    clickedFirst = null;
-                    clickedSecond = null;
-
-                }
-                //invalid move, setting selections to nothing.
-                clickedFirst = null;
-                clickedSecond = null;
-
-            }
-            else
-            {
-                if (clickedSecond == clickedFirst)
-                {
-                    //same piece clicked twice, deselect
-
-                    clickedSecond = null;
-                    clickedFirst = null;
-                }
-                else
-                {
-                    //different piece clicked, set new selected piece to the new piece
-
-                    setMoveFrom(clickedSecond);
-                    clickedSecond = null;
-                }
-            }
-        }
-    }
 
     public void displayWinMessage()
     {
