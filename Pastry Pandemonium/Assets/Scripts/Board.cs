@@ -157,7 +157,7 @@ public class Board : MonoBehaviour
     public void removeLocalPiece(int index)
     {
         Debug.Log("removing local piece");
-        playerOne[index] = false;
+        playerOne[index - 1] = false;
     }
 
     public void removeOpponentPiece(int index)

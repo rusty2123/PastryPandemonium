@@ -524,6 +524,7 @@ public class App : MonoBehaviour
         }
 
         Game.gameInstance.placePiece(placeIndex, true);
+        //Board.boardInstance.placePiece(placeIndex, true);
         piecesPositions[placeIndex - 1] = localPieces[localIndex];
 
         //send move over network if it's a networked game
@@ -641,8 +642,8 @@ public class App : MonoBehaviour
        } while (!Game.gameInstance.validMove(moveFromIndex, moveToIndex));
 
         //place the piece and update the gameboard
-        //Game.gameInstance.moveLocalPiece(moveFromIndex, moveToIndex);
-        Board.boardInstance.moveLocalPiece(from, to);
+        Game.gameInstance.moveLocalPiece(moveFromIndex, moveToIndex);
+        //Board.boardInstance.moveLocalPiece(from, to);
 
 
         //send move over network if it's a networked game
@@ -1155,6 +1156,7 @@ public class App : MonoBehaviour
 
             //update gameboard
             Game.gameInstance.placePiece(NetworkGameManager.placeIndex, false);
+            //Board.boardInstance.placePiece(NetworkGameManager.placeIndex, false);
 
             //run the animation
             if (remainingOpponent > 0)
@@ -1196,8 +1198,8 @@ public class App : MonoBehaviour
             NetworkGameManager.moveFromIndex = selected[0];
             NetworkGameManager.moveToIndex = selected[1];
 
-            //Game.gameInstance.moveOpponentPiece(NetworkGameManager.moveFromIndex, NetworkGameManager.moveToIndex);
-            Board.boardInstance.moveOpponentPiece(NetworkGameManager.moveFromIndex, NetworkGameManager.moveToIndex);
+            Game.gameInstance.moveOpponentPiece(NetworkGameManager.moveFromIndex, NetworkGameManager.moveToIndex);
+            //Board.boardInstance.moveOpponentPiece(NetworkGameManager.moveFromIndex, NetworkGameManager.moveToIndex);
 
             foreach (GameObject piece in opponentPieces)
             {
