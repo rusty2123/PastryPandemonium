@@ -191,20 +191,14 @@ public class App : MonoBehaviour
         }
         while (!gameOver)
         {
-            if (remainingLocal > 3)
+            if (remainingLocal > 3 && remainingOpponent > 3)
             {
                 phase = 2;
                 Debug.Log("phase 2");
                 yield return StartCoroutine(pieceMovePhase());
                 //Board.boardInstance.printBoard();
             }
-            else if (remainingOpponent > 3)
-            {
-                phase = 2;
-                Debug.Log("phase 2");
-                yield return StartCoroutine(pieceMovePhase());
-            }
-            else
+            else if (remainingLocal == 3 || remainingOpponent == 3)
             {
                 phase = 3;
                 Debug.Log("phase 3");
@@ -777,7 +771,7 @@ public class App : MonoBehaviour
         }
 
         //get move from AI or network
-        if (!isLocalPlayerTurn && outOfBoardOpponent > 0)
+        if (!isLocalPlayerTurn && remainingOpponent == 3)
         {
             enableGameObjects(false);
 
@@ -873,6 +867,47 @@ public class App : MonoBehaviour
         flyToPiece = false;
     }
 
+    IEnumerator executeAIMovePhaseThree()
+    {
+
+        int[] move = opponentPlayer.getAIMove();
+
+        from = move[0];
+        to = move[1];
+
+        positionIndex = to + 1;
+
+        if (!Game.gameInstance.validPlace(to))
+        {
+            Debug.Log("AI not valid move");
+        }
+        else if (Game.gameInstance.validPlace(to))
+        {
+
+            //place the piece and update the gameboard
+            Game.gameInstance.moveOpponentPiece(from, to);
+
+            startPosition = piecesPositions[from];
+            endPosition = GameObject.Find(positionIndex.ToString());
+            animationPhaseOne(startPosition, startPosition, endPosition);
+
+            piecesPositions[to] = piecesPositions[from];
+            piecesPositions[from] = null;
+
+            //check if the placement created a mill
+            if (Game.gameInstance.createdMill(to))
+            {
+                Debug.Log("AI created a mill");
+
+                pieceToRemove = move[2];
+                yield return StartCoroutine("removeAIPiece");
+            }
+
+            changePlayer();
+            print("AI move done");
+
+        }
+    }
     #endregion
 
     #region utility methods
