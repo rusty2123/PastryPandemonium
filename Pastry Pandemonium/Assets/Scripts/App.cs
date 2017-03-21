@@ -432,10 +432,7 @@ public class App : MonoBehaviour
 
             yield return StartCoroutine(localPlacePiece());
 
-            if (remainingOpponent < 3 || remainingLocal < 3)
-            {
-                gameOver = true;
-            }
+            checkGameOver();
         }
 
         //get move from AI or network
@@ -445,10 +442,7 @@ public class App : MonoBehaviour
 
             yield return StartCoroutine(opponentPlacePiece());
 
-            if (remainingOpponent < 3 || remainingLocal < 3)
-            {
-                gameOver = true;
-            }
+            checkGameOver();
         }
 
         Debug.Log("local= " + remainingLocal + " opponent= " + remainingOpponent);
@@ -599,28 +593,23 @@ public class App : MonoBehaviour
     IEnumerator pieceMovePhase()
     {
         //if it's the local player's turn, and there are still pieces left to place
-        if (isLocalPlayerTurn && Player.isSinglePlayer)
+        if (isLocalPlayerTurn)
         {
             enableGameObjects(true);
 
             yield return StartCoroutine(localMovePiece());
-
-
-
+            checkGameOver();
         }
-        else if (!isLocalPlayerTurn && Player.isSinglePlayer)
-        {
-            yield return StartCoroutine(opponentMovePiece());
-        }
-
+       
         //get move from AI or network
-        if (!isLocalPlayerTurn && !Player.isSinglePlayer && remainingOpponent > 3)
+        if (!isLocalPlayerTurn && remainingOpponent > 3)
         {
             enableGameObjects(false);
 
             yield return StartCoroutine(opponentMovePiece());
+            checkGameOver();
 
-        
+
         }
 
     }
@@ -1045,6 +1034,14 @@ public class App : MonoBehaviour
             }
         }
         Debug.Log("changed player");
+    }
+
+    public void checkGameOver()
+    {
+        if (remainingOpponent < 3 || remainingLocal < 3)
+        {
+            gameOver = true;
+        }
     }
 
     private void Update()

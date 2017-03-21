@@ -10,37 +10,22 @@ public class Player : MonoBehaviour
     public static bool isSinglePlayer = false;
     public static bool playerGoFirst = true;
     public static bool firstPlayer = true;
-    public static int gamePhase;
 
     public static string[] characterSelection = { "berryMuffin", "chipMuffin", "lemonMuffin", "chocolateCupcake", "redCupcake", "whiteCupcake" }; //change for names of characters later
-    public static string characterLocalPlayer; //enum list of characters
+    public static string characterLocalPlayer; 
     public static string characterOpponentPlayer;
     public GameObject[] Pieces;
-
-    private static int piecesToPlace = 9;
-    private static int pieceCount;
-    private int moveTo;
-    private int moveFrom;
     private int[] aiLocations = new int[24];
     private static int y;
 
-    public static string difficultyLevel = "easy"; //by default
 
-    public static Player instance;
+    //AI levelset on single player menu
+    public static string difficultyLevel = "easy"; 
 
 
     void Awake()
     {
-    //    if (instance == null)
-    //    {
-    //        DontDestroyOnLoad(gameObject);
-    //        instance = this;
-    //    }
-    //    else if (instance != this)
-    //    {
-    //        Destroy(gameObject);
-    //    }
-
+    
         if (difficultyLevel == "easy")
         {
             //aIScript = gameObject.AddComponent<AIScript>();
@@ -88,7 +73,7 @@ public class Player : MonoBehaviour
 
 
         }
-        else if (App.phase == 2)
+        else if (App.phase == 2 || App.phase == 3)
         {
             y = 0;
 
@@ -144,16 +129,6 @@ public class Player : MonoBehaviour
         {
 
         }
-
-        //if (difficultyLevel == "easy")
-        //{
-        //    //call A1
-        //}
-        //else if (difficultyLevel == "difficult")
-        //{
-        //    //call A1
-        //}
-
 
         return move;
     }

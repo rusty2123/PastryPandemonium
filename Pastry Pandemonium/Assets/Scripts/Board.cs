@@ -43,6 +43,7 @@ public class Board : MonoBehaviour
             return boardInstance;
         }
     }
+
     public void initializeBoard()
     {
         playerOne.SetAll(false);
@@ -81,7 +82,6 @@ public class Board : MonoBehaviour
     }
 
     
-
     //if the local player controls the place on the board at index
     public bool isLocalPlayerPieceAt(int index)
     {
