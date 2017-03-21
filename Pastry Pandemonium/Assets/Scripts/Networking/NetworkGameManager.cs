@@ -26,6 +26,18 @@ public class NetworkGameManager : Photon.PunBehaviour
         SceneManager.LoadScene("Room");
     }
 
+    //called when another player joins the room
+    public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+    {
+        base.OnPhotonPlayerConnected(newPlayer);
+    }
+
+    //called when a player disconnects
+    public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+    {
+        base.OnPhotonPlayerDisconnected(otherPlayer);
+    }
+
     #endregion
 
 
