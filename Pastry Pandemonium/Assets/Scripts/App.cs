@@ -34,7 +34,8 @@ public class App : MonoBehaviour
     public GameObject[] boardSpaces = new GameObject[24];
     public static  GameObject[] piecesPositions = new GameObject[24];
 
-    public static bool isSinglePlayer, gameOver = false, isLocalPlayerTurn, localPlayerWon, removePiece = false, placePiece = false,
+    public static bool isSinglePlayer, gameOver = false, isDraw = false, 
+         isLocalPlayerTurn, localPlayerWon, removePiece = false, placePiece = false,
                         moveFromPiece = false, moveToPiece = false, flyFromPiece = false, flyToPiece = false, validMove=false;
 
     public static Player localPlayer, opponentPlayer;
