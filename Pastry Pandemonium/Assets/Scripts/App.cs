@@ -25,7 +25,7 @@ public class App : MonoBehaviour
 
     public Board gameBoard = Board.boardInstance;
 
-    private static int localIndex = 0, opponentIndex = 0, remainingLocal = 9, remainingOpponent = 9, outOfBoardOpponent = 9, outOfBoardLocal = 9;
+    public static int localIndex = 0, opponentIndex = 0, remainingLocal = 9, remainingOpponent = 9, outOfBoardOpponent = 9, outOfBoardLocal = 9;
 
     private GameObject[] opponentPieces = new GameObject[9];
     private GameObject[] localPieces = new GameObject[9];
@@ -215,8 +215,6 @@ public class App : MonoBehaviour
     public void setUpPlayerPieces()
     {
 
-        // boardInstance.initializeBoard();
-
         Player.characterLocalPlayer = SinglePlayerMenu.selectedCharacter;
         Player.characterOpponentPlayer = "chipMuffin";
 
@@ -399,7 +397,6 @@ public class App : MonoBehaviour
             piece.GetComponent<GamePiece>().location = 0;
             piece.GetComponent<GamePiece>().owner = "local";
             localPieces[i - 1] = piece;
-            //localPiecesList[i - 1] = piece;
         }
 
     }
@@ -453,61 +450,9 @@ public class App : MonoBehaviour
                 gameOver = true;
             }
         }
-    
+
         Debug.Log("local= " + remainingLocal + " opponent= " + remainingOpponent);
-        Debug.Log(gameOver);     
-    }
-
-    IEnumerator getPlaceIndex()
-    {
-        placePiece = true;
-
-        yield return new WaitWhile(() => placePiece);
-    }
-
-    IEnumerator executeAIMovePhaseOne()
-    {
-        yield return new WaitForSeconds(4);
-
-        int[] move = opponentPlayer.getAIMove();
-
-        to = move[1];
-        positionIndex = to + 1;
-
-        if (!Game.gameInstance.validPlace(to))
-        {
-            Debug.Log("ai not valid move");
-            yield return StartCoroutine("executeAIMovePhaseOne");
-        }
-        else if (Game.gameInstance.validPlace(to))
-        {
-
-            //Debug.Log("valid move");
-            Game.gameInstance.placePiece(to, false);
-            piecesPositions[to] = opponentPieces[opponentIndex];
-            Debug.Log(piecesPositions[to].name);
-
-            startPosition = opponentPieces[opponentIndex];
-            endPosition = GameObject.Find(positionIndex.ToString());
-            animationPhaseOne(startPosition, startPosition, endPosition);
-
-            opponentIndex++;
-            outOfBoardOpponent--;
-
-            //check if the placement created a mill
-            //if (createdMill)
-            if (Game.gameInstance.createdMill(to))
-            {
-                Debug.Log("you created mill");
-                //allow the local player to select an opponent's piece to remove
-                yield return StartCoroutine("removeAIPiece");
-            }
-
-           // createdMill = true;
-            changePlayer();
-            //print("AI move done");
-
-        } 
+        Debug.Log(gameOver);
     }
 
     IEnumerator localPlacePiece()
@@ -524,7 +469,6 @@ public class App : MonoBehaviour
         }
 
         Game.gameInstance.placePiece(placeIndex, true);
-        //Board.boardInstance.placePiece(placeIndex, true);
         piecesPositions[placeIndex - 1] = localPieces[localIndex];
 
         //send move over network if it's a networked game
@@ -543,13 +487,14 @@ public class App : MonoBehaviour
         //check if the placement created a mill
         if (Game.gameInstance.createdMill(placeIndex))
         {
-            Debug.Log("you created mill");
+            Debug.Log("Local player a created mill!");
+
             //allow the local player to select an opponent's piece to remove
             yield return StartCoroutine("getPieceToRemove");
         }
 
-        Debug.Log("turn over");
-        //isLocalPlayerTurn = false;
+        Debug.Log("Local turn over");
+       
         changePlayer();
         networkManager.changePlayer();
     }
@@ -562,7 +507,9 @@ public class App : MonoBehaviour
         if (Player.isSinglePlayer)
         {
             //check to make sure the player is allowed to move there
+            yield return StartCoroutine(waitForSeconds(3));
             yield return StartCoroutine("executeAIMovePhaseOne");
+            
         }
         //get move from network
         else if (!Player.isSinglePlayer)
@@ -570,6 +517,53 @@ public class App : MonoBehaviour
             //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
             yield return StartCoroutine("waitForChangePlayer");
             yield return StartCoroutine(waitForSeconds(2));
+        }
+    }
+
+    IEnumerator getPlaceIndex()
+    {
+        placePiece = true;
+
+        yield return new WaitWhile(() => placePiece);
+    }
+
+    IEnumerator executeAIMovePhaseOne()
+    {
+
+        int[] move = opponentPlayer.getAIMove();
+
+        to = move[1];
+        positionIndex = to + 1;
+
+        if (!Game.gameInstance.validPlace(to))
+        {
+            Debug.Log("AI not valid move");
+            yield return StartCoroutine("executeAIMovePhaseOne");
+        }
+        else if (Game.gameInstance.validPlace(to))
+        {
+            Game.gameInstance.placePiece(to, false);
+            piecesPositions[to] = opponentPieces[opponentIndex];
+            Debug.Log(piecesPositions[to].name);
+
+            startPosition = opponentPieces[opponentIndex];
+            endPosition = GameObject.Find(positionIndex.ToString());
+            animationPhaseOne(startPosition, startPosition, endPosition);
+
+            opponentIndex++;
+            outOfBoardOpponent--;
+
+            //check if the placement created a mill
+            if (Game.gameInstance.createdMill(to))
+            {
+                Debug.Log("AI a created mill");
+
+                pieceToRemove = move[2];
+                yield return StartCoroutine("removeAIPiece");
+            }
+
+            changePlayer();
+
         }
     }
 
@@ -605,15 +599,18 @@ public class App : MonoBehaviour
     IEnumerator pieceMovePhase()
     {
         //if it's the local player's turn, and there are still pieces left to place
-        if (isLocalPlayerTurn)
+        if (isLocalPlayerTurn && Player.isSinglePlayer)
         {
             enableGameObjects(true);
 
             yield return StartCoroutine(localMovePiece());
+
+
+
         }
         else if (!isLocalPlayerTurn && Player.isSinglePlayer)
         {
-            yield return StartCoroutine(executeAIMovePhaseTwo());
+            yield return StartCoroutine(opponentMovePiece());
         }
 
         //get move from AI or network
@@ -622,29 +619,27 @@ public class App : MonoBehaviour
             enableGameObjects(false);
 
             yield return StartCoroutine(opponentMovePiece());
+
+        
         }
 
-        if (remainingOpponent < 3 || remainingLocal < 3)
-        {
-            gameOver = true;
-        }
     }
 
     IEnumerator localMovePiece()
     {
         moveToIndex = 0; moveFromIndex = 0;
 
-       do
-       {
+        do
+        {
             yield return StartCoroutine(getMoveFromIndex());
             yield return StartCoroutine(getMoveToIndex());
 
-       } while (!Game.gameInstance.validMove(moveFromIndex, moveToIndex));
+        } while (!Game.gameInstance.validMove(moveFromIndex, moveToIndex));
 
         //place the piece and update the gameboard
         Game.gameInstance.moveLocalPiece(moveFromIndex, moveToIndex);
-        //Board.boardInstance.moveLocalPiece(from, to);
-
+        piecesPositions[moveToIndex - 1] = piecesPositions[moveFromIndex -1];
+        piecesPositions[moveFromIndex - 1] = null;
 
         //send move over network if it's a networked game
         if (!Player.isSinglePlayer)
@@ -653,9 +648,9 @@ public class App : MonoBehaviour
         }
 
         //play move animation
-        foreach(GameObject piece in localPieces)
+        foreach (GameObject piece in localPieces)
         {
-            if(piece != null && piece.GetComponent<GamePiece>().location == moveFromIndex)
+            if (piece != null && piece.GetComponent<GamePiece>().location == moveFromIndex)
             {
                 //start position needs to be the gamepiece with location at moveFromIndex
                 startPosition = piece;
@@ -671,58 +666,17 @@ public class App : MonoBehaviour
         //check if the placement created a mill
         if (Game.gameInstance.createdMill(moveToIndex))
         {
-            Debug.Log("you created mill");
-            Board.boardInstance.printBoard();
+            Debug.Log("Local player created a mill");
+  
             //allow the local player to select an opponent's piece to remove
             yield return StartCoroutine("getPieceToRemove");
         }
 
-        Debug.Log("turn over");
+        Debug.Log("Local turn over");
         changePlayer();
         networkManager.changePlayer();
     }
 
-    IEnumerator executeAIMovePhaseTwo()
-    {
-        yield return new WaitForSeconds(2);
-
-        int[] move = opponentPlayer.getAIMove();
-
-        from = move[0];
-        to = move[1];
-
-        positionIndex = to + 1;
-        if (!Game.gameInstance.validPlace(to))
-        {
-            Debug.Log("ai not valid move");
-        }
-        else if (Game.gameInstance.validPlace(to))
-        {
-
-            Debug.Log("valid move");
-            Game.gameInstance.placePiece(to, false);
-
-            //piecesPositions[to] = opponentPieces[opponentIndex];
-            //Debug.Log(piecesPositions[to].name);
-
-            startPosition = piecesPositions[from];
-            endPosition = GameObject.Find(positionIndex.ToString());
-            animationPhaseOne(startPosition, startPosition, endPosition);
-
-
-            //check if the placement created a mill
-            if (Game.gameInstance.createdMill(to))
-            {
-                Debug.Log("you created mill");
-                //allow the local player to select an opponent's piece to remove
-                yield return StartCoroutine("removeAIPiece");
-            }
-
-            changePlayer();
-            print("AI move done");
-
-        }
-    }
 
     IEnumerator opponentMovePiece()
     {
@@ -733,6 +687,12 @@ public class App : MonoBehaviour
             //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
             yield return StartCoroutine("waitForChangePlayer");
             yield return StartCoroutine(waitForSeconds(2));
+        }
+        else
+        {
+            yield return StartCoroutine(waitForSeconds(3));
+            yield return StartCoroutine("executeAIMovePhaseTwo");
+            
         }
     }
 
@@ -759,6 +719,48 @@ public class App : MonoBehaviour
         yield return new WaitWhile(() => moveToPiece);
 
         moveToPiece = false;
+    }
+
+    IEnumerator executeAIMovePhaseTwo()
+    {
+
+        int[] move = opponentPlayer.getAIMove();
+
+        from = move[0];
+        to = move[1];
+
+        positionIndex = to + 1;
+
+        if (!Game.gameInstance.validPlace(to))
+        {
+            Debug.Log("AI not valid move");
+        }
+        else if (Game.gameInstance.validPlace(to))
+        {
+
+            //place the piece and update the gameboard
+            Game.gameInstance.moveOpponentPiece(from, to);
+
+            startPosition = piecesPositions[from];
+            endPosition = GameObject.Find(positionIndex.ToString());
+            animationPhaseOne(startPosition, startPosition, endPosition);
+
+            piecesPositions[to] = piecesPositions[from];
+            piecesPositions[from] = null;
+
+            //check if the placement created a mill
+            if (Game.gameInstance.createdMill(to))
+            {
+                Debug.Log("AI created a mill");
+
+                pieceToRemove = move[2];
+                yield return StartCoroutine("removeAIPiece");
+            }
+
+            changePlayer();
+            print("AI move done");
+
+        }
     }
 
     #endregion
@@ -971,23 +973,17 @@ public class App : MonoBehaviour
 
     IEnumerator removeAIPiece()
     {
-        yield return new WaitForSeconds(2);
-
-        Debug.Log("removeAIPiece called");
-
-        //get AI piece to remove
-        
+        yield return StartCoroutine(waitForSeconds(2));
 
         foreach (GameObject boardSpace in boardSpaces)
         {
             boardSpace.GetComponent<BoxCollider2D>().enabled = false;
         }
 
-        pieceToRemove = 0;
-
-        //Debug.Log(piecesPositions[pieceToRemove].name);
+        Debug.Log("piece to remove " + pieceToRemove);
+       
         Destroy(piecesPositions[pieceToRemove]);
-
+        piecesPositions[pieceToRemove] = null;
 
         Game.gameInstance.removeLocalPiece(pieceToRemove);
         remainingLocal--;
@@ -996,8 +992,9 @@ public class App : MonoBehaviour
         {
             boardSpace.GetComponent<BoxCollider2D>().enabled = true;
         }
-    }
 
+        printPieceLocations();
+    }
 
     IEnumerator waitForSeconds(int seconds)
     {
@@ -1068,6 +1065,7 @@ public class App : MonoBehaviour
        
     }
 
+  
 
     public void displayWinMessage()
     {

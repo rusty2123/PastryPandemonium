@@ -31,6 +31,18 @@ public class Board : MonoBehaviour
         playerTwo = second;
     }
 
+    public static Board getInstance
+    {
+        get
+        {
+            if (boardInstance == null)
+            {
+                boardInstance = new Board();
+
+            }
+            return boardInstance;
+        }
+    }
     public void initializeBoard()
     {
         playerOne.SetAll(false);
@@ -68,18 +80,7 @@ public class Board : MonoBehaviour
       
     }
 
-    public static Board getInstance
-    {
-        get
-        {
-            if (boardInstance == null)
-            {
-                boardInstance = new Board();
-
-            }
-            return boardInstance;
-        }
-    }
+    
 
     //if the local player controls the place on the board at index
     public bool isLocalPlayerPieceAt(int index)
@@ -114,6 +115,28 @@ public class Board : MonoBehaviour
         }
     }
 
+    public void placePiece(int index, bool isLocalPiece)
+    {
+        if (Player.isSinglePlayer && !App.isLocalPlayerTurn)
+        {
+            Debug.Log("opponent piece placed");
+            playerTwo[index] = true;
+        }
+        else
+        {
+            if (isLocalPiece)
+            {
+                Debug.Log("local piece placed");
+                playerOne[index - 1] = true;
+            }
+            else
+            {
+                Debug.Log("opponent piece placed");
+                playerTwo[index - 1] = true;
+            }
+        }
+    }
+
     public void movePiece(int from, int to)
     {
         if (App.isLocalPlayerTurn)
@@ -136,56 +159,35 @@ public class Board : MonoBehaviour
 
     public void moveOpponentPiece(int from, int to)
     {
-        playerTwo[from - 1] = false;
-        playerTwo[to - 1] = true;
-    }
-
-    public void removePiece(int index, bool isLocalPiece)
-    {
-        if (isLocalPiece)
+        if (Player.isSinglePlayer && !App.isLocalPlayerTurn)
         {
-            Debug.Log("removing local piece");
-            playerOne[index - 1] = false;
+            playerTwo[from] = false;
+            playerTwo[to] = true;
         }
         else
         {
-            Debug.Log("removing opponent piece");
-            playerTwo[index - 1] = false;
+            playerTwo[from - 1] = false;
+            playerTwo[to - 1] = true;
         }
     }
+
 
     public void removeLocalPiece(int index)
     {
         Debug.Log("removing local piece");
-        playerOne[index - 1] = false;
+
+        if (Player.isSinglePlayer && !App.isLocalPlayerTurn)
+        {
+            playerOne[index] = false;
+        }
+        else
+         playerOne[index - 1] = false;
     }
 
     public void removeOpponentPiece(int index)
     {
         Debug.Log("removing opponent piece");
         playerTwo[index - 1] = false;
-    }
-
-    public void placePiece(int index, bool isLocalPiece)
-    {
-        if (Player.isSinglePlayer && !App.isLocalPlayerTurn)
-        {
-            Debug.Log("opponent piece placed");
-            playerTwo[index] = true;
-        }
-        else
-        {
-            if (isLocalPiece)
-            {
-                Debug.Log("local piece placed");
-                playerOne[index - 1] = true;
-            }
-            else
-            {
-                Debug.Log("opponent piece placed");
-                playerTwo[index - 1] = true;
-            }
-        }
     }
 
     public void printBoard()

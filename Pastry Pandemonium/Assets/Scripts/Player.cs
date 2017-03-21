@@ -21,7 +21,8 @@ public class Player : MonoBehaviour
     private static int pieceCount;
     private int moveTo;
     private int moveFrom;
-
+    private int[] aiLocations = new int[24];
+    private static int y;
 
     public static string difficultyLevel = "easy"; //by default
 
@@ -53,54 +54,110 @@ public class Player : MonoBehaviour
     }
 
 
-    public int getMoveFrom()
-    {
-        return App.from;
-    }
-
-    public int getMoveTo()
-    {
-        return App.to;
-    }
-
-    public int getPieceToRemove()
-    {
-        int pieceToRemove = 0;
-        //set pieceToRemove from the GUI, the network, or the AI
-        return pieceToRemove;
-    }
-
-    public int getPiecesToPlace()
-    {
-        return piecesToPlace--;
-    }
-
-
-    public int getPieceCount()
-    {
-        return pieceCount--;
-    }
-
     public int[] getAIMove()
     {
-       // print("Calling AI");
-        int[] move = new int[2];
 
-        if (difficultyLevel == "easy")
+        int[] move = new int[3];
+
+
+        if (App.phase == 1)
         {
-            //call A1
+            move[1] = UnityEngine.Random.Range(0, 24);
+            y = 0;
+
+            for (int i = 0; i < 24; i++)
+            {
+
+                if (App.piecesPositions[i] != null)
+                {
+                    if (App.piecesPositions[i].name.Contains("local"))
+                    {
+                        aiLocations[y] = i;
+                        Debug.Log("local at " + aiLocations[y]);
+                        y++;
+                    }
+
+                }
+            }
+
+            if (y >= 2)
+            {
+                move[2] = aiLocations[UnityEngine.Random.Range(0, y)];
+
+            }
+
+
         }
-        else if (difficultyLevel == "difficult")
+        else if (App.phase == 2)
         {
-            //call A1
+            y = 0;
+
+            for (int i = 0; i < 24; i++)
+            {
+                if (App.piecesPositions[i] != null)
+                {
+                    if (App.piecesPositions[i].name.Contains("opponent"))
+                    {
+                        aiLocations[y] = i;
+                        y++;
+                    }
+
+                }
+            }
+
+            move[0] = aiLocations[UnityEngine.Random.Range(0, y)];
+
+            Debug.Log("move from - phase two " + move[0]);
+
+            for (int i = 0; i < 24; i++)
+            {
+                if (App.piecesPositions[i] == null)
+                {
+                    move[1] = i;
+                }
+            }
+
+            Debug.Log("move to - phase two " + move[1]);
+
+            y = 0;
+
+            for (int i = 0; i < 24; i++)
+            {
+
+                if (App.piecesPositions[i] != null)
+                {
+                    if (App.piecesPositions[i].name.Contains("local"))
+                    {
+                        aiLocations[y] = i;
+                        Debug.Log("local at " + aiLocations[y]);
+                        y++;
+                    }
+
+                }
+            }
+
+            move[2] = aiLocations[UnityEngine.Random.Range(0, y)];
+            Debug.Log("piece to remove - phase two " + move[2]);
+
+        }
+        else
+        {
+
         }
 
-        move[1] = UnityEngine.Random.Range(1,24);
-      
-        
+        //if (difficultyLevel == "easy")
+        //{
+        //    //call A1
+        //}
+        //else if (difficultyLevel == "difficult")
+        //{
+        //    //call A1
+        //}
+
 
         return move;
     }
+
 
 
 }

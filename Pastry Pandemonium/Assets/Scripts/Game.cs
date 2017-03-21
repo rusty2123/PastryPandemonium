@@ -52,27 +52,6 @@ public class Game : Photon.MonoBehaviour
         Board.boardInstance.placePiece(index, isLocalPiece);
     }
 
-    public bool gameOver()
-    {
-        if (localPlayer.getPieceCount() <= 2 || !playerCanMove())
-            return true;
-        else
-        {
-            return false;
-        }
-    }
-
-    public bool phaseThree()
-    {
-        if (localPlayer.getPieceCount() == 3)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
     public bool isDraw()
     {
@@ -148,11 +127,6 @@ public class Game : Photon.MonoBehaviour
             return true;
         }
         return false;
-    }
-
-    public void removePiece(int index, bool isLocalPiece)
-    {
-        Board.boardInstance.removePiece(index, isLocalPiece);
     }
 
     public void removeLocalPiece(int index)
@@ -234,18 +208,18 @@ public class Game : Photon.MonoBehaviour
         return false;
     }
 
-    private bool allPiecesPartOfMill()
-    {
-        int pieceCount = 0;
-        for (int i = 1; i <= 24; i++)
-        {
-            if (Board.boardInstance.isLocalPlayerPieceAt(i) && piecePartOfMill(i))
-            {
-                pieceCount++;
-            }
-        }
-        return (pieceCount == localPlayer.getPieceCount());
-    }
+    //private bool allPiecesPartOfMill()
+    //{
+    //    int pieceCount = 0;
+    //    for (int i = 1; i <= 24; i++)
+    //    {
+    //        if (Board.boardInstance.isLocalPlayerPieceAt(i) && piecePartOfMill(i))
+    //        {
+    //            pieceCount++;
+    //        }
+    //    }
+    //    return (pieceCount == localPlayer.getPieceCount());
+    //}
 
 
 }
