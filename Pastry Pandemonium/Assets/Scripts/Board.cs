@@ -136,8 +136,8 @@ public class Board : MonoBehaviour
 
     public void moveOpponentPiece(int from, int to)
     {
-        playerTwo[from] = false;
-        playerTwo[to] = true;
+        playerTwo[from - 1] = false;
+        playerTwo[to - 1] = true;
     }
 
     public void removePiece(int index, bool isLocalPiece)

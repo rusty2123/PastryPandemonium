@@ -1174,6 +1174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 566855178}
+  networkManager: {fileID: 1160407420}
 --- !u!61 &566855182
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1266,6 +1267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 585748554}
+  networkManager: {fileID: 0}
 --- !u!58 &585748558
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2069,6 +2071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   game: {fileID: 1831984957}
+  app: {fileID: 0}
 --- !u!4 &1160407421
 Transform:
   m_ObjectHideFlags: 0

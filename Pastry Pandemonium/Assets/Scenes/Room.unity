@@ -970,6 +970,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ccb3cdf76228e4ab2c6e0a35d62afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  readyButton: {fileID: 1560518013}
+  networkManager: {fileID: 2117881540}
 --- !u!1 &1867997455
 GameObject:
   m_ObjectHideFlags: 0

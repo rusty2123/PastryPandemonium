@@ -589,6 +589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButton: {fileID: 1307374512}
+  networkManager: {fileID: 1877232592}
 --- !u!65 &1307374516
 BoxCollider:
   m_ObjectHideFlags: 0
