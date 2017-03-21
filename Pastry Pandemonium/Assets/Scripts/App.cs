@@ -645,7 +645,7 @@ public class App : MonoBehaviour
                 //start position needs to be the gamepiece with location at moveFromIndex
                 startPosition = piece;
                 endPosition = GameObject.Find(moveToIndex.ToString());
-                animationPhaseOne(startPosition, startPosition, endPosition);
+                animationPhaseTwo(startPosition, startPosition, endPosition);
                 piece.GetComponent<GamePiece>().location = moveToIndex;
                 break;
             }
@@ -733,7 +733,7 @@ public class App : MonoBehaviour
 
             startPosition = piecesPositions[from];
             endPosition = GameObject.Find(positionIndex.ToString());
-            animationPhaseOne(startPosition, startPosition, endPosition);
+            animationPhaseTwo(startPosition, startPosition, endPosition);
 
             piecesPositions[to] = piecesPositions[from];
             piecesPositions[from] = null;
@@ -751,6 +751,15 @@ public class App : MonoBehaviour
             print("AI move done");
 
         }
+    }
+
+    private void animationPhaseTwo(GameObject gamePiece, GameObject startPosition, GameObject endPosition)
+    {
+      
+        gamePiece.transform.position = startPosition.transform.position;
+
+        
+        LeanTween.move(gamePiece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
     }
 
     #endregion
