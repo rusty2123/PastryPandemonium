@@ -8,11 +8,10 @@ public class ReadyButton : MonoBehaviour {
 
     public NetworkGameManager networkManager;
 
-    private bool ready = false;
-
-
     private void Awake()
     {
+        PhotonNetwork.OnEventCall += this.OnEvent;
+
         readyButton = GameObject.Find("readyButton");
     }
 
@@ -32,8 +31,16 @@ public class ReadyButton : MonoBehaviour {
         //Finds what option you clicked on
         if (readyButton != null)
         {
-            ready = true;
-            networkManager.ready();
+            if (NetworkGameManager.localReady)
+            {
+                NetworkGameManager.localReady = false;
+                networkManager.ready(0);
+            }
+            else if (!NetworkGameManager.localReady)
+            {
+                NetworkGameManager.localReady = true;
+                networkManager.ready(1);
+            }
         }
         else
         {
@@ -47,7 +54,15 @@ public class ReadyButton : MonoBehaviour {
         if (eventCode == 6)
         {
             byte[] selected = (byte[])content;
-            NetworkGameManager.opponentReady = true;
+
+            if(selected[0] == 0)
+            {
+                NetworkGameManager.opponentReady = false;
+            }
+            else if(selected[0] == 1)
+            {
+                NetworkGameManager.opponentReady = true;
+            }
             //do something to signify opponent selection
         }
     }

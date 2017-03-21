@@ -1050,7 +1050,7 @@ public class App : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("update has been called");
+        //Debug.Log("update has been called");
         if (gameOver)
         {
             if (remainingOpponent < 3)

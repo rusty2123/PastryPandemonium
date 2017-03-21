@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameboardButtons : MonoBehaviour {
 
     public GameObject current;
+    public NetworkGameManager networkManager;
 
 	public void OnMouseUp()
 	{
@@ -15,6 +16,12 @@ public class GameboardButtons : MonoBehaviour {
 		} 
 
 		if (current.name == "menuButton") {
+
+            if(!App.isSinglePlayer)
+            {
+                networkManager.Disconnect();
+            }
+
 			SceneManager.LoadScene ("mainMenu");
 		}
 

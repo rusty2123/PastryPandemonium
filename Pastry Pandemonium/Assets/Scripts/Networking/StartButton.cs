@@ -12,6 +12,23 @@ public class StartButton : MonoBehaviour {
     private void Awake()
     {
         startButton = GameObject.Find("startButton");
+
+        LeanTween.alpha(startButton, 0.35f, 0f);
+        startButton.GetComponent<BoxCollider2D>().enabled = false;
+    }
+
+    private void Update()
+    {
+        if(PhotonNetwork.isMasterClient && NetworkGameManager.localReady && NetworkGameManager.opponentReady)
+        {
+            LeanTween.alpha(startButton, 1f, .5f);
+            startButton.GetComponent<BoxCollider2D>().enabled = true;
+        }
+        else
+        {
+            LeanTween.alpha(startButton, 0.35f, 0f);
+            startButton.GetComponent<BoxCollider2D>().enabled = false;
+        }
     }
 
     public void OnMouseEnter()

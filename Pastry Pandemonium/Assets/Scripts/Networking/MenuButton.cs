@@ -7,6 +7,8 @@ public class MenuButton : MonoBehaviour
 {
     public GameObject menuButton;
 
+    public NetworkGameManager networkManager;
+
     private void Awake()
     {
         menuButton = GameObject.Find("menuButton");
@@ -34,6 +36,7 @@ public class MenuButton : MonoBehaviour
             {
                 case "menuButton":
                     //go to a room creation pop-up similar to that of singleplayer then create game
+                    networkManager.Disconnect();
                     SceneManager.LoadScene("MainMenu");
                     break;
                 default:

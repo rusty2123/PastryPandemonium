@@ -79,6 +79,11 @@ public class Lobby : Photon.PunBehaviour
         }
     }
 
+    public void Disconnect()
+    {
+        PhotonNetwork.Disconnect();
+    }
+
     public void Host()
     {
         //need to decide room naming convention
