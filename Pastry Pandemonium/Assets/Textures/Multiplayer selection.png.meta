@@ -1,9 +1,12 @@
 fileFormatVersion: 2
 guid: c2046f62c53744be68cd028a7958b97e
-timeCreated: 1490206237
+timeCreated: 1490206647
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: checkBox
+    21300002: checkMark
+    21300004: selection
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -76,7 +79,46 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: checkBox
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 639
+        width: 344
+        height: 345
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: checkMark
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 639
+        width: 234
+        height: 264
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: selection
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 0
+        width: 474
+        height: 514
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 
