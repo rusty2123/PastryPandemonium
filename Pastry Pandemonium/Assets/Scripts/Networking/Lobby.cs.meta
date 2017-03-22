@@ -1,10 +1,14 @@
 fileFormatVersion: 2
 guid: 36da9b9c5ea2a7744873f4df4692685e
-timeCreated: 1487542771
+timeCreated: 1490196371
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - roomList: {fileID: 1295397662724146, guid: b1ee95c16b102514bbd7fd99d8cd5319, type: 2}
+  - roomPrefab: {fileID: 114776451291099498, guid: b42f2d0739f484b47aaf5dd145b37c7f,
+      type: 2}
+  - gameManager: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

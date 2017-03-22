@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -17,7 +18,7 @@ public class Lobby : Photon.PunBehaviour
 
     #region Private Variables
 
-    private RoomInfo[] roomsList;
+    private RoomInfo[] rooms;
     private string _gameVersion = "1";
     private string roomSelection = "";
 
@@ -27,9 +28,6 @@ public class Lobby : Photon.PunBehaviour
     #region MonoBehaviour CallBacks
 
 
-    /// <summary>
-    /// MonoBehaviour method called on GameObject by Unity during early initialization phase.
-    /// </summary>
     void Awake()
     {
         // #Critical
@@ -38,11 +36,10 @@ public class Lobby : Photon.PunBehaviour
         // #Critical
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.automaticallySyncScene = true;
+
+        clearRoomList();
     }
 
-    /// <summary>
-    /// MonoBehaviour method called on GameObject by Unity during initialization phase.
-    /// </summary>
     void Start()
     {
 
@@ -122,17 +119,21 @@ public class Lobby : Photon.PunBehaviour
     }
 
     public void populateRoomList()
-    { 
-        if (roomsList != null)
+    {
+        HashSet<RoomInfo> roomSet = new HashSet<RoomInfo>(rooms);
+
+        if (rooms != null)
         {
-            for (int i = 0; i < roomsList.Length; ++i)
-            {
-                Button newRoom = Instantiate(roomPrefab) as Button;
-                newRoom.transform.SetParent(roomList.transform, false);
-                newRoom.GetComponentInChildren<Text>().text = roomsList[i].Name;
-                newRoom.GetComponent<Button>().onClick.AddListener(() => setRoomSelection(ref newRoom));
-                Debug.Log("room button instantiated");
-            }
+            roomSet.CopyTo(rooms);
+        }
+
+        foreach (RoomInfo room in rooms)
+        {
+            Button newRoom = Instantiate(roomPrefab) as Button;
+            newRoom.transform.SetParent(roomList.transform, false);
+            newRoom.GetComponentInChildren<Text>().text = room.Name;
+            newRoom.GetComponent<Button>().onClick.AddListener(() => setRoomSelection(ref newRoom));
+            Debug.Log("room button instantiated");
         }
     }
 
@@ -170,13 +171,14 @@ public class Lobby : Photon.PunBehaviour
 
     public override void OnReceivedRoomListUpdate()
     {
-        roomsList = PhotonNetwork.GetRoomList();
+        clearRoomList();
+        rooms = PhotonNetwork.GetRoomList();
         populateRoomList();
     }
 
     #endregion
 
-    #region Public Methods
+    #region Private Methods
 
     private string removeBrackets(string s)
     {
@@ -188,7 +190,15 @@ public class Lobby : Photon.PunBehaviour
         {
             return s;
         }
-    } 
+    }
+
+    private void clearRoomList()
+    {
+        var children = new List<GameObject>();
+        Button[] roomButtons = roomList.GetComponentsInChildren<Button>();
+        foreach (Button child in roomButtons) children.Add(child.gameObject);
+        children.ForEach(child => Destroy(child));
+    }
 
     #endregion
 }

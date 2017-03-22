@@ -513,7 +513,7 @@ public class App : MonoBehaviour
     IEnumerator executeAIMovePhaseOne()
     {
 
-        int[] move = opponentPlayer.getAIMove(gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard());
+        int[] move = opponentPlayer.getAIMove(/*gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard()*/);
 
         to = move[1];
         positionIndex = to + 1;
@@ -706,7 +706,7 @@ public class App : MonoBehaviour
     IEnumerator executeAIMovePhaseTwo()
     {
 
-        int[] move = opponentPlayer.getAIMove(gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard());
+        int[] move = opponentPlayer.getAIMove(/*gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard()*/);
 
         from = move[0];
         to = move[1];
@@ -895,7 +895,7 @@ public class App : MonoBehaviour
     IEnumerator executeAIMovePhaseThree()
     {
 
-        int[] move = opponentPlayer.getAIMove(gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard());
+        int[] move = opponentPlayer.getAIMove(/*gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard()*/);
 
         from = move[0];
         to = move[1];
