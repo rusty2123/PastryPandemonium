@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
                     if (App.piecesPositions[i].name.Contains("local"))
                     {
                         aiLocations[y] = i;
-                        Debug.Log("local at " + aiLocations[y]);
+                        //Debug.Log("local at " + aiLocations[y]);
                         y++;
                     }
 
@@ -114,7 +114,6 @@ public class Player : MonoBehaviour
                     if (App.piecesPositions[i].name.Contains("local"))
                     {
                         aiLocations[y] = i;
-                        Debug.Log("local at " + aiLocations[y]);
                         y++;
                     }
 
@@ -122,8 +121,6 @@ public class Player : MonoBehaviour
             }
 
             move[2] = aiLocations[UnityEngine.Random.Range(0, y)];
-            Debug.Log("piece to remove - phase two " + move[2]);
-
         }
         else
         {

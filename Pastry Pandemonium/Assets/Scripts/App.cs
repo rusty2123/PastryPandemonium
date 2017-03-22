@@ -71,14 +71,10 @@ public class App : MonoBehaviour
         opponentPlayer = gameObject.AddComponent<Player>();
 
 
-
-
         muffinTurnOn = GameObject.Find("muffinTurn");
         cupcakeTurnOn = GameObject.Find("cupcakeTurn");
         turnPositionLeft = GameObject.Find("TurnIndicator1");
         turnPositionRight = GameObject.Find("TurnIndicator2");
-
-        //setUpTurnIndicator ();
 
         if (isSinglePlayer)
         {
@@ -187,7 +183,6 @@ public class App : MonoBehaviour
         for (int i = 0; i < 18; i++)
         {
             yield return StartCoroutine(piecePlacementPhase());
-            //Board.boardInstance.printBoard();
         }
         while (!gameOver)
         {
@@ -200,8 +195,6 @@ public class App : MonoBehaviour
             }
             else if (remainingLocal == 3 || remainingOpponent == 3)
             {
-                phase = 3;
-                Debug.Log("phase 3");
                 yield return StartCoroutine(pieceFlyPhase());
             }
         }
@@ -482,6 +475,7 @@ public class App : MonoBehaviour
             yield return StartCoroutine("getPieceToRemove");
         }
 
+        printPieceLocations();
         Debug.Log("Local turn over");
        
         changePlayer();
@@ -531,9 +525,9 @@ public class App : MonoBehaviour
         }
         else if (Game.gameInstance.validPlace(to))
         {
+            
             Game.gameInstance.placePiece(to, false);
             piecesPositions[to] = opponentPieces[opponentIndex];
-            Debug.Log(piecesPositions[to].name);
 
             startPosition = opponentPieces[opponentIndex];
             endPosition = GameObject.Find(positionIndex.ToString());
@@ -541,6 +535,8 @@ public class App : MonoBehaviour
 
             opponentIndex++;
             outOfBoardOpponent--;
+
+            printPieceLocations();
 
             //check if the placement created a mill
             if (Game.gameInstance.createdMill(to))
@@ -579,6 +575,7 @@ public class App : MonoBehaviour
             endPosition.transform.position.z + 2), 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.93f);
 
         gamePiece.GetComponent<GamePiece>().location = Convert.ToInt32(endPosition.name);
+
     }
 
     #endregion
@@ -657,6 +654,7 @@ public class App : MonoBehaviour
         }
 
         Debug.Log("Local turn over");
+        printPieceLocations();
         changePlayer();
         networkManager.changePlayer();
     }
@@ -732,6 +730,7 @@ public class App : MonoBehaviour
             piecesPositions[to] = piecesPositions[from];
             piecesPositions[from] = null;
 
+            printPieceLocations();
             //check if the placement created a mill
             if (Game.gameInstance.createdMill(to))
             {
@@ -744,6 +743,7 @@ public class App : MonoBehaviour
             changePlayer();
             print("AI move done");
 
+          
         }
     }
 
@@ -753,7 +753,7 @@ public class App : MonoBehaviour
         gamePiece.transform.position = startPosition.transform.position;
 
         
-        LeanTween.move(gamePiece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
+        LeanTween.move(gamePiece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(0.8f);
     }
 
     #endregion
@@ -763,19 +763,36 @@ public class App : MonoBehaviour
     IEnumerator pieceFlyPhase()
     {
         //if it's the local player's turn, and there are still pieces left to place
-        if (isLocalPlayerTurn)
+        if (isLocalPlayerTurn && remainingLocal == 3)
+        {
+            Debug.Log("Phase 3 - Local");
+            phase = 3;
+            enableGameObjects(true);
+            yield return StartCoroutine(localFlyPiece());
+        }
+        else if(isLocalPlayerTurn && remainingLocal > 3)
         {
             enableGameObjects(true);
-
-            yield return StartCoroutine(localFlyPiece());
+            Debug.Log("Phase 2 - Local");
+            phase = 2;
+            yield return StartCoroutine(localMovePiece());
         }
 
         //get move from AI or network
         if (!isLocalPlayerTurn && remainingOpponent == 3)
         {
+            Debug.Log("Phase 3 - Opponent");
+            phase = 3;
             enableGameObjects(false);
 
             yield return StartCoroutine(opponentFlyPiece());
+        }
+        else if (!isLocalPlayerTurn && remainingOpponent > 3)
+        {
+            Debug.Log("Phase 2 - Opponent");
+            phase = 2;
+            enableGameObjects(false);
+            yield return StartCoroutine(opponentMovePiece());
         }
     }
 
@@ -792,7 +809,8 @@ public class App : MonoBehaviour
 
         //place the piece and update the gameboard
         Game.gameInstance.moveLocalPiece(flyFromIndex, flyToIndex);
-
+        piecesPositions[flyToIndex - 1] = piecesPositions[flyFromIndex - 1];
+        piecesPositions[flyFromIndex - 1] = null;
 
         //send move over network if it's a networked game
         if (!Player.isSinglePlayer)
@@ -819,13 +837,14 @@ public class App : MonoBehaviour
         //check if the placement created a mill
         if (Game.gameInstance.createdMill(flyToIndex))
         {
-            Debug.Log("you created mill");
+            Debug.Log("Local created a mill");
             Board.boardInstance.printBoard();
+
             //allow the local player to select an opponent's piece to remove
             yield return StartCoroutine("getPieceToRemove");
         }
 
-        Debug.Log("turn over");
+        Debug.Log("Local turn over");
         changePlayer();
         networkManager.changePlayer();
     }
@@ -839,6 +858,12 @@ public class App : MonoBehaviour
             //wait until OnEvent is triggered, get the index, run the animation, increment opponentIndex, decrement outOfBoardOpponent, change the player
             yield return StartCoroutine("waitForChangePlayer");
             yield return StartCoroutine(waitForSeconds(2));
+        }
+        else
+        {
+            yield return StartCoroutine(waitForSeconds(3));
+            yield return StartCoroutine("executeAIMovePhaseThree");
+
         }
     }
 
@@ -936,6 +961,10 @@ public class App : MonoBehaviour
         Debug.Log("local opponent: " + opponentPieceLocations);
     }
 
+    private void printPiecesPositions()
+    {
+        Debug.Log(piecesPositions);
+    }
     private void enableGameObjects(bool enable)
     {
         if(enable)
@@ -1014,10 +1043,13 @@ public class App : MonoBehaviour
             boardSpace.GetComponent<BoxCollider2D>().enabled = false;
         }
 
-        Debug.Log("piece to remove " + pieceToRemove);
+        Debug.Log("piece to remove " + pieceToRemove+1);
        
+
         Destroy(piecesPositions[pieceToRemove]);
         piecesPositions[pieceToRemove] = null;
+
+        printPieceLocations();
 
         Game.gameInstance.removeLocalPiece(pieceToRemove);
         remainingLocal--;
@@ -1027,7 +1059,6 @@ public class App : MonoBehaviour
             boardSpace.GetComponent<BoxCollider2D>().enabled = true;
         }
 
-        printPieceLocations();
     }
 
     IEnumerator waitForSeconds(int seconds)
