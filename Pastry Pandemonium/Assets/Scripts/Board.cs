@@ -179,6 +179,8 @@ public class Board : MonoBehaviour
     {
         if (Player.isSinglePlayer && !App.isLocalPlayerTurn)
         {
+            Debug.Log("placing bitarray opponent ");
+            Debug.Log(from + " " + to);
             playerTwo[from] = false;
             playerTwo[to] = true;
         }
