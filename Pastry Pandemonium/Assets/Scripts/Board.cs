@@ -103,6 +103,24 @@ public class Board : MonoBehaviour
         return playerTwo;
     }
 
+    public BitArray getLocalPlayerBoard()
+    {
+        if (App.isLocalPlayerTurn)
+        {
+            return playerOne;
+        }
+        return playerTwo;
+    }
+
+    public BitArray getOpponentPlayerBoard()
+    {
+        if (App.isLocalPlayerTurn)
+        {
+            return playerTwo;
+        }
+        return playerOne;
+    }
+
     public int getPlayerPieceCount()
     {
         if (App.isLocalPlayerTurn)
