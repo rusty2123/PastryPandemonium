@@ -513,43 +513,37 @@ public class App : MonoBehaviour
     IEnumerator executeAIMovePhaseOne()
     {
 
-        int[] move = opponentPlayer.getAIMove(/*gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard()*/);
+        int[] move = opponentPlayer.getAIMove(gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard());
 
         to = move[1];
         positionIndex = to + 1;
 
-        if (!Game.gameInstance.validPlace(to))
-        {
-            Debug.Log("AI not valid move");
-            yield return StartCoroutine("executeAIMovePhaseOne");
-        }
-        else if (Game.gameInstance.validPlace(to))
-        {
+       
             
-            Game.gameInstance.placePiece(to, false);
-            piecesPositions[to] = opponentPieces[opponentIndex];
+        Game.gameInstance.placePiece(to, false);
+        piecesPositions[to] = opponentPieces[opponentIndex];
 
-            startPosition = opponentPieces[opponentIndex];
-            endPosition = GameObject.Find(positionIndex.ToString());
-            animationPhaseOne(startPosition, startPosition, endPosition);
+        startPosition = opponentPieces[opponentIndex];
+        endPosition = GameObject.Find(positionIndex.ToString());
+        animationPhaseOne(startPosition, startPosition, endPosition);
 
-            opponentIndex++;
-            outOfBoardOpponent--;
+        opponentIndex++;
+        outOfBoardOpponent--;
 
-            printPieceLocations();
+        printPieceLocations();
 
-            //check if the placement created a mill
-            if (Game.gameInstance.createdMill(to))
-            {
-                Debug.Log("AI a created mill");
+        //check if the placement created a mill
+        if (Game.gameInstance.createdMill(to))
+        {
+            Debug.Log("AI a created mill");
 
-                pieceToRemove = move[2];
-                yield return StartCoroutine("removeAIPiece");
-            }
-
-            changePlayer();
-
+            pieceToRemove = move[2];
+            yield return StartCoroutine("removeAIPiece");
         }
+
+        changePlayer();
+
+      
     }
 
     private void animationPhaseOne(GameObject gamePiece, GameObject startPosition, GameObject endPosition)
@@ -706,45 +700,38 @@ public class App : MonoBehaviour
     IEnumerator executeAIMovePhaseTwo()
     {
 
-        int[] move = opponentPlayer.getAIMove(/*gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard()*/);
+        int[] move = opponentPlayer.getAIMove(gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard());
 
         from = move[0];
         to = move[1];
 
         positionIndex = to + 1;
 
-        if (!Game.gameInstance.validPlace(to))
+        //place the piece and update the gameboard
+        Game.gameInstance.moveOpponentPiece(from, to);
+
+        startPosition = piecesPositions[from];
+        endPosition = GameObject.Find(positionIndex.ToString());
+        animationPhaseTwo(startPosition, startPosition, endPosition);
+
+        piecesPositions[to] = piecesPositions[from];
+        piecesPositions[from] = null;
+
+        printPieceLocations();
+        //check if the placement created a mill
+        if (Game.gameInstance.createdMill(to))
         {
-            Debug.Log("AI not valid move");
+            Debug.Log("AI created a mill");
+
+            pieceToRemove = move[2];
+            yield return StartCoroutine("removeAIPiece");
         }
-        else if (Game.gameInstance.validPlace(to))
-        {
 
-            //place the piece and update the gameboard
-            Game.gameInstance.moveOpponentPiece(from, to);
-
-            startPosition = piecesPositions[from];
-            endPosition = GameObject.Find(positionIndex.ToString());
-            animationPhaseTwo(startPosition, startPosition, endPosition);
-
-            piecesPositions[to] = piecesPositions[from];
-            piecesPositions[from] = null;
-
-            printPieceLocations();
-            //check if the placement created a mill
-            if (Game.gameInstance.createdMill(to))
-            {
-                Debug.Log("AI created a mill");
-
-                pieceToRemove = move[2];
-                yield return StartCoroutine("removeAIPiece");
-            }
-
-            changePlayer();
-            print("AI move done");
+        changePlayer();
+        print("AI move done");
 
           
-        }
+       
     }
 
     private void animationPhaseTwo(GameObject gamePiece, GameObject startPosition, GameObject endPosition)
@@ -895,7 +882,7 @@ public class App : MonoBehaviour
     IEnumerator executeAIMovePhaseThree()
     {
 
-        int[] move = opponentPlayer.getAIMove(/*gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard()*/);
+        int[] move = opponentPlayer.getAIMove(gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard());
 
         from = move[0];
         to = move[1];
