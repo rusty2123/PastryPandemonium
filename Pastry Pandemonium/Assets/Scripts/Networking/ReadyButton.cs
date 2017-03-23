@@ -5,6 +5,7 @@ using UnityEngine;
 public class ReadyButton : MonoBehaviour {
 
     public GameObject readyButton;
+    public GameObject checkMark;
 
     public NetworkGameManager networkManager;
 
@@ -13,6 +14,8 @@ public class ReadyButton : MonoBehaviour {
         PhotonNetwork.OnEventCall += this.OnEvent;
 
         readyButton = GameObject.Find("readyButton");
+        checkMark = GameObject.Find("checkMark");
+        checkMark.SetActive(false);
     }
 
     public void OnMouseEnter()
@@ -35,11 +38,13 @@ public class ReadyButton : MonoBehaviour {
             {
                 NetworkGameManager.localReady = false;
                 networkManager.ready(0);
+                checkMark.SetActive(false);
             }
             else if (!NetworkGameManager.localReady)
             {
                 NetworkGameManager.localReady = true;
                 networkManager.ready(1);
+                checkMark.SetActive(true);
             }
         }
         else
@@ -71,5 +76,7 @@ public class ReadyButton : MonoBehaviour {
     void Start () {	}
 	
 	// Update is called once per frame
-	void Update () { }
+	void Update () {
+
+    }
 }

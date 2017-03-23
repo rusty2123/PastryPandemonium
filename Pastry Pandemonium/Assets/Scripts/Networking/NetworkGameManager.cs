@@ -60,6 +60,7 @@ public class NetworkGameManager : Photon.PunBehaviour
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("Lobby");
     }
 
     public void Disconnect()

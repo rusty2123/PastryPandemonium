@@ -116,6 +116,7 @@ public class Lobby : Photon.PunBehaviour
     public void Leave()
     {
         PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("Lobby");
     }
 
     public void populateRoomList()
