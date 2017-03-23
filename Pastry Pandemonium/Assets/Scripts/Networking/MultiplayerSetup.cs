@@ -23,7 +23,6 @@ public class MultiplayerSetup : MonoBehaviour {
         else
         {
             selectedCharacter = "berryMuffin";
-            Player.characterOpponentPlayer = "redCupcake";
         }
 
         Player.characterLocalPlayer = selectedCharacter;
@@ -86,7 +85,7 @@ public class MultiplayerSetup : MonoBehaviour {
         Player.characterLocalPlayer = selectedCharacter;
     }
 
-    private void sendCharacterSelection(string character)
+    public void sendCharacterSelection(string character)
     {
         switch(character)
         {
@@ -143,7 +142,7 @@ public class MultiplayerSetup : MonoBehaviour {
         {
             byte[] selected = (byte[])content;
             recvCharacterSelection(selected[0]);
-            //do something to signify opponent selection
+            Debug.Log("recieved character selection: " + selected[0]);
         }
     }
 

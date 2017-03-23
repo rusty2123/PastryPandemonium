@@ -10,6 +10,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public Game game = Game.gameInstance;
     public App app;
+    public MultiplayerSetup multiplayerSetup;
     public static Player localPlayer, opponentPlayer;
     public static int placeIndex = 0, removeIndex = 0, moveFromIndex = 0, moveToIndex = 0, flyFromIndex = 0, flyToIndex = 0;
     public static bool localReady = false,  opponentReady = false;
@@ -29,7 +30,19 @@ public class NetworkGameManager : Photon.PunBehaviour
     //called when another player joins the room
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
     {
-        base.OnPhotonPlayerConnected(newPlayer);
+        Debug.Log("player connected");
+
+        //let the joined player know if you are ready, and which character you have chosen
+        if(localReady)
+        {
+            ready(1);
+        }
+        else if(!localReady)
+        {
+            ready(0);
+        }
+
+        multiplayerSetup.sendCharacterSelection(Player.characterLocalPlayer);
     }
 
     //called when a player disconnects

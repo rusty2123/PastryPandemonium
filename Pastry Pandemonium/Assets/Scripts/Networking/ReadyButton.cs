@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ReadyButton : MonoBehaviour {
 
-    public GameObject readyButton;
-    public GameObject checkMark;
+    public GameObject checkBox, checkMark, checkMarkOpp;
 
     public NetworkGameManager networkManager;
 
@@ -13,26 +12,30 @@ public class ReadyButton : MonoBehaviour {
     {
         PhotonNetwork.OnEventCall += this.OnEvent;
 
-        readyButton = GameObject.Find("readyButton");
-        checkMark = GameObject.Find("checkMark");
+        setOpponentCheckMark();
+
+        checkBox = GameObject.Find("checkBoxLocal");
+        checkMark = GameObject.Find("checkMarkLocal");
+        checkMarkOpp = GameObject.Find("checkMarkOpp");
         checkMark.SetActive(false);
+        //checkMarkOpp.SetActive(false);
     }
 
     public void OnMouseEnter()
     {
         //Scales menu options to indicate that you can click on them
-        LeanTween.scale(readyButton, new Vector3(2.2f, 2.2f, 2.2f), .075f);
+        LeanTween.scale(checkBox, new Vector3(.6f, .6f, .6f), .075f);
     }
     public void OnMouseExit()
     {
         //Sets menu options back to their original size
-        LeanTween.scale(readyButton, new Vector3(2f, 2f, 2f), .05f);
+        LeanTween.scale(checkBox, new Vector3(.5f, .5f, .5f), .05f);
     }
 
     public void OnMouseUp()
     {
         //Finds what option you clicked on
-        if (readyButton != null)
+        if (checkBox != null)
         {
             if (NetworkGameManager.localReady)
             {
@@ -58,6 +61,7 @@ public class ReadyButton : MonoBehaviour {
         //if eventcode is 6, then it's ready
         if (eventCode == 6)
         {
+            Debug.Log("recieved ready selection");
             byte[] selected = (byte[])content;
 
             if(selected[0] == 0)
@@ -68,7 +72,21 @@ public class ReadyButton : MonoBehaviour {
             {
                 NetworkGameManager.opponentReady = true;
             }
-            //do something to signify opponent selection
+        }
+    }
+
+    private void setOpponentCheckMark()
+    {
+        //if (checkMarkOpp != null)
+        {
+            if (NetworkGameManager.opponentReady)
+            {
+                checkMarkOpp.SetActive(true);
+            }
+            else if (!NetworkGameManager.opponentReady)
+            {
+                checkMarkOpp.SetActive(false);
+            }
         }
     }
 
@@ -77,6 +95,6 @@ public class ReadyButton : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        setOpponentCheckMark();
     }
 }
