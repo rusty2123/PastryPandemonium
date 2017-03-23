@@ -609,12 +609,15 @@ public class App : MonoBehaviour
             yield return StartCoroutine(getMoveFromIndex());
             yield return StartCoroutine(getMoveToIndex());
 
+            if (!validMove)
+            {
+                yield return StartCoroutine(getMoveToIndex());
+            }
+
         } while (!Game.gameInstance.validMove(moveFromIndex, moveToIndex));
 
         //place the piece and update the gameboard
         Game.gameInstance.moveLocalPiece(moveFromIndex, moveToIndex);
-        piecesPositions[moveToIndex - 1] = piecesPositions[moveFromIndex -1];
-        piecesPositions[moveFromIndex - 1] = null;
 
         //send move over network if it's a networked game
         if (!Player.isSinglePlayer)
@@ -627,6 +630,9 @@ public class App : MonoBehaviour
         {
             if (piece != null && piece.GetComponent<GamePiece>().location == moveFromIndex)
             {
+                piecesPositions[moveToIndex - 1] = piece;
+                piecesPositions[moveFromIndex - 1] = null;
+
                 //start position needs to be the gamepiece with location at moveFromIndex
                 startPosition = piece;
                 endPosition = GameObject.Find(moveToIndex.ToString());
@@ -705,10 +711,14 @@ public class App : MonoBehaviour
         from = move[0];
         to = move[1];
 
+        Debug.Log("AI moving from: " + from);
+        Debug.Log("AI moving to:" + to);
+
         positionIndex = to + 1;
 
         //place the piece and update the gameboard
         Game.gameInstance.moveOpponentPiece(from, to);
+
 
         startPosition = piecesPositions[from];
         endPosition = GameObject.Find(positionIndex.ToString());
@@ -781,6 +791,8 @@ public class App : MonoBehaviour
             enableGameObjects(false);
             yield return StartCoroutine(opponentMovePiece());
         }
+
+        checkGameOver();
     }
 
     IEnumerator localFlyPiece()
@@ -796,8 +808,7 @@ public class App : MonoBehaviour
 
         //place the piece and update the gameboard
         Game.gameInstance.moveLocalPiece(flyFromIndex, flyToIndex);
-        piecesPositions[flyToIndex - 1] = piecesPositions[flyFromIndex - 1];
-        piecesPositions[flyFromIndex - 1] = null;
+       
 
         //send move over network if it's a networked game
         if (!Player.isSinglePlayer)
@@ -811,6 +822,8 @@ public class App : MonoBehaviour
             if (piece != null && piece.GetComponent<GamePiece>().location == flyFromIndex)
             {
                 //start position needs to be the gamepiece with location at moveFromIndex
+                piecesPositions[flyToIndex - 1] = piece;
+                piecesPositions[flyFromIndex - 1] = null;
                 startPosition = piece;
                 endPosition = GameObject.Find(flyToIndex.ToString());
                 animationPhaseOne(startPosition, startPosition, endPosition);
@@ -886,39 +899,35 @@ public class App : MonoBehaviour
 
         from = move[0];
         to = move[1];
+        Debug.Log("AI moving from: " + from);
+        Debug.Log("AI moving to:" + to);
 
         positionIndex = to + 1;
 
-        if (!Game.gameInstance.validPlace(to))
+
+        //place the piece and update the gameboard
+        Game.gameInstance.moveOpponentPiece(from, to);
+
+        startPosition = piecesPositions[from];
+        endPosition = GameObject.Find(positionIndex.ToString());
+        animationPhaseOne(startPosition, startPosition, endPosition);
+
+        piecesPositions[to] = piecesPositions[from];
+        piecesPositions[from] = null;
+
+        //check if the placement created a mill
+        if (Game.gameInstance.createdMill(to))
         {
-            Debug.Log("AI not valid move");
+            Debug.Log("AI created a mill");
+
+            pieceToRemove = move[2];
+            yield return StartCoroutine("removeAIPiece");
         }
-        else if (Game.gameInstance.validPlace(to))
-        {
 
-            //place the piece and update the gameboard
-            Game.gameInstance.moveOpponentPiece(from, to);
+        changePlayer();
+        print("AI move done");
 
-            startPosition = piecesPositions[from];
-            endPosition = GameObject.Find(positionIndex.ToString());
-            animationPhaseOne(startPosition, startPosition, endPosition);
-
-            piecesPositions[to] = piecesPositions[from];
-            piecesPositions[from] = null;
-
-            //check if the placement created a mill
-            if (Game.gameInstance.createdMill(to))
-            {
-                Debug.Log("AI created a mill");
-
-                pieceToRemove = move[2];
-                yield return StartCoroutine("removeAIPiece");
-            }
-
-            changePlayer();
-            print("AI move done");
-
-        }
+     
     }
     #endregion
 
@@ -948,10 +957,7 @@ public class App : MonoBehaviour
         Debug.Log("local opponent: " + opponentPieceLocations);
     }
 
-    private void printPiecesPositions()
-    {
-        Debug.Log(piecesPositions);
-    }
+ 
     private void enableGameObjects(bool enable)
     {
         if(enable)
@@ -1001,12 +1007,15 @@ public class App : MonoBehaviour
         removePiece = true;
 
         yield return new WaitWhile(() => removePiece);
+        Debug.Log("Local removing opponent piece :" + pieceToRemove);
 
         removePiece = false;
 
         //pieceToRemove is set by the user clicking on a piece in GamePiece.cs
         Game.gameInstance.removeOpponentPiece(pieceToRemove);
-        --remainingOpponent;
+        Destroy(piecesPositions[pieceToRemove-1]);
+        piecesPositions[pieceToRemove - 1] = null;
+        remainingOpponent--;
 
         if (!Player.isSinglePlayer)
         {
@@ -1030,7 +1039,7 @@ public class App : MonoBehaviour
             boardSpace.GetComponent<BoxCollider2D>().enabled = false;
         }
 
-        Debug.Log("piece to remove " + pieceToRemove+1);
+        Debug.Log("Piece to remove " + pieceToRemove);
        
 
         Destroy(piecesPositions[pieceToRemove]);
@@ -1053,10 +1062,6 @@ public class App : MonoBehaviour
         yield return new WaitForSeconds(seconds);
     }
 
-    public bool getTurn()
-    {
-        return isLocalPlayerTurn;
-    }
 
     public void changePlayer()
     {
