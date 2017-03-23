@@ -195,10 +195,10 @@ public class Lobby : Photon.PunBehaviour
 
     private void clearRoomList()
     {
-        var children = new List<GameObject>();
-        Button[] roomButtons = roomList.GetComponentsInChildren<Button>();
-        foreach (Button child in roomButtons) children.Add(child.gameObject);
-        children.ForEach(child => Destroy(child));
+        //var children = new List<GameObject>();
+        //Button[] roomButtons = roomList.GetComponentsInChildren<Button>();
+        //foreach (Button child in roomButtons) children.Add(child.gameObject);
+        //children.ForEach(child => Destroy(child));
     }
 
     #endregion

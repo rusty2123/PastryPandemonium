@@ -33,13 +33,13 @@ public class pieceClick : MonoBehaviour
             case 1:
                 if (App.isLocalPlayerTurn && App.placePiece)
                 {
-                    //Debug.Log(gameObject.name + "chosen");
                     if ((gameObject.name.Contains("local")) || (gameObject.name.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name)-1] != null))
                     {
                         App.validMove = false;
                     }
                     else
                     {
+                       
                         App.placeIndex = Convert.ToInt32(gameObject.name);
                         App.placePiece = false;
                         App.validMove = true;
@@ -51,17 +51,36 @@ public class pieceClick : MonoBehaviour
             case 2:
                 if (App.isLocalPlayerTurn && App.moveToPiece && !App.moveFromPiece)
                 {
-                    App.moveToIndex = Convert.ToInt32(gameObject.name);
-                    App.moveToPiece = false;
-                    Debug.Log("moving to location: " + App.moveToIndex);
+
+                    if ((gameObject.name.Contains("local")) || (gameObject.name.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name) - 1] != null))
+                    {
+                        App.validMove = false;
+                    }
+                    else
+                    {
+                        App.moveToIndex = Convert.ToInt32(gameObject.name);
+                        App.moveToPiece = false;
+                        Debug.Log("moving to location: " + App.moveToIndex);
+                        App.validMove = true;
+
+                    }
                 }
+
                 break;
             case 3:
                 if (App.isLocalPlayerTurn && App.flyToPiece && !App.flyFromPiece)
                 {
-                    App.flyToIndex = Convert.ToInt32(gameObject.name);
-                    App.flyToPiece = false;
-                    Debug.Log("flying to location: " + App.flyToIndex);
+                    if ((gameObject.name.Contains("local")) || (gameObject.name.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name) - 1] != null))
+                    {
+                        App.validMove = false;
+                    }
+                    else {
+                        App.flyToIndex = Convert.ToInt32(gameObject.name);
+                        App.flyToPiece = false;
+                        Debug.Log("flying to location: " + App.flyToIndex);
+
+                    }
+                   
                 }
                 break;
         }

@@ -29,7 +29,6 @@ public class GamePiece : MonoBehaviour
         if (App.removePiece && owner == "opponent" && !game.piecePartOfMill(location) && !App.placePiece && !App.moveToPiece && !App.moveFromPiece)
         {
             App.pieceToRemove = location;
-            Destroy(gamePiece);
             App.removePiece = false;
         }
         else if(App.moveFromPiece && owner == "local")
