@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
     public static bool firstPlayer = true;
 
     public static string[] characterSelection = { "berryMuffin", "chipMuffin", "lemonMuffin", "chocolateCupcake", "redCupcake", "whiteCupcake" }; //change for names of characters later
-    public static string characterLocalPlayer; 
-    public static string characterOpponentPlayer;
+    public static string characterLocalPlayer = ""; 
+    public static string characterOpponentPlayer = "";
     public GameObject[] Pieces;
     private int[] aiLocations = new int[24];
     private static int y;

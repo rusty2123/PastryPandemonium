@@ -54,7 +54,9 @@ public class MultiplayerSetup : MonoBehaviour {
 
     public void OnMouseUp()
     {
-        if(character != null && character.name != Player.characterOpponentPlayer)
+        if(character != null && 
+            (character.name != Player.characterOpponentPlayer) ||
+            Player.characterOpponentPlayer == "")
         {
             //resets all characters to loo unselected
             for (int i = 0; i < characters.Length; i++)

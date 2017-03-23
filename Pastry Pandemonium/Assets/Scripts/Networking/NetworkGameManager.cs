@@ -36,6 +36,8 @@ public class NetworkGameManager : Photon.PunBehaviour
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
         base.OnPhotonPlayerDisconnected(otherPlayer);
+        opponentReady = false;
+        Player.characterOpponentPlayer = "";
     }
 
     #endregion
