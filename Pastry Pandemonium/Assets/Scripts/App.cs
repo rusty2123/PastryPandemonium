@@ -351,32 +351,32 @@ public class App : MonoBehaviour
             case "berryMuffin":
                 characterOpponentPlayer = berryMuffin;
                 setUpPiecesOpponent(characterOpponentPlayer);
-				setUpTurnIndicatorOpponent("Muffin");
+				//setUpTurnIndicatorOpponent("Muffin");
                 break;
             case "chipMuffin":
                 characterOpponentPlayer = chipMuffin;
                 setUpPiecesOpponent(characterOpponentPlayer);
-				setUpTurnIndicatorOpponent("Muffin");
+				//setUpTurnIndicatorOpponent("Muffin");
                 break;
             case "lemonMuffin":
                 characterOpponentPlayer = lemonMuffin;
                 setUpPiecesOpponent(characterOpponentPlayer);
-				setUpTurnIndicatorOpponent("Muffin");
+				//setUpTurnIndicatorOpponent("Muffin");
                 break;
             case "chocolateCupcake":
                 characterOpponentPlayer = chocolateCupcake;
                 setUpPiecesOpponent(characterOpponentPlayer);
-				setUpTurnIndicatorOpponent("Cupcake");
+				//setUpTurnIndicatorOpponent("Cupcake");
                 break;
             case "redCupcake":
                 characterOpponentPlayer = redCupcake;
                 setUpPiecesOpponent(characterOpponentPlayer);
-				setUpTurnIndicatorOpponent("Cupcake");
+				//setUpTurnIndicatorOpponent("Cupcake");
                 break;
             case "whiteCupcake":
                 characterOpponentPlayer = whiteCupcake;
                 setUpPiecesOpponent(characterOpponentPlayer);
-				setUpTurnIndicatorOpponent("Cupcake");
+				//setUpTurnIndicatorOpponent("Cupcake");
                 break;
             default:
                 break;
