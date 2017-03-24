@@ -313,29 +313,35 @@ public class App : MonoBehaviour
 
         switch (Player.characterLocalPlayer)
         {
-            case "berryMuffin":
-                characterLocalPlayer = berryMuffin;
-                setUpPiecesLocal(characterLocalPlayer);
+		case "berryMuffin":
+				characterLocalPlayer = berryMuffin;
+				setUpPiecesLocal (characterLocalPlayer);
+				setUpTurnIndicatorLocal ("Muffin");
                 break;
             case "chipMuffin":
                 characterLocalPlayer = chipMuffin;
                 setUpPiecesLocal(characterLocalPlayer);
+				setUpTurnIndicatorLocal ("Muffin");
                 break;
             case "lemonMuffin":
                 characterLocalPlayer = lemonMuffin;
                 setUpPiecesLocal(characterLocalPlayer);
+				setUpTurnIndicatorLocal ("Muffin");
                 break;
             case "chocolateCupcake":
                 characterLocalPlayer = chocolateCupcake;
                 setUpPiecesLocal(characterLocalPlayer);
+				setUpTurnIndicatorLocal ("Cupcake");
                 break;
             case "redCupcake":
                 characterLocalPlayer = redCupcake;
                 setUpPiecesLocal(characterLocalPlayer);
+				setUpTurnIndicatorLocal ("Cupcake");
                 break;
             case "whiteCupcake":
                 characterLocalPlayer = whiteCupcake;
                 setUpPiecesLocal(characterLocalPlayer);
+				setUpTurnIndicatorLocal ("Cupcake");
                 break;
             default:
                 break;
@@ -345,26 +351,32 @@ public class App : MonoBehaviour
             case "berryMuffin":
                 characterOpponentPlayer = berryMuffin;
                 setUpPiecesOpponent(characterOpponentPlayer);
+				setUpTurnIndicatorOpponent("Muffin");
                 break;
             case "chipMuffin":
                 characterOpponentPlayer = chipMuffin;
                 setUpPiecesOpponent(characterOpponentPlayer);
+				setUpTurnIndicatorOpponent("Muffin");
                 break;
             case "lemonMuffin":
                 characterOpponentPlayer = lemonMuffin;
                 setUpPiecesOpponent(characterOpponentPlayer);
+				setUpTurnIndicatorOpponent("Muffin");
                 break;
             case "chocolateCupcake":
                 characterOpponentPlayer = chocolateCupcake;
                 setUpPiecesOpponent(characterOpponentPlayer);
+				setUpTurnIndicatorOpponent("Cupcake");
                 break;
             case "redCupcake":
                 characterOpponentPlayer = redCupcake;
                 setUpPiecesOpponent(characterOpponentPlayer);
+				setUpTurnIndicatorOpponent("Cupcake");
                 break;
             case "whiteCupcake":
                 characterOpponentPlayer = whiteCupcake;
                 setUpPiecesOpponent(characterOpponentPlayer);
+				setUpTurnIndicatorOpponent("Cupcake");
                 break;
             default:
                 break;
@@ -409,6 +421,65 @@ public class App : MonoBehaviour
 
         }
     }
+
+
+
+
+	private void setUpTurnIndicatorLocal(String character)
+	{
+		muffinTurnOff = GameObject.Find("muffinTurnOff");
+		cupcakeTurnOff = GameObject.Find("cupcakeTurnOff");
+
+		if (character == "Muffin")
+		{
+			muffinTurnOff.transform.position = turnPositionRight.transform.position;
+			cupcakeTurnOff.transform.position = turnPositionLeft.transform.position;
+			firstPlayer = "muffin";
+
+		}
+		else
+		{
+			cupcakeTurnOff.transform.position = turnPositionRight.transform.position;
+			muffinTurnOff.transform.position = turnPositionLeft.transform.position;
+			firstPlayer = "cupcake";
+		}
+
+		cupcakeTurnOn.transform.position = new Vector3(cupcakeTurnOff.transform.position.x + 2,
+			cupcakeTurnOff.transform.position.y + 2,
+			cupcakeTurnOff.transform.position.z - 3f);
+
+		muffinTurnOn.transform.position = new Vector3(muffinTurnOff.transform.position.x - 10,
+			muffinTurnOff.transform.position.y + 5,
+			muffinTurnOff.transform.position.z - 3f);
+	}
+
+	private void setUpTurnIndicatorOpponent(String character)
+	{
+		muffinTurnOff = GameObject.Find("muffinTurnOff");
+		cupcakeTurnOff = GameObject.Find("cupcakeTurnOff");
+
+		if (character == "Muffin")
+		{
+			muffinTurnOff.transform.position = turnPositionRight.transform.position;
+			cupcakeTurnOff.transform.position = turnPositionLeft.transform.position;
+			firstPlayer = "muffin";
+
+		}
+		else
+		{
+			cupcakeTurnOff.transform.position = turnPositionRight.transform.position;
+			muffinTurnOff.transform.position = turnPositionLeft.transform.position;
+			firstPlayer = "cupcake";
+		}
+
+		cupcakeTurnOn.transform.position = new Vector3(cupcakeTurnOff.transform.position.x + 2,
+			cupcakeTurnOff.transform.position.y + 2,
+			cupcakeTurnOff.transform.position.z - 3f);
+
+		muffinTurnOn.transform.position = new Vector3(muffinTurnOff.transform.position.x - 10,
+			muffinTurnOff.transform.position.y + 5,
+			muffinTurnOff.transform.position.z - 3f);
+	}
 
     #endregion
 
