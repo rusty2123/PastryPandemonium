@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class ReadyButton : MonoBehaviour {
 
-    public GameObject checkBox, checkMark, checkMarkOpp;
+    public GameObject checkBox, checkMark;
 
     public NetworkGameManager networkManager;
 
     private void Awake()
     {
-        PhotonNetwork.OnEventCall += this.OnEvent;
-
-        setOpponentCheckMark();
+        //setOpponentCheckMark();
 
         checkBox = GameObject.Find("checkBoxLocal");
         checkMark = GameObject.Find("checkMarkLocal");
-        checkMarkOpp = GameObject.Find("checkMarkOpp");
         checkMark.SetActive(false);
-        //checkMarkOpp.SetActive(false);
     }
 
     public void OnMouseEnter()
@@ -56,45 +52,10 @@ public class ReadyButton : MonoBehaviour {
         }
     }
 
-    private void OnEvent(byte eventCode, object content, int senderid)
-    {
-        //if eventcode is 6, then it's ready
-        if (eventCode == 6)
-        {
-            Debug.Log("recieved ready selection");
-            byte[] selected = (byte[])content;
-
-            if(selected[0] == 0)
-            {
-                NetworkGameManager.opponentReady = false;
-            }
-            else if(selected[0] == 1)
-            {
-                NetworkGameManager.opponentReady = true;
-            }
-        }
-    }
-
-    private void setOpponentCheckMark()
-    {
-        //if (checkMarkOpp != null)
-        {
-            if (NetworkGameManager.opponentReady)
-            {
-                checkMarkOpp.SetActive(true);
-            }
-            else if (!NetworkGameManager.opponentReady)
-            {
-                checkMarkOpp.SetActive(false);
-            }
-        }
-    }
-
     // Use this for initialization
     void Start () {	}
 	
 	// Update is called once per frame
 	void Update () {
-        setOpponentCheckMark();
     }
 }

@@ -451,7 +451,11 @@ public class App : MonoBehaviour
         }
 
         Game.gameInstance.placePiece(placeIndex, true);
-        piecesPositions[placeIndex - 1] = localPieces[localIndex];
+
+        if (isSinglePlayer)
+        {
+            piecesPositions[placeIndex - 1] = localPieces[localIndex];
+        }
 
         //send move over network if it's a networked game
         if (!Player.isSinglePlayer)
@@ -630,8 +634,11 @@ public class App : MonoBehaviour
         {
             if (piece != null && piece.GetComponent<GamePiece>().location == moveFromIndex)
             {
-                piecesPositions[moveToIndex - 1] = piece;
-                piecesPositions[moveFromIndex - 1] = null;
+                if (isSinglePlayer)
+                {
+                    piecesPositions[moveToIndex - 1] = piece;
+                    piecesPositions[moveFromIndex - 1] = null;
+                }
 
                 //start position needs to be the gamepiece with location at moveFromIndex
                 startPosition = piece;
@@ -822,8 +829,11 @@ public class App : MonoBehaviour
             if (piece != null && piece.GetComponent<GamePiece>().location == flyFromIndex)
             {
                 //start position needs to be the gamepiece with location at moveFromIndex
-                piecesPositions[flyToIndex - 1] = piece;
-                piecesPositions[flyFromIndex - 1] = null;
+                if (isSinglePlayer)
+                {
+                    piecesPositions[flyToIndex - 1] = piece;
+                    piecesPositions[flyFromIndex - 1] = null;
+                }
                 startPosition = piece;
                 endPosition = GameObject.Find(flyToIndex.ToString());
                 animationPhaseOne(startPosition, startPosition, endPosition);
@@ -1013,8 +1023,12 @@ public class App : MonoBehaviour
 
         //pieceToRemove is set by the user clicking on a piece in GamePiece.cs
         Game.gameInstance.removeOpponentPiece(pieceToRemove);
-        Destroy(piecesPositions[pieceToRemove-1]);
-        piecesPositions[pieceToRemove - 1] = null;
+
+        if (isSinglePlayer)
+        {
+            Destroy(piecesPositions[pieceToRemove - 1]);
+            piecesPositions[pieceToRemove - 1] = null;
+        }
         remainingOpponent--;
 
         if (!Player.isSinglePlayer)

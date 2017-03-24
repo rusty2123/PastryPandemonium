@@ -427,6 +427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 585644941}
   - component: {fileID: 585644940}
+  - component: {fileID: 585644942}
   m_Layer: 0
   m_Name: checkMarkOpp
   m_TagString: Untagged
@@ -482,6 +483,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &585644942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 585644939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30d1ae50f92ebff49b2b61815922c301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkMarkOpp: {fileID: 585644939}
 --- !u!1 &799351490
 GameObject:
   m_ObjectHideFlags: 0
@@ -848,7 +861,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkBox: {fileID: 1139314872}
   checkMark: {fileID: 806825816}
-  checkMarkOpp: {fileID: 585644939}
   networkManager: {fileID: 2117881540}
 --- !u!61 &1139314876
 BoxCollider2D:
