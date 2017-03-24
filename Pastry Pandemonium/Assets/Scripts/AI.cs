@@ -5,10 +5,18 @@ using UnityEngine;
 
 public class AI : MonoBehaviour
 {
-    [DllImport("AILibrary", CharSet = CharSet.Unicode)]
+#if UNITY_EDITOR
+    internal const string _dllVersion = "AILibrary_x64";
+#endif
+
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+    internal const string _dllVersion = "AILibrary_x86";
+#endif
+
+    [DllImport(_dllVersion, CharSet = CharSet.Unicode)]
     static extern void getAIMove(int[] setPlayer, int[] setComputer, int phase, int difficulty, ref int from, ref int to, ref int remove);
 
-    [DllImport("AILibrary")]
+    [DllImport(_dllVersion)]
     public static extern bool getDraw();
 
     public static int[] move(BitArray playerBoard, BitArray computerBoard, int stage, string difficulty)
