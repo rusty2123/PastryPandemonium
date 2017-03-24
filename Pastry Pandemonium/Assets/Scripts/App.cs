@@ -103,7 +103,8 @@ public class App : MonoBehaviour
         }
         //if multiplayer
         else
-        {
+		{	setUpTurnIndicator ();
+			
             if (Player.firstPlayer)
             {
                 changeTurnIndicator(true);
