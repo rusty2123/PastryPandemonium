@@ -78,6 +78,8 @@ public class App : MonoBehaviour
 
         if (isSinglePlayer)
         {
+			setUpTurnIndicator ();
+
             Debug.Log(Player.playerGoFirst);
             Debug.Log(Player.difficultyLevel);
             if (Player.playerGoFirst)
