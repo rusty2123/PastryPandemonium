@@ -140,8 +140,9 @@ public class MultiplayerSetup : Photon.PunBehaviour
             byte[] selected = (byte[])content;
             recvCharacterSelection(selected[0]);
             Debug.Log("recieved character selection: " + selected[0]);
+            Debug.Log("Player.characterLocalPlayer: " + Player.characterLocalPlayer);
 
-            if(Player.characterLocalPlayer == "")
+            if (Player.characterLocalPlayer == "")
             {
                 //default to berry muffin if host is cupcake and vice versa
                 if(selected[0] == 0 || selected[0] == 1 || selected[0] == 2)
@@ -157,11 +158,20 @@ public class MultiplayerSetup : Photon.PunBehaviour
 
                 sendCharacterSelection(Player.characterLocalPlayer);
 
+                characters = GameObject.FindGameObjectsWithTag("character");
+
                 for (int i = 0; i < characters.Length; i++)
                 {
-                    if (characters[i].name != selectedCharacter)
+                    if (characters[i] != null)
                     {
-                        LeanTween.alpha(characters[i], 0.35f, 0f);
+                        if (characters[i].name != selectedCharacter)
+                        {
+                            LeanTween.alpha(characters[i], 0.35f, 0f);
+                        }
+                        if (characters[i].name == selectedCharacter)
+                        {
+                            LeanTween.alpha(character, 1f, 0f);
+                        }
                     }
                 }
             }

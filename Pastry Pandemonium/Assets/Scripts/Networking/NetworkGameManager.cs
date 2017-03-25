@@ -19,7 +19,8 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public override void OnLeftRoom()
     {
-        SceneManager.LoadScene("Lobby");
+        LeaveRoom();
+        //SceneManager.LoadScene("Lobby");
     }
 
     public override void OnJoinedRoom()
@@ -53,7 +54,9 @@ public class NetworkGameManager : Photon.PunBehaviour
     //called when a player disconnects
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
+        Debug.Log("player disconnected");
         opponentReady = false;
+        localReady = false;
         Player.characterOpponentPlayer = "";
     }
 
@@ -76,6 +79,12 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public void LeaveRoom()
     {
+        Debug.Log("leaving room");
+        MultiplayerSetup.selectedCharacter = "";
+        Player.characterLocalPlayer = "";
+        Player.characterOpponentPlayer = "";
+        localReady = false;
+        opponentReady = false;
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("Lobby");
     }

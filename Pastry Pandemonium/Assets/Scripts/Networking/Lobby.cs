@@ -121,12 +121,7 @@ public class Lobby : Photon.PunBehaviour
 
     public void populateRoomList()
     {
-        HashSet<RoomInfo> roomSet = new HashSet<RoomInfo>(rooms);
-
-        if (rooms != null)
-        {
-            roomSet.CopyTo(rooms);
-        }
+        rooms = PhotonNetwork.GetRoomList();
 
         foreach (RoomInfo room in rooms)
         {
@@ -145,13 +140,11 @@ public class Lobby : Photon.PunBehaviour
 
         for(int i = 0; i < roomButtons.Length; ++i)
         {
-            string buttonText = roomButtons[i].GetComponentInChildren<Text>().text;
-            roomButtons[i].GetComponentInChildren<Text>().text = removeBrackets(buttonText);
+            roomButtons[i].GetComponentInChildren<Text>().color = Color.white;
         }
 
-        this.roomSelection = room.GetComponentInChildren<Text>().text;
-        room.GetComponentInChildren<Text>().text = "[" + room.GetComponentInChildren<Text>().text + "]";
-        Debug.Log("you clicked me");
+        roomSelection = room.GetComponentInChildren<Text>().text;
+        room.GetComponentInChildren<Text>().color = Color.magenta;
     }
 
     #endregion
@@ -173,7 +166,6 @@ public class Lobby : Photon.PunBehaviour
     public override void OnReceivedRoomListUpdate()
     {
         clearRoomList();
-        rooms = PhotonNetwork.GetRoomList();
         populateRoomList();
     }
 
@@ -181,24 +173,14 @@ public class Lobby : Photon.PunBehaviour
 
     #region Private Methods
 
-    private string removeBrackets(string s)
-    {
-        if(s[0] == '[' && s[s.Length] == ']')
-        {
-            return s.Substring(1, s.Length - 1);
-        }
-        else
-        {
-            return s;
-        }
-    }
-
     private void clearRoomList()
     {
-        //var children = new List<GameObject>();
-        //Button[] roomButtons = roomList.GetComponentsInChildren<Button>();
-        //foreach (Button child in roomButtons) children.Add(child.gameObject);
-        //children.ForEach(child => Destroy(child));
+        Button[] roomButtons = roomList.GetComponentsInChildren<Button>();
+
+        foreach (Button child in roomButtons)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     #endregion

@@ -31,7 +31,7 @@ public class ReadyButton : MonoBehaviour {
     public void OnMouseUp()
     {
         //Finds what option you clicked on
-        if (checkBox != null)
+        if (checkBox != null && Player.characterLocalPlayer != "")
         {
             if (NetworkGameManager.localReady)
             {
