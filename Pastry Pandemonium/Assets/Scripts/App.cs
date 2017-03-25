@@ -20,6 +20,7 @@ public class App : MonoBehaviour
     public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake;
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
     private GameObject destroyPosition, tempDestroy1, tempDestroy2;
+    public bool gameStarted = false;
 
     public NetworkGameManager networkManager;
 
@@ -90,7 +91,7 @@ public class App : MonoBehaviour
                 isLocalPlayerTurn = true;
 
                 //change UI turn indicator
-                changeTurnIndicator(true);
+                StartCoroutine(changeTurnIndicator(true));
             }
             else
             {
@@ -99,7 +100,7 @@ public class App : MonoBehaviour
                 //start ai by passing it an invalid move
 
                 //change UI turn indicator
-                changeTurnIndicator(false);
+                StartCoroutine(changeTurnIndicator(false));
             }
             setUpPlayerPieces();
         }
@@ -108,11 +109,11 @@ public class App : MonoBehaviour
 		{
             if (Player.firstPlayer)
             {
-                changeTurnIndicator(true);
+                StartCoroutine(changeTurnIndicator(true));
             }
             else
             {
-                changeTurnIndicator(false);
+                StartCoroutine(changeTurnIndicator(false));
             }
             setUpMultiPlayerPieces();
         }
@@ -147,9 +148,15 @@ public class App : MonoBehaviour
             muffinTurnOff.transform.position.z - 3f);
     }
 
-    private void changeTurnIndicator(bool firstPlayerTurn)
+    IEnumerator changeTurnIndicator(bool firstPlayerTurn)
     {
 
+        if (gameStarted)
+        {
+            yield return new WaitForSeconds(2.5f);
+        }
+
+        gameStarted = true;
         if (firstPlayerTurn)
         {
             if (firstPlayer == "muffin")
@@ -598,17 +605,17 @@ public class App : MonoBehaviour
             startPosition.transform.position.z + 2);
 
         //scale piece
-        LeanTween.scale(gamePiece, new Vector3(.65f, .65f, .5f), .6f);
-        LeanTween.scale(gamePiece, new Vector3(0.5f, 0.5f, 0.5f), .6f).setDelay(2.5f);
+        LeanTween.scale(gamePiece, new Vector3(.65f, .65f, .5f), .5f);
+        LeanTween.scale(gamePiece, new Vector3(0.5f, 0.5f, 0.5f), .5f).setDelay(2.5f);
 
         //move piece up and then to the endPosition
         LeanTween.moveY(gamePiece, startPosition.transform.position.y + 140f, .5f);
-        LeanTween.move(gamePiece, endPosition.transform.position, 2.5f).setEase(LeanTweenType.easeInOutQuint).setDelay(.7f);
+        LeanTween.move(gamePiece, endPosition.transform.position, 2f).setEase(LeanTweenType.easeInOutQuint).setDelay(.6f);
 
         //Move shadow
         LeanTween.move(shadow, new Vector3(endPosition.transform.position.x,
             endPosition.transform.position.y,
-            endPosition.transform.position.z + 2), 2.5f).setEase(LeanTweenType.easeInOutQuint).setDelay(.73f);
+            endPosition.transform.position.z + 2), 2f).setEase(LeanTweenType.easeInOutQuint).setDelay(.63f);
 
         gamePiece.GetComponent<GamePiece>().location = Convert.ToInt32(endPosition.name);
 
@@ -1126,11 +1133,11 @@ public class App : MonoBehaviour
 
             if (Player.firstPlayer)
             {
-                changeTurnIndicator(true);
+                StartCoroutine(changeTurnIndicator(false));
             }
             else
             {
-                changeTurnIndicator(false);
+                StartCoroutine(changeTurnIndicator(true));
             }
 
         }
@@ -1140,18 +1147,18 @@ public class App : MonoBehaviour
 
             if (isSinglePlayer)
             {
-                changeTurnIndicator(false);
+                StartCoroutine(changeTurnIndicator(true));
 
             }
             else
             {
                 if (Player.firstPlayer)
                 {
-                    changeTurnIndicator(true);
+                    StartCoroutine(changeTurnIndicator(false));
                 }
                 else
                 {
-                    changeTurnIndicator(false);
+                    StartCoroutine(changeTurnIndicator(true));
                 }
 
             }
