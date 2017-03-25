@@ -18,6 +18,8 @@ public class App : MonoBehaviour
     private string firstPlayer;
 
     public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake;
+    public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
+    private GameObject destroyPosition;
 
     public NetworkGameManager networkManager;
 
@@ -1381,21 +1383,29 @@ public class App : MonoBehaviour
     }
     private void animationRemove(GameObject gamePiece, GameObject player)
     {
-       // Destroy(gamePiece);
+        destroyPosition = gamePiece;
+
+        Destroy(gamePiece);
 
         switch (player.name)
         {
             case "berryGamePiece":
+                setUpDestroyPieces(destroyBerry, destroy2);
                 break;
             case "chipGamePiece":
+                setUpDestroyPieces(destroyChip, destroy2);
                 break;
             case "lemonGamePiece":
+                setUpDestroyPieces(destroyLemon, destroyY2);
                 break;
             case "chocolateGamePiece":
+                setUpDestroyPieces(destroyChocolate, destroy2);
                 break;
             case "redGamePiece":
+                setUpDestroyPieces(destroyRed, destroy2);
                 break;
             case "whiteGamePiece":
+                setUpDestroyPieces(destroyWhite, destroy2);
                 break;
             default:
                 break;
@@ -1403,21 +1413,33 @@ public class App : MonoBehaviour
         }
     }
 
-
-    void setUpDestroyPieces(GameObject localCharacter)
+    
+    void setUpDestroyPieces(GameObject destroyFirst, GameObject destroySecond)
     {
-        for (int i = 1; i < 10; i++)
-        {
-            piece = Instantiate(localCharacter) as GameObject;
-            piecePosition = GameObject.Find("L-" + i);
-            piece.transform.position = piecePosition.transform.position;
-            piece.SetActive(true);
-            piece.tag = "local";
-            piece.name = "local" + (i).ToString();
-            piece.GetComponent<GamePiece>().location = 0;
-            piece.GetComponent<GamePiece>().owner = "local";
-            localPieces[i - 1] = piece;
-        }
+
+        Instantiate(destroyFirst);
+        Instantiate(destroySecond);
+
+        destroyFirst.SetActive(true);
+        destroySecond.SetActive(true);
+        destroyFirst.transform.position = destroyPosition.transform.position;
+
+        destroySecond.transform.position = destroyPosition.transform.position;
+        //  destroy1 = Instantiate(localCharacter) as GameObject;
+
+        /*   for (int i = 1; i < 10; i++)
+           {
+
+
+               piecePosition = GameObject.Find("L-" + i);
+               piece.transform.position = piecePosition.transform.position;
+               piece.SetActive(true);
+               piece.tag = "local";
+               piece.name = "local" + (i).ToString();
+               piece.GetComponent<GamePiece>().location = 0;
+               piece.GetComponent<GamePiece>().owner = "local";
+               localPieces[i - 1] = piece;
+           }*/
 
     }
     #endregion
