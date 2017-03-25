@@ -653,9 +653,17 @@ public class App : MonoBehaviour
     {
         moveToIndex = 0; moveFromIndex = 0;
 
-        do
+        yield return StartCoroutine(getMoveFromIndex());
+        foreach (GameObject piece in localPieces)
         {
-            yield return StartCoroutine(getMoveFromIndex());
+            if (piece != null && piece.GetComponent<GamePiece>().location == moveFromIndex)
+            {
+                selectAnimation(piece);
+            }
+        }
+                do
+        {
+           // yield return StartCoroutine(getMoveFromIndex());
             yield return StartCoroutine(getMoveToIndex());
 
             if (!validMove)
@@ -796,9 +804,17 @@ public class App : MonoBehaviour
        
     }
 
+
+    private void selectAnimation(GameObject gamePiece)
+    {
+        LeanTween.scale(gamePiece, new Vector3(.58f, .58f, .5f), .3f);
+        LeanTween.scale(gamePiece, new Vector3(0.5f, 0.5f, 0.5f), .3f).setDelay(.6f);
+    }
+
     private void animationPhaseTwo(GameObject gamePiece, GameObject startPosition, GameObject endPosition)
     {
-      
+  
+
         gamePiece.transform.position = startPosition.transform.position;
 
         
