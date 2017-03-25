@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultiplayerSetup : MonoBehaviour {
+public class MultiplayerSetup : Photon.PunBehaviour
+{
 
     public GameObject character;
-    public static string selectedCharacter;
+    public static string selectedCharacter = "";
 
     private GameObject[] characters;
 
@@ -15,14 +16,11 @@ public class MultiplayerSetup : MonoBehaviour {
     {
         PhotonNetwork.OnEventCall += this.OnEvent;
 
+        Player.characterLocalPlayer = "";
+
         if (PhotonNetwork.isMasterClient)
         {
-            selectedCharacter = "redCupcake";
-            Player.characterOpponentPlayer = "berryMuffin";
-        }
-        else
-        {
-            selectedCharacter = "berryMuffin";
+            Player.characterLocalPlayer = "redCupcake"; selectedCharacter = "redCupcake";
         }
 
         Player.characterLocalPlayer = selectedCharacter;
@@ -54,8 +52,7 @@ public class MultiplayerSetup : MonoBehaviour {
     public void OnMouseUp()
     {
         if(character != null && 
-            (character.name != Player.characterOpponentPlayer) ||
-            Player.characterOpponentPlayer == "")
+          (Player.characterOpponentPlayer == "" || character.name[character.name.Length - 1] != Player.characterOpponentPlayer[Player.characterOpponentPlayer.Length - 1]))
         {
             //resets all characters to loo unselected
             for (int i = 0; i < characters.Length; i++)
@@ -143,6 +140,31 @@ public class MultiplayerSetup : MonoBehaviour {
             byte[] selected = (byte[])content;
             recvCharacterSelection(selected[0]);
             Debug.Log("recieved character selection: " + selected[0]);
+
+            if(Player.characterLocalPlayer == "")
+            {
+                //default to berry muffin if host is cupcake and vice versa
+                if(selected[0] == 0 || selected[0] == 1 || selected[0] == 2)
+                {
+                    Debug.Log("defaulting to muffin");
+                    Player.characterLocalPlayer = "berryMuffin"; selectedCharacter = "berryMuffin";
+                }
+                else if(selected[0] == 3 || selected[0] == 4 || selected[0] == 5)
+                {
+                    Debug.Log("defaulting to cupcake");
+                    Player.characterLocalPlayer = "redCupcake"; selectedCharacter = "redCupcake";
+                }
+
+                sendCharacterSelection(Player.characterLocalPlayer);
+
+                for (int i = 0; i < characters.Length; i++)
+                {
+                    if (characters[i].name != selectedCharacter)
+                    {
+                        LeanTween.alpha(characters[i], 0.35f, 0f);
+                    }
+                }
+            }
         }
     }
 
