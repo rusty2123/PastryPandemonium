@@ -45,10 +45,14 @@ public class NetworkGameManager : Photon.PunBehaviour
         multiplayerSetup.sendCharacterSelection(Player.characterLocalPlayer);
     }
 
+    public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
+    {
+        LeaveRoom();
+    }
+
     //called when a player disconnects
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
-        base.OnPhotonPlayerDisconnected(otherPlayer);
         opponentReady = false;
         Player.characterOpponentPlayer = "";
     }
