@@ -19,7 +19,7 @@ public class App : MonoBehaviour
 
     public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake;
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
-    private GameObject destroyPosition;
+    private GameObject destroyPosition, tempDestroy1, tempDestroy2;
 
     public NetworkGameManager networkManager;
 
@@ -795,7 +795,7 @@ public class App : MonoBehaviour
         gamePiece.transform.position = startPosition.transform.position;
 
         
-        LeanTween.move(gamePiece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(0.8f);
+        LeanTween.move(gamePiece, endPosition.transform.position, 2f).setEase(LeanTweenType.easeOutQuint).setDelay(0.3f);
     }
 
     #endregion
@@ -1064,15 +1064,9 @@ public class App : MonoBehaviour
 
         if (isSinglePlayer)
         {
-            if (piecesPositions[pieceToRemove - 1].tag == "opponent")
-            {
+           
                 animationRemove(piecesPositions[pieceToRemove - 1], characterOpponentPlayer);
-            }
-            else
-            {
-                animationRemove(piecesPositions[pieceToRemove - 1], characterLocalPlayer);
-            }
-           // Destroy(piecesPositions[pieceToRemove - 1]);
+            
             piecesPositions[pieceToRemove - 1] = null;
         }
         remainingOpponent--;
@@ -1100,10 +1094,11 @@ public class App : MonoBehaviour
         }
 
         Debug.Log("Piece to remove " + pieceToRemove);
-       
 
-        Destroy(piecesPositions[pieceToRemove]);
-        piecesPositions[pieceToRemove] = null;
+
+        animationRemove(piecesPositions[pieceToRemove], characterLocalPlayer);
+      //  Destroy(piecesPositions[pieceToRemove]);
+       piecesPositions[pieceToRemove] = null;
 
         printPieceLocations();
 
@@ -1417,31 +1412,23 @@ public class App : MonoBehaviour
     void setUpDestroyPieces(GameObject destroyFirst, GameObject destroySecond)
     {
 
-        Instantiate(destroyFirst);
-        Instantiate(destroySecond);
+       tempDestroy1 = Instantiate(destroyFirst) as GameObject;
+        tempDestroy2 = Instantiate(destroySecond) as GameObject;
 
-        destroyFirst.SetActive(true);
-        destroySecond.SetActive(true);
-        destroyFirst.transform.position = destroyPosition.transform.position;
-
-        destroySecond.transform.position = destroyPosition.transform.position;
-        //  destroy1 = Instantiate(localCharacter) as GameObject;
-
-        /*   for (int i = 1; i < 10; i++)
-           {
+        tempDestroy1.SetActive(true);
+        tempDestroy2.SetActive(true);
 
 
-               piecePosition = GameObject.Find("L-" + i);
-               piece.transform.position = piecePosition.transform.position;
-               piece.SetActive(true);
-               piece.tag = "local";
-               piece.name = "local" + (i).ToString();
-               piece.GetComponent<GamePiece>().location = 0;
-               piece.GetComponent<GamePiece>().owner = "local";
-               localPieces[i - 1] = piece;
-           }*/
+        tempDestroy1.transform.position = destroyPosition.transform.position;
 
+        tempDestroy2.transform.position = destroyPosition.transform.position;
+
+        Destroy(tempDestroy1, .5f);
+
+        Destroy(tempDestroy2, 1f);
     }
+
+
     #endregion
 }
 
