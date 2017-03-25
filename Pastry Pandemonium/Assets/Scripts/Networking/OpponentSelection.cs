@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpponentSelection : MonoBehaviour {
+public class OpponentSelection : Photon.PunBehaviour
+{
 
     public RectTransform opponentSelection;
 
     private void Awake()
     {
-        setOpponentSelectionPos();
+       
     }
 
     // Use this for initialization
@@ -20,7 +21,7 @@ public class OpponentSelection : MonoBehaviour {
 	void Update () {
 
         setOpponentSelectionPos();
-
+        setOpponentSelectionVisibility();
     }
 
     private void setOpponentSelectionPos()
@@ -45,6 +46,18 @@ public class OpponentSelection : MonoBehaviour {
             case "lemonMuffin":
                 opponentSelection.anchoredPosition = new Vector3(1000, 0, 0);
                 break;
+        }
+    }
+
+    private void setOpponentSelectionVisibility()
+    {
+        if(PhotonNetwork.playerList.Length == 1)
+        {
+            opponentSelection.transform.localScale = new Vector3(0f, 0f, 0f);
+        }
+        else
+        {
+            opponentSelection.transform.localScale = new Vector3(1f, 1f, 1f);
         }
     }
 }
