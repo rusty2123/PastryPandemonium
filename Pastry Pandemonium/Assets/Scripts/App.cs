@@ -596,17 +596,17 @@ public class App : MonoBehaviour
             startPosition.transform.position.z + 2);
 
         //scale piece
-        LeanTween.scale(gamePiece, new Vector3(.65f, .65f, .65f), .6f).setDelay(.2f);
-        LeanTween.scale(gamePiece, new Vector3(0.5f, 0.5f, 0.5f), 1.3f).setDelay(2.7f);
+        LeanTween.scale(gamePiece, new Vector3(.65f, .65f, .5f), .6f);
+        LeanTween.scale(gamePiece, new Vector3(0.5f, 0.5f, 0.5f), .6f).setDelay(2.5f);
 
         //move piece up and then to the endPosition
-        LeanTween.moveY(gamePiece, startPosition.transform.position.y + 140f, .6f).setDelay(.2f);
-        LeanTween.move(gamePiece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.9f);
+        LeanTween.moveY(gamePiece, startPosition.transform.position.y + 140f, .5f);
+        LeanTween.move(gamePiece, endPosition.transform.position, 2.5f).setEase(LeanTweenType.easeInOutQuint).setDelay(.7f);
 
         //Move shadow
         LeanTween.move(shadow, new Vector3(endPosition.transform.position.x,
             endPosition.transform.position.y,
-            endPosition.transform.position.z + 2), 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(.93f);
+            endPosition.transform.position.z + 2), 2.5f).setEase(LeanTweenType.easeInOutQuint).setDelay(.73f);
 
         gamePiece.GetComponent<GamePiece>().location = Convert.ToInt32(endPosition.name);
 
@@ -1062,7 +1062,15 @@ public class App : MonoBehaviour
 
         if (isSinglePlayer)
         {
-            Destroy(piecesPositions[pieceToRemove - 1]);
+            if (piecesPositions[pieceToRemove - 1].tag == "opponent")
+            {
+                animationRemove(piecesPositions[pieceToRemove - 1], characterOpponentPlayer);
+            }
+            else
+            {
+                animationRemove(piecesPositions[pieceToRemove - 1], characterLocalPlayer);
+            }
+           // Destroy(piecesPositions[pieceToRemove - 1]);
             piecesPositions[pieceToRemove - 1] = null;
         }
         remainingOpponent--;
@@ -1363,6 +1371,56 @@ public class App : MonoBehaviour
 
     #endregion
 
+
+    #region Animations
+
+    private void animationCreatedMill(GameObject gamePiece, GameObject startPosition, GameObject endPosition)
+    {
+
+
+    }
+    private void animationRemove(GameObject gamePiece, GameObject player)
+    {
+       // Destroy(gamePiece);
+
+        switch (player.name)
+        {
+            case "berryGamePiece":
+                break;
+            case "chipGamePiece":
+                break;
+            case "lemonGamePiece":
+                break;
+            case "chocolateGamePiece":
+                break;
+            case "redGamePiece":
+                break;
+            case "whiteGamePiece":
+                break;
+            default:
+                break;
+
+        }
+    }
+
+
+    void setUpDestroyPieces(GameObject localCharacter)
+    {
+        for (int i = 1; i < 10; i++)
+        {
+            piece = Instantiate(localCharacter) as GameObject;
+            piecePosition = GameObject.Find("L-" + i);
+            piece.transform.position = piecePosition.transform.position;
+            piece.SetActive(true);
+            piece.tag = "local";
+            piece.name = "local" + (i).ToString();
+            piece.GetComponent<GamePiece>().location = 0;
+            piece.GetComponent<GamePiece>().owner = "local";
+            localPieces[i - 1] = piece;
+        }
+
+    }
+    #endregion
 }
 
 
