@@ -49,18 +49,21 @@ public class Game : Photon.MonoBehaviour
 
     public void placePiece(int index, bool isLocalPiece)
     {
+        Player.movesSinceLastMillFormed++;
         Board.boardInstance.placePiece(index, isLocalPiece);
     }
 
 
     public bool isDraw()
     {
-        return false;
+        return (Player.movesSinceLastMillFormed >= 10);
     }
 
     public void movePiece(int from, int to)
     {
         Debug.Log("move piece");
+
+        Player.movesSinceLastMillFormed++;
 
         if (validMove(from, to))
         {
@@ -70,17 +73,21 @@ public class Game : Photon.MonoBehaviour
 
     public void moveLocalPiece(int from, int to)
     {
+        Player.movesSinceLastMillFormed++;
         Board.boardInstance.moveLocalPiece(from, to);
     }
 
     public void moveOpponentPiece(int from, int to)
     {
+        Player.movesSinceLastMillFormed++;
         Board.boardInstance.moveOpponentPiece(from, to);
     }
 
     public void flyPiece(int from, int to)
     {
         Debug.Log("move piece");
+
+        Player.movesSinceLastMillFormed++;
 
         if (validFly(from, to))
         {
@@ -131,11 +138,13 @@ public class Game : Photon.MonoBehaviour
 
     public void removeLocalPiece(int index)
     {
+        Player.movesSinceLastMillFormed = 0;
         Board.boardInstance.removeLocalPiece(index);
     }
 
     public void removeOpponentPiece(int index)
     {
+        Player.movesSinceLastMillFormed = 0;
         Board.boardInstance.removeOpponentPiece(index);
     }
 

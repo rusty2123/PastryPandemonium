@@ -21,11 +21,13 @@ public class Player : MonoBehaviour
 
     //AI levelset on single player menu
     public static string difficultyLevel = "easy"; 
+    public static int movesSinceLastMillFormed = 0;
 
 
     void Awake()
     {
-    
+        movesSinceLastMillFormed = 0;
+
         if (difficultyLevel == "easy")
         {
             //aIScript = gameObject.AddComponent<AIScript>();
