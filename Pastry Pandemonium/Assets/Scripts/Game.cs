@@ -18,6 +18,8 @@ public class Game : Photon.MonoBehaviour
     public static Player localPlayer;
     public static Player opponentPlayer;
 
+    App a = new App();
+
 
 
 
@@ -159,6 +161,7 @@ public class Game : Photon.MonoBehaviour
                  Board.boardInstance.isOpponentPlayerPieceAt(entry.Item3)))
                 {
                     Debug.Log(entry.Item1 + " " + entry.Item2 + " " + entry.Item3);
+                    a.animationCreatedMill(entry.Item1, entry.Item2, entry.Item3);
                     return true;
                 }
 
@@ -170,6 +173,7 @@ public class Game : Photon.MonoBehaviour
                  Board.boardInstance.isLocalPlayerPieceAt(entry.Item3)))
                 {
                     Debug.Log(entry.Item1 + " " + entry.Item2 + " " + entry.Item3);
+                    a.animationCreatedMill(entry.Item1, entry.Item2, entry.Item3);
                     return true;
                 }
             }

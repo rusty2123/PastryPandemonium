@@ -3526,7 +3526,7 @@ GameObject:
   - component: {fileID: 1980939493}
   m_Layer: 5
   m_Name: GameSpaces
-  m_TagString: Untagged
+  m_TagString: gameSpaces
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4114,6 +4114,7 @@ MonoBehaviour:
   destroyWhite: {fileID: 1540464946}
   destroyY2: {fileID: 522293871}
   destroy2: {fileID: 640468783}
+  gameStarted: 0
   networkManager: {fileID: 1160407420}
   game: {fileID: 1831984957}
   gameBoard: {fileID: 1760723140}

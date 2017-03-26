@@ -19,7 +19,7 @@ public class App : MonoBehaviour
 
     public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake;
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
-    private GameObject destroyPosition, tempDestroy1, tempDestroy2;
+    private GameObject destroyPosition, tempDestroy1, tempDestroy2, millPosition, millPosition2, millPosition3;
     public bool gameStarted = false;
 
     public NetworkGameManager networkManager;
@@ -30,11 +30,13 @@ public class App : MonoBehaviour
 
     public static int localIndex = 0, opponentIndex = 0, remainingLocal = 9, remainingOpponent = 9, outOfBoardOpponent = 9, outOfBoardLocal = 9;
 
-    private GameObject[] opponentPieces = new GameObject[9];
-    private GameObject[] localPieces = new GameObject[9];
+    private static GameObject[] opponentPieces = new GameObject[9];
+    private static GameObject[] localPieces = new GameObject[9];
     private List<GameObject> localPiecesList = new List<GameObject>(9);
     public GameObject[] outOfBoardSpaces = new GameObject[18];
     public GameObject[] boardSpaces = new GameObject[24];
+    private static GameObject[] boardSpaces2 = new GameObject[24];
+
     public static  GameObject[] piecesPositions = new GameObject[24];
 
     public static bool isSinglePlayer, gameOver = false, isDraw = false, 
@@ -72,8 +74,11 @@ public class App : MonoBehaviour
 
         localPlayer = gameObject.AddComponent<Player>();
         opponentPlayer = gameObject.AddComponent<Player>();
-
-
+        
+        for (int i = 0; i <boardSpaces.Length; i++)
+        {
+            boardSpaces2[i] = boardSpaces[i];
+        }
         muffinTurnOn = GameObject.Find("muffinTurn");
         cupcakeTurnOn = GameObject.Find("cupcakeTurn");
         turnPositionLeft = GameObject.Find("TurnIndicator1");
@@ -593,32 +598,6 @@ public class App : MonoBehaviour
         changePlayer();
 
       
-    }
-
-    private void animationPhaseOne(GameObject gamePiece, GameObject startPosition, GameObject endPosition)
-    {
-        shadow.SetActive(true);
-        gamePiece.transform.position = startPosition.transform.position;
-
-        shadow.transform.position = new Vector3(startPosition.transform.position.x,
-            startPosition.transform.position.y,
-            startPosition.transform.position.z + 2);
-
-        //scale piece
-        LeanTween.scale(gamePiece, new Vector3(.65f, .65f, .5f), .5f);
-        LeanTween.scale(gamePiece, new Vector3(0.5f, 0.5f, 0.5f), .5f).setDelay(2.5f);
-
-        //move piece up and then to the endPosition
-        LeanTween.moveY(gamePiece, startPosition.transform.position.y + 140f, .5f);
-        LeanTween.move(gamePiece, endPosition.transform.position, 2f).setEase(LeanTweenType.easeInOutQuint).setDelay(.6f);
-
-        //Move shadow
-        LeanTween.move(shadow, new Vector3(endPosition.transform.position.x,
-            endPosition.transform.position.y,
-            endPosition.transform.position.z + 2), 2f).setEase(LeanTweenType.easeInOutQuint).setDelay(.63f);
-
-        gamePiece.GetComponent<GamePiece>().location = Convert.ToInt32(endPosition.name);
-
     }
 
     #endregion
@@ -1394,10 +1373,78 @@ public class App : MonoBehaviour
 
     #region Animations
 
-    private void animationCreatedMill(GameObject gamePiece, GameObject startPosition, GameObject endPosition)
+    private void animationPhaseOne(GameObject gamePiece, GameObject startPosition, GameObject endPosition)
+    {
+        shadow.SetActive(true);
+        gamePiece.transform.position = startPosition.transform.position;
+
+        shadow.transform.position = new Vector3(startPosition.transform.position.x,
+            startPosition.transform.position.y,
+            startPosition.transform.position.z + 2);
+
+        //scale piece
+        LeanTween.scale(gamePiece, new Vector3(.65f, .65f, .5f), .5f);
+        LeanTween.scale(gamePiece, new Vector3(0.5f, 0.5f, 0.5f), .5f).setDelay(2.5f);
+
+        //move piece up and then to the endPosition
+        LeanTween.moveY(gamePiece, startPosition.transform.position.y + 140f, .5f);
+        LeanTween.move(gamePiece, endPosition.transform.position, 2f).setEase(LeanTweenType.easeInOutQuint).setDelay(.6f);
+
+        //Move shadow
+        LeanTween.move(shadow, new Vector3(endPosition.transform.position.x,
+            endPosition.transform.position.y,
+            endPosition.transform.position.z + 2), 2f).setEase(LeanTweenType.easeInOutQuint).setDelay(.63f);
+
+        gamePiece.GetComponent<GamePiece>().location = Convert.ToInt32(endPosition.name);
+
+    }
+
+    public void animationCreatedMill(int itemOne, int itemTwo, int itemThree)
     {
 
+        foreach (GameObject space in boardSpaces2)
+        {
 
+            if (space.name == itemOne.ToString())
+            {
+                millPosition = space;
+            }
+            else if (space.name == itemTwo.ToString())
+            {
+                millPosition2 = space;
+            }
+            else if (space.name == itemThree.ToString())
+            {
+                millPosition3 = space;
+            }
+
+        }
+
+        foreach (GameObject piece in localPieces)
+        {
+            if (piece.transform.position == millPosition.transform.position)
+            {
+                LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f).setDelay(3.2f);
+                LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f).setDelay(3.2f);
+                LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(3.7f);
+            }
+            else if (piece.transform.position == millPosition2.transform.position)
+            {
+                LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f).setDelay(3.2f);
+                LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f).setDelay(3.2f);
+                LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(3.7f);
+
+            }
+            else if (piece.transform.position == millPosition3.transform.position)
+            {
+                LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f).setDelay(3.2f);
+                LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f).setDelay(3.2f);
+                LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(3.7f);
+
+            }
+
+
+        }
     }
     private void animationRemove(GameObject gamePiece, GameObject player)
     {
