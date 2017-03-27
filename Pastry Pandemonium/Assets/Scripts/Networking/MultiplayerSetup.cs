@@ -5,15 +5,18 @@ using UnityEngine;
 public class MultiplayerSetup : Photon.PunBehaviour
 {
 
-    public GameObject character;
+    public GameObject character, disconnected;
     public static string selectedCharacter = "";
 
     private GameObject[] characters;
+    private Collider2D[] colliders;
 
     public NetworkGameManager networkManager;
 
     private void Awake()
     {
+        disconnected.SetActive(false);
+
         PhotonNetwork.OnEventCall += this.OnEvent;
 
         Player.characterLocalPlayer = "";
@@ -26,6 +29,7 @@ public class MultiplayerSetup : Photon.PunBehaviour
         Player.characterLocalPlayer = selectedCharacter;
 
         characters = GameObject.FindGameObjectsWithTag("character");
+
         for (int i = 0; i < characters.Length; i++)
         {
             if (characters[i].name != selectedCharacter)
@@ -80,6 +84,29 @@ public class MultiplayerSetup : Photon.PunBehaviour
         }
 
         Player.characterLocalPlayer = selectedCharacter;
+    }
+
+    public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
+    {
+        disableColliders();
+        disconnected.SetActive(true);
+    }
+
+    public void ReturnToLobby()
+    {
+        disconnected.SetActive(false);
+        networkManager.LeaveRoom();
+    }
+
+    private void disableColliders()
+    {
+        //disable all 2d colliders
+        colliders = FindObjectsOfType<Collider2D>();
+
+        foreach (Collider2D collider in colliders)
+        {
+            collider.enabled = false;
+        }
     }
 
     public void sendCharacterSelection(string character)
