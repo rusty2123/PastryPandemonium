@@ -1088,7 +1088,7 @@ public class App : MonoBehaviour
 
     IEnumerator removeAIPiece()
     {
-        yield return StartCoroutine(waitForSeconds(2));
+        yield return StartCoroutine(waitForSeconds(4));
 
         foreach (GameObject boardSpace in boardSpaces)
         {
@@ -1420,30 +1420,60 @@ public class App : MonoBehaviour
 
         }
 
-        foreach (GameObject piece in localPieces)
+        if(isLocalPlayerTurn)
         {
-            if (piece.transform.position == millPosition.transform.position)
+            foreach (GameObject piece in localPieces)
             {
-                LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f).setDelay(3.2f);
-                LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f).setDelay(3.2f);
-                LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(3.7f);
+                if (piece.transform.position == millPosition.transform.position)
+                {
+                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+                }
+                else if (piece.transform.position == millPosition2.transform.position)
+                {
+                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+
+                }
+                else if (piece.transform.position == millPosition3.transform.position)
+                {
+                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+
+                }
+
             }
-            else if (piece.transform.position == millPosition2.transform.position)
+        }
+
+        else
+        {
+            foreach (GameObject piece in opponentPieces)
             {
-                LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f).setDelay(3.2f);
-                LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f).setDelay(3.2f);
-                LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(3.7f);
+                if (piece.transform.position == millPosition.transform.position)
+                {
+                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+                }
+                else if (piece.transform.position == millPosition2.transform.position)
+                {
+                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+
+                }
+                else if (piece.transform.position == millPosition3.transform.position)
+                {
+                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+
+                }
 
             }
-            else if (piece.transform.position == millPosition3.transform.position)
-            {
-                LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f).setDelay(3.2f);
-                LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f).setDelay(3.2f);
-                LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(3.7f);
-
-            }
-
-
         }
     }
     private void animationRemove(GameObject gamePiece, GameObject player)

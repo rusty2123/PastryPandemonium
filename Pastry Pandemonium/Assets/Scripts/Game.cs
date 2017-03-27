@@ -161,7 +161,8 @@ public class Game : Photon.MonoBehaviour
                  Board.boardInstance.isOpponentPlayerPieceAt(entry.Item3)))
                 {
                     Debug.Log(entry.Item1 + " " + entry.Item2 + " " + entry.Item3);
-                    a.animationCreatedMill(entry.Item1, entry.Item2, entry.Item3);
+                    StartCoroutine(waitForMillAnimation(entry.Item1, entry.Item2, entry.Item3));
+                   // a.animationCreatedMill(entry.Item1, entry.Item2, entry.Item3);
                     return true;
                 }
 
@@ -173,7 +174,8 @@ public class Game : Photon.MonoBehaviour
                  Board.boardInstance.isLocalPlayerPieceAt(entry.Item3)))
                 {
                     Debug.Log(entry.Item1 + " " + entry.Item2 + " " + entry.Item3);
-                    a.animationCreatedMill(entry.Item1, entry.Item2, entry.Item3);
+                    StartCoroutine(waitForMillAnimation(entry.Item1, entry.Item2, entry.Item3));
+                   // a.animationCreatedMill(entry.Item1, entry.Item2, entry.Item3);
                     return true;
                 }
             }
@@ -182,6 +184,14 @@ public class Game : Photon.MonoBehaviour
         return false;
     }
 
+    
+    IEnumerator waitForMillAnimation(int item1, int item2, int item3)
+    {
+        yield return new WaitForSeconds(3);
+        a.animationCreatedMill(item1, item2, item3);
+
+    }
+    
     public bool validMove(int from, int to)
     {
         if (Board.boardInstance.isLocalPlayerPieceAt(from) == true)
