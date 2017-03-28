@@ -1461,7 +1461,6 @@ public class App : Photon.PunBehaviour
             {
                 if (piece != null)
                 {
-                    //print("piece.transform.position: " + piece.transform.position);
                     if (piece.transform.position == millPosition.transform.position)
                     {
                         LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);

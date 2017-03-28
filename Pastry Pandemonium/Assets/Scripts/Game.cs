@@ -231,18 +231,23 @@ public class Game : Photon.MonoBehaviour
         return false;
     }
 
-    //private bool allPiecesPartOfMill()
-    //{
-    //    int pieceCount = 0;
-    //    for (int i = 1; i <= 24; i++)
-    //    {
-    //        if (Board.boardInstance.isLocalPlayerPieceAt(i) && piecePartOfMill(i))
-    //        {
-    //            pieceCount++;
-    //        }
-    //    }
-    //    return (pieceCount == localPlayer.getPieceCount());
-    //}
+    public bool allPiecesPartOfMill()
+    {
+        int pieceCount = 0;
+        int millPieceCount = 0;
+        for (int i = 1; i <= 24; i++)
+        {
+            if (Board.boardInstance.isOpponentPlayerPieceAt(i))
+            {
+                pieceCount++;
+                if (piecePartOfMill(i))
+                {
+                    millPieceCount++;
+                }
+            }
+        }
+        return (pieceCount == millPieceCount);
+    }
 
 
 }
