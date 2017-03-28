@@ -609,6 +609,7 @@ public class App : Photon.PunBehaviour
 
     IEnumerator pieceMovePhase()
     {
+        printPieceLocations();
         //if it's the local player's turn, and there are still pieces left to place
         if (isLocalPlayerTurn)
         {
@@ -629,6 +630,7 @@ public class App : Photon.PunBehaviour
 
         }
 
+        printPieceLocations();
     }
 
     IEnumerator localMovePiece()
@@ -768,6 +770,15 @@ public class App : Photon.PunBehaviour
 
         piecesPositions[to] = piecesPositions[from];
         piecesPositions[from] = null;
+
+        foreach (GameObject piece in opponentPieces)
+        {
+            if (piece != null && piece.GetComponent<GamePiece>().location == from + 1)
+            {
+                piece.GetComponent<GamePiece>().location = to + 1;
+                break;
+            }
+        }
 
         printPieceLocations();
         //check if the placement created a mill
