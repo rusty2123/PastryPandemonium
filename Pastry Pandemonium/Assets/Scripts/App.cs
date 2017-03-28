@@ -609,7 +609,6 @@ public class App : Photon.PunBehaviour
 
     IEnumerator pieceMovePhase()
     {
-        printPieceLocations();
         //if it's the local player's turn, and there are still pieces left to place
         if (isLocalPlayerTurn)
         {
@@ -629,8 +628,7 @@ public class App : Photon.PunBehaviour
 
 
         }
-
-        printPieceLocations();
+        
     }
 
     IEnumerator localMovePiece()
@@ -1461,25 +1459,29 @@ public class App : Photon.PunBehaviour
         {
             foreach (GameObject piece in localPieces)
             {
-                if (piece.transform.position == millPosition.transform.position)
+                if (piece != null)
                 {
-                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
-                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
-                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
-                }
-                else if (piece.transform.position == millPosition2.transform.position)
-                {
-                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
-                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
-                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+                    //print("piece.transform.position: " + piece.transform.position);
+                    if (piece.transform.position == millPosition.transform.position)
+                    {
+                        LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                        LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                        LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+                    }
+                    else if (piece.transform.position == millPosition2.transform.position)
+                    {
+                        LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                        LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                        LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
 
-                }
-                else if (piece.transform.position == millPosition3.transform.position)
-                {
-                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
-                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
-                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+                    }
+                    else if (piece.transform.position == millPosition3.transform.position)
+                    {
+                        LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                        LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                        LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
 
+                    }
                 }
 
             }
@@ -1489,25 +1491,28 @@ public class App : Photon.PunBehaviour
         {
             foreach (GameObject piece in opponentPieces)
             {
-                if (piece.transform.position == millPosition.transform.position)
+                if (piece != null)
                 {
-                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
-                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
-                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
-                }
-                else if (piece.transform.position == millPosition2.transform.position)
-                {
-                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
-                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
-                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+                    if (piece.transform.position == millPosition.transform.position)
+                    {
+                        LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                        LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                        LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+                    }
+                    else if (piece.transform.position == millPosition2.transform.position)
+                    {
+                        LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                        LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                        LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
 
-                }
-                else if (piece.transform.position == millPosition3.transform.position)
-                {
-                    LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
-                    LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
-                    LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
+                    }
+                    else if (piece.transform.position == millPosition3.transform.position)
+                    {
+                        LeanTween.scale(piece, new Vector3(.65f, .65f, .5f), .5f);
+                        LeanTween.rotateAround(piece, Vector3.forward, -180f, 1f);
+                        LeanTween.scale(piece, new Vector3(.5f, .5f, .5f), .5f).setDelay(.5f);
 
+                    }
                 }
 
             }
