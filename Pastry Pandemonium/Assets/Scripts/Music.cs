@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Music : MonoBehaviour {
 
+	public static bool playSoundEffects = true;
 	static bool AudioBegin = false; 
 	public Slider vol; 
 	private AudioSource audioSource;

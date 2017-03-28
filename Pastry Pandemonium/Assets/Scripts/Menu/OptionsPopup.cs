@@ -8,6 +8,8 @@ public class OptionsPopup : MonoBehaviour {
 	public GameObject current, musicSlider;
 	public Slider slider;
 
+
+
 	private GameObject menu, singlePlayer, multiplayer, tutorial, options, help, exit;
 
 	private void Awake()
