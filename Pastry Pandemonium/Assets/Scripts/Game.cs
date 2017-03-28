@@ -207,6 +207,19 @@ public class Game : Photon.MonoBehaviour
         return false;
     }
 
+    public List<int> getValidMoves(int index)
+    {
+        List<int> returnValue = new List<int>();// = gameBoardMoves.Moves;
+        foreach (Tuple<int, int> entry in gameBoardMoves.Moves)
+        {
+            if (entry.Item1 == index)
+            {
+                returnValue.Add(entry.Item1);
+            }
+        }
+        return returnValue;
+    }
+
     public bool validFly(int from, int to)
     {
         if ((Board.boardInstance.isLocalPlayerPieceAt(from) == true) &&
