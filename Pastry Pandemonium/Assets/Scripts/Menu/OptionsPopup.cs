@@ -106,11 +106,22 @@ public class OptionsPopup : MonoBehaviour {
                     slider.value = music.vol.value;
                     break;
 			case "onSwitch":
-				offSwitch.GetComponent<Renderer> ().enabled = true;
 
-				onSwitch.GetComponent<Renderer> ().enabled = false;
+				if (Music.playSoundEffects) {
+					offSwitch.GetComponent<Renderer> ().enabled = true;
 
-				effectsSwitch.transform.position = switchLeft.transform.position;
+					onSwitch.GetComponent<Renderer> ().enabled = false;
+
+					effectsSwitch.transform.position = switchLeft.transform.position;
+					Music.playSoundEffects = false;
+				} else {
+					Music.playSoundEffects = true;
+					offSwitch.GetComponent<Renderer> ().enabled = false;
+
+					onSwitch.GetComponent<Renderer> ().enabled = true;
+
+					effectsSwitch.transform.position = switchRight.transform.position;
+				}
 				
 				break;
 			case "offSwitch":

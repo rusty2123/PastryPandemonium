@@ -6643,7 +6643,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1677552405}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -629, y: -358, z: -7}
+  m_LocalPosition: {x: -629, y: -358, z: -8}
   m_LocalScale: {x: 0.6447275, y: 0.6447275, z: 0.6447275}
   m_Children: []
   m_Father: {fileID: 532518292}
@@ -7022,7 +7022,6 @@ GameObject:
   - component: {fileID: 1743704859}
   - component: {fileID: 1743704860}
   - component: {fileID: 1743704862}
-  - component: {fileID: 1743704861}
   m_Layer: 0
   m_Name: offSwitch
   m_TagString: Untagged
@@ -7037,7 +7036,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1743704858}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -629, y: -359, z: -7}
+  m_LocalPosition: {x: -629, y: -359, z: -6}
   m_LocalScale: {x: 0.6447275, y: 0.6447275, z: 0.6447275}
   m_Children: []
   m_Father: {fileID: 532518292}
@@ -7078,20 +7077,6 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
---- !u!61 &1743704861
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1743704858}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: 0.00002670288, y: -0.000034332275}
-  serializedVersion: 2
-  m_Size: {x: 303, y: 94}
 --- !u!114 &1743704862
 MonoBehaviour:
   m_ObjectHideFlags: 0
