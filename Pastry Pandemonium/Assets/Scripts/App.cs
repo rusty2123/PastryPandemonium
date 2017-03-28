@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-public class App : MonoBehaviour
+public class App : Photon.PunBehaviour
 { 
     //we need these documented, so we know what all of these variables do. some are obvious, but many are not
 
@@ -17,7 +17,7 @@ public class App : MonoBehaviour
     private GameObject turnPositionLeft, turnPositionRight, muffinTurnOff, muffinTurnOn, cupcakeTurnOff, cupcakeTurnOn;
     private string firstPlayer;
 
-    public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake;
+    public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake, disconnected;
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
     private GameObject destroyPosition, tempDestroy1, tempDestroy2, millPosition, millPosition2, millPosition3;
     public bool gameStarted = false;
@@ -36,6 +36,7 @@ public class App : MonoBehaviour
     public GameObject[] outOfBoardSpaces = new GameObject[18];
     public GameObject[] boardSpaces = new GameObject[24];
     private static GameObject[] boardSpaces2 = new GameObject[24];
+    private Collider2D[] colliders;
 
     public static  GameObject[] piecesPositions = new GameObject[24];
 
@@ -60,6 +61,8 @@ public class App : MonoBehaviour
 
     void Awake()
     {
+        disconnected.SetActive(false);
+
         //initialize event system
         PhotonNetwork.OnEventCall += this.OnEvent;
 
@@ -1258,6 +1261,29 @@ public class App : MonoBehaviour
     public void disableButtons()
     {
         // enable all buttons
+    }
+
+    public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+    {
+        disableColliders();
+        disconnected.SetActive(true);
+    }
+
+    public void ReturnToLobby()
+    {
+        disconnected.SetActive(false);
+        networkManager.LeaveRoom();
+    }
+
+    private void disableColliders()
+    {
+        //disable all 2d colliders
+        colliders = FindObjectsOfType<Collider2D>();
+
+        foreach (Collider2D collider in colliders)
+        {
+            collider.enabled = false;
+        }
     }
 
     #endregion
