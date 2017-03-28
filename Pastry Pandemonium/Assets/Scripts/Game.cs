@@ -249,5 +249,4 @@ public class Game : Photon.MonoBehaviour
         return (pieceCount == millPieceCount);
     }
 
-
 }

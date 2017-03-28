@@ -24,6 +24,20 @@ public class GameboardButtons : MonoBehaviour {
 
 			SceneManager.LoadScene ("mainMenu");
 		}
+        if (current.name == "mute")
+        {
+            // turn off the music here
+            Music musicInstance = Music.getInstance();
+            if (musicInstance.vol.value == 0f)
+            {
+                musicInstance.vol.value = musicInstance.getLastVolume();
+            }
+            else
+            {
+                musicInstance.setLastVolume(musicInstance.vol.value);
+                musicInstance.vol.value = 0f;
+            }
+        }
 
 	}
 }

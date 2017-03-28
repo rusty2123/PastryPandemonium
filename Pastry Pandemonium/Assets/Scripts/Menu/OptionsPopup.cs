@@ -7,6 +7,7 @@ public class OptionsPopup : MonoBehaviour {
 
 	public GameObject current, musicSlider;
 	public Slider slider;
+    public Music music;
 
 
 
@@ -62,8 +63,18 @@ public class OptionsPopup : MonoBehaviour {
 
 				break;
 			case "mute":
-				slider.value = 0f;
-				break;
+                    music = Music.getInstance();
+                    if (music.vol.value == 0f)
+                    {
+                        music.vol.value = music.getLastVolume();
+                    }
+                    else
+                    {
+                        music.setLastVolume(music.vol.value);
+                        music.vol.value = 0f;
+                    }
+                    slider.value = music.vol.value;
+                    break;
 			default:
 				break;          
 			}

@@ -6,29 +6,44 @@ using UnityEngine.SceneManagement;
 
 public class Music : MonoBehaviour {
 
+    private static Music instance;
 	public static bool playSoundEffects = true;
 	static bool AudioBegin = false; 
 	public Slider vol; 
 	private AudioSource audioSource;
-	//public AudioClip audio;
+    //public AudioClip audio;
+    private float lastVolume;
+
+    public float getLastVolume()
+    {
+        return lastVolume;
+    }
+
+    public void setLastVolume(float volume)
+    {
+        lastVolume = volume;
+    }
+
+    public static Music getInstance()
+    {
+        return instance;
+    }
 
 	void Awake()
 	{
-		
-		if (!AudioBegin) {
-			
-			setMusic ();
-
-			AudioBegin = true;
-		} else 
-		{
-			if (SceneManager.GetActiveScene().name == "MainMenu") 
-			{
-				Destroy (GameObject.Find("music"));
-				setMusic ();
-			}
-		}
-
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            if (SceneManager.GetActiveScene().name == "MainMenu")
+            {
+                setMusic();
+                instance = this;
+            }
+        }
 	}
 
 	private void setMusic()
@@ -43,7 +58,8 @@ public class Music : MonoBehaviour {
 
 	public void changeVolume()
 	{
-		audioSource.volume = vol.value;
+        lastVolume = audioSource.volume;
+        audioSource.volume = vol.value;
 	}
 		
 }
