@@ -1568,9 +1568,27 @@ public class App : Photon.PunBehaviour
             availableSpace = Instantiate(availableSpaceImage) as GameObject;
             piecePosition = GameObject.Find(m.ToString());
 
+            availableSpace.name = "AS" + m.ToString();
+
             availableSpace.transform.position = piecePosition.transform.position;
             
         }
+
+       StartCoroutine(destroyAvailableMoves(availableMoves));
+    }
+
+    IEnumerator destroyAvailableMoves(List<int> availableMoves)
+    {
+        yield return new WaitForSeconds(1f);
+
+
+        foreach (int m in availableMoves)
+        {
+            Destroy(GameObject.Find("AS" + m.ToString()));
+        }
+
+
+
     }
     private void animationRemove(GameObject gamePiece, GameObject player)
     {
