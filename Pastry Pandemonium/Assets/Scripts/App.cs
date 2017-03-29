@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class App : Photon.PunBehaviour
@@ -1275,15 +1276,37 @@ public class App : Photon.PunBehaviour
 
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
+        disconnected.GetComponentInChildren<Text>().text = "Opponent has disconnected";
         disableColliders();
         networkManager.LeaveRoom();
+        disconnected.SetActive(true);
+    }
+
+    public override void OnDisconnectedFromPhoton()
+    {
+        disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
+        disableColliders();
+        //networkManager.LeaveRoom();
+        MultiplayerSetup.selectedCharacter = "";
+        Player.characterLocalPlayer = "";
+        Player.characterOpponentPlayer = "";
+        NetworkGameManager.localReady = false;
+        NetworkGameManager.opponentReady = false;
         disconnected.SetActive(true);
     }
 
     public void ReturnToLobby()
     {
         disconnected.SetActive(false);
-        SceneManager.LoadScene("Lobby");
+
+        if (PhotonNetwork.connected)
+        {
+            SceneManager.LoadScene("Lobby");
+        }
+        else
+        {
+            SceneManager.LoadScene("mainMenu");
+        }
     }
 
     private void disableColliders()

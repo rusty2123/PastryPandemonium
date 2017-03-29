@@ -4760,6 +4760,7 @@ MonoBehaviour:
   redCupcake: {fileID: 41723249}
   whiteCupcake: {fileID: 1837875798}
   disconnected: {fileID: 2064388859}
+  disconnectText: {fileID: 0}
   destroyBerry: {fileID: 1926287656}
   destroyChip: {fileID: 402021738}
   destroyChocolate: {fileID: 1242682539}

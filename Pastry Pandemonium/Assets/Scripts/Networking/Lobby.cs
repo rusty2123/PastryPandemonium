@@ -8,7 +8,7 @@ public class Lobby : Photon.PunBehaviour
 {
     #region Public Variables
 
-    public GameObject roomList;
+    public GameObject roomList, disconnected;
     public Button roomPrefab;
     public NetworkGameManager gameManager;
 
@@ -18,6 +18,7 @@ public class Lobby : Photon.PunBehaviour
 
     #region Private Variables
 
+    private Collider2D[] colliders;
     private RoomInfo[] rooms;
     private string _gameVersion = "1";
     private string roomSelection = "";
@@ -36,7 +37,7 @@ public class Lobby : Photon.PunBehaviour
         // #Critical
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.automaticallySyncScene = true;
-
+        disconnected.SetActive(false);
         clearRoomList();
         populateRoomList();
     }
@@ -190,16 +191,36 @@ public class Lobby : Photon.PunBehaviour
         Debug.Log("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
     }
 
-
-    public override void OnDisconnectedFromPhoton()
-    {
-        Debug.LogWarning("DemoAnimator/Launcher: OnDisconnectedFromPhoton() was called by PUN");
-    }
-
     public override void OnReceivedRoomListUpdate()
     {
         clearRoomList();
         populateRoomList();
+    }
+
+    public override void OnDisconnectedFromPhoton()
+    {
+        disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
+        disableColliders();
+        //networkManager.LeaveRoom();
+        MultiplayerSetup.selectedCharacter = "";
+        Player.characterLocalPlayer = "";
+        Player.characterOpponentPlayer = "";
+        NetworkGameManager.localReady = false;
+        NetworkGameManager.opponentReady = false;
+        disconnected.SetActive(true);
+    }
+
+    public void ReturnToLobby()
+    {
+        disconnected.SetActive(false);
+        if (PhotonNetwork.connected)
+        {
+            SceneManager.LoadScene("Lobby");
+        }
+        else
+        {
+            SceneManager.LoadScene("mainMenu");
+        }
     }
 
     #endregion
@@ -213,6 +234,17 @@ public class Lobby : Photon.PunBehaviour
         foreach (Button child in roomButtons)
         {
             Destroy(child.gameObject);
+        }
+    }
+
+    private void disableColliders()
+    {
+        //disable all 2d colliders
+        colliders = FindObjectsOfType<Collider2D>();
+
+        foreach (Collider2D collider in colliders)
+        {
+            collider.enabled = false;
         }
     }
 
