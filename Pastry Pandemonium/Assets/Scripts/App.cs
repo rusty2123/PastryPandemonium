@@ -1187,15 +1187,10 @@ public class App : Photon.PunBehaviour
 
     public void checkGameOver()
     {
-        if (remainingOpponent < 3 || remainingLocal < 3)
+        if (remainingOpponent < 3 || remainingLocal < 3 || !Game.gameInstance.playerCanMove() || !Game.gameInstance.opponentCanMove())
         {
             gameOver = true;
-
-			if (remainingOpponent < 3) {
-				displayWinMessage ();
-			} else {
-				displayLossMessage ();
-			}
+            
         }
 
     }
@@ -1205,15 +1200,16 @@ public class App : Photon.PunBehaviour
         //Debug.Log("update has been called");
         if (gameOver)
         {
-            if (remainingOpponent < 3)
+            if (remainingOpponent < 3 || !Game.gameInstance.opponentCanMove())
             {
                 Debug.Log("you won");
+				displayWinMessage ();
             }
-            else if (remainingLocal < 3)
+            else if (remainingLocal < 3 || !Game.gameInstance.playerCanMove())
             {
                 Debug.Log("you lost");
+				displayLossMessage ();
             }
-
         }
        
     }

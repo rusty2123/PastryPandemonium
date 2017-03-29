@@ -52,7 +52,9 @@ public class Board : MonoBehaviour
 
     public BitArray findEmptySpots()
     {
-        return playerOne.Xor(playerTwo);
+        BitArray bitArray1 = new BitArray(playerOne);
+        BitArray bitArray2 = new BitArray(playerTwo);
+        return bitArray1.Xor(bitArray2);
     }
 
     public bool isEmptySpotAt(int index)
@@ -97,6 +99,16 @@ public class Board : MonoBehaviour
     public BitArray getPlayerBoard()
     {
         if (App.isLocalPlayerTurn)
+        {
+            return playerOne;
+        }
+        return playerTwo;
+    }
+
+    // 1 for playerOne (typically local player) and 2 for playerTwo
+    public BitArray getPlayerBoard(int playerNumber)
+    {
+        if (playerNumber == 1)
         {
             return playerOne;
         }

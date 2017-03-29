@@ -106,27 +106,55 @@ public class Game : Photon.MonoBehaviour
     public bool playerCanMove()
     {
         BitArray boardConfig = Board.boardInstance.findEmptySpots();
-
-        BitArray playerConfig = Board.boardInstance.getPlayerBoard();
-
-        for (int i = 0; i < 24; i++)
+        BitArray playerConfig = Board.boardInstance.getPlayerBoard(1);
+        List<int> moves;
+        if (App.phase == 1)
         {
-            //  enter if player has piece at this spot
-            if (playerConfig[i] == true)
+            return true;
+        }
+        else
+        {
+            for (int i = 1; i <= 24; i++)
             {
-                for (int j = 0; i < 24; ++i)
+                if (playerConfig[i - 1] == true)
                 {
-                    if (boardConfig[i] == true)
+                    moves = getValidMoves(i);
+                    if (moves.Count > 0)
                     {
-                        if (validMove(i, j))
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
+
+            return false;
         }
-        return false;
+    }
+
+    public bool opponentCanMove()
+    {
+        BitArray boardConfig = Board.boardInstance.findEmptySpots();
+        BitArray opponentConfig = Board.boardInstance.getPlayerBoard(2);
+        List<int> moves = new List<int>();
+
+        if (App.phase == 1)
+        {
+            return true;
+        }
+        else
+        {
+            for (int i = 1; i <= 24; i++)
+            {
+                if (opponentConfig[i - 1] == true)
+                {
+                    moves = getValidMoves(i);
+                    if(moves.Count > 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 
     public bool validPlace(int index)
@@ -207,12 +235,29 @@ public class Game : Photon.MonoBehaviour
         return false;
     }
 
+    public bool validOpponentMove(int from, int to)
+    {
+        if (Board.boardInstance.isOpponentPlayerPieceAt(from) == true)
+        {
+            foreach (Tuple<int, int> entry in gameBoardMoves.Moves)
+            {
+                if (from == entry.Item1 && to == entry.Item2 && Board.boardInstance.isEmptySpotAt(to))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public List<int> getValidMoves(int index)
     {
-        List<int> returnValue = new List<int>();// = gameBoardMoves.Moves;
+        List<int> returnValue = new List<int>();
+        BitArray boardConfig = Board.boardInstance.findEmptySpots();
+
         foreach (Tuple<int, int> entry in gameBoardMoves.Moves)
         {
-            if (entry.Item1 == index)
+            if (entry.Item1 == index && boardConfig[entry.Item2 - 1] == false)
             {
                 returnValue.Add(entry.Item2);
             }
