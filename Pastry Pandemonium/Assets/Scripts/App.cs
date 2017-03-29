@@ -14,7 +14,7 @@ public class App : Photon.PunBehaviour
 
     public static GameObject gameInstance, boardInstance;
 
-    private GameObject startPosition, endPosition, piecePosition, board, characterLocalPlayer, characterOpponentPlayer, piece;
+    private GameObject startPosition, endPosition, piecePosition, board, characterLocalPlayer, characterOpponentPlayer, piece, availableSpace, availableSpaceImage;
 
     private GameObject turnPositionLeft, turnPositionRight, muffinTurnOff, muffinTurnOn, cupcakeTurnOff, cupcakeTurnOn;
     private string firstPlayer;
@@ -76,6 +76,7 @@ public class App : Photon.PunBehaviour
         boardInstance = GameObject.FindGameObjectWithTag("gameBoard");
 		win = GameObject.Find ("win");
 		lose = GameObject.Find ("lose");
+        availableSpaceImage = GameObject.Find("availableSpace");
 
 		win.GetComponent<Renderer> ().enabled = false;
 		lose.GetComponent<Renderer> ().enabled = false;
@@ -1564,7 +1565,11 @@ public class App : Photon.PunBehaviour
     {
         foreach(int m in availableMoves)
         {
-            Debug.Log(m);
+            availableSpace = Instantiate(availableSpaceImage) as GameObject;
+            piecePosition = GameObject.Find(m.ToString());
+
+            availableSpace.transform.position = piecePosition.transform.position;
+            
         }
     }
     private void animationRemove(GameObject gamePiece, GameObject player)
