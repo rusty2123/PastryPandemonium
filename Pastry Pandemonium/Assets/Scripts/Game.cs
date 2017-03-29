@@ -214,7 +214,7 @@ public class Game : Photon.MonoBehaviour
         {
             if (entry.Item1 == index)
             {
-                returnValue.Add(entry.Item1);
+                returnValue.Add(entry.Item2);
             }
         }
         return returnValue;

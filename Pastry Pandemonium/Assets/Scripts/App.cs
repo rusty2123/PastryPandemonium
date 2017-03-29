@@ -649,7 +649,10 @@ public class App : Photon.PunBehaviour
         {
             if (piece != null && piece.GetComponent<GamePiece>().location == moveFromIndex)
             {
+                
                 selectAnimation(piece);
+                showAvailableMoves(Game.gameInstance.getValidMoves(moveFromIndex));
+                
             }
         }
                 do
@@ -1558,6 +1561,14 @@ public class App : Photon.PunBehaviour
                 }
 
             }
+        }
+    }
+
+    private void showAvailableMoves(List<int> availableMoves)
+    {
+        foreach(int m in availableMoves)
+        {
+            Debug.Log(m);
         }
     }
     private void animationRemove(GameObject gamePiece, GameObject player)
