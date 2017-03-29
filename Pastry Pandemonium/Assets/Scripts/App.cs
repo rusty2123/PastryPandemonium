@@ -22,6 +22,7 @@ public class App : Photon.PunBehaviour
     public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake, disconnected;
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
     private GameObject destroyPosition, tempDestroy1, tempDestroy2, millPosition, millPosition2, millPosition3;
+	private GameObject win, lose;
     public bool gameStarted = false;
 
     public NetworkGameManager networkManager;
@@ -73,6 +74,12 @@ public class App : Photon.PunBehaviour
         //why do we have two variables for the same game object?
         gameInstance = GameObject.FindGameObjectWithTag("gameBoard");
         boardInstance = GameObject.FindGameObjectWithTag("gameBoard");
+		win = GameObject.Find ("win");
+		lose = GameObject.Find ("lose");
+
+		win.GetComponent<Renderer> ().enabled = false;
+		lose.GetComponent<Renderer> ().enabled = false;
+
 
         //why do we need this variable? why can't we just use Player.isSinglePlayer?
         isSinglePlayer = Player.isSinglePlayer;
@@ -1180,7 +1187,14 @@ public class App : Photon.PunBehaviour
         if (remainingOpponent < 3 || remainingLocal < 3)
         {
             gameOver = true;
+
+			if (remainingOpponent < 3) {
+				displayWinMessage ();
+			} else {
+				displayLossMessage ();
+			}
         }
+
     }
 
     private void Update()
@@ -1208,6 +1222,8 @@ public class App : Photon.PunBehaviour
         //disable buttons and pieces
         //set game object active
         //dislay animation 
+		win.GetComponent<Renderer> ().enabled = true;
+
     }
 
     public void displayLossMessage()
@@ -1215,6 +1231,8 @@ public class App : Photon.PunBehaviour
         //disable buttons and pieces
         //set game object active
         //dislay animation 
+		lose.GetComponent<Renderer> ().enabled = true;
+
     }
 
     public void displayTieMessage()
