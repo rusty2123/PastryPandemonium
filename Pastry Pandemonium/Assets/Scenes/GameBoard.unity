@@ -4439,7 +4439,7 @@ GameObject:
   - component: {fileID: 2050035684}
   - component: {fileID: 2050035683}
   m_Layer: 0
-  m_Name: AS1
+  m_Name: availableSpace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
