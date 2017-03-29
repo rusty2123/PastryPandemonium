@@ -38,6 +38,7 @@ public class Lobby : Photon.PunBehaviour
         PhotonNetwork.automaticallySyncScene = true;
 
         clearRoomList();
+        populateRoomList();
     }
 
     void Start()
@@ -87,9 +88,38 @@ public class Lobby : Photon.PunBehaviour
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = 2;
-        string roomName = PhotonNetwork.playerName + "'s game";
+        string roomName = nameRoom(PhotonNetwork.playerName);
 
         StartCoroutine(createRoom(roomOptions, roomName));
+    }
+
+    private string nameRoom(string playerName)
+    {
+        bool availableName = true;
+        RoomInfo[] rooms = PhotonNetwork.GetRoomList();
+        string roomName = playerName + "'s game";
+        int i = 1;
+        do
+        {
+            availableName = true;
+
+            foreach (RoomInfo room in rooms)
+            {
+                if (room.Name == roomName)
+                {
+                    availableName = false;
+                }
+            }
+
+            if (!availableName)
+            {
+                roomName = playerName + i + "'s game";
+                ++i;
+            }
+
+        } while (!availableName);
+
+        return roomName;
     }
 
     IEnumerator createRoom(RoomOptions roomOptions, string roomName)
@@ -125,11 +155,14 @@ public class Lobby : Photon.PunBehaviour
 
         foreach (RoomInfo room in rooms)
         {
-            Button newRoom = Instantiate(roomPrefab) as Button;
-            newRoom.transform.SetParent(roomList.transform, false);
-            newRoom.GetComponentInChildren<Text>().text = room.Name;
-            newRoom.GetComponent<Button>().onClick.AddListener(() => setRoomSelection(ref newRoom));
-            Debug.Log("room button instantiated");
+            if (room.PlayerCount == 1)
+            {
+                Button newRoom = Instantiate(roomPrefab) as Button;
+                newRoom.transform.SetParent(roomList.transform, false);
+                newRoom.GetComponentInChildren<Text>().text = room.Name;
+                newRoom.GetComponent<Button>().onClick.AddListener(() => setRoomSelection(ref newRoom));
+                Debug.Log("room button instantiated");
+            }
         }
     }
 

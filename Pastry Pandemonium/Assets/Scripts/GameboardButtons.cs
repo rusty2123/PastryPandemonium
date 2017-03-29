@@ -17,13 +17,13 @@ public class GameboardButtons : MonoBehaviour {
 
 		if (current.name == "menuButton") {
 
-            if(!App.isSinglePlayer)
+            if (!App.isSinglePlayer)
             {
+                networkManager.LeaveRoom();
                 networkManager.Disconnect();
             }
-
-			SceneManager.LoadScene ("mainMenu");
-		}
+            SceneManager.LoadScene("mainMenu");
+        }
         if (current.name == "mute")
         {
             // turn off the music here

@@ -81,12 +81,13 @@ public class NetworkGameManager : Photon.PunBehaviour
         localReady = false;
         opponentReady = false;
         PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene("Lobby");
+        //SceneManager.LoadScene("Lobby");
     }
 
     public void Disconnect()
     {
         PhotonNetwork.Disconnect();
+        SceneManager.LoadScene("mainMenu");
     }
 
     public void placePiece(int i)

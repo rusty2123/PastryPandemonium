@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MultiplayerSetup : Photon.PunBehaviour
 {
@@ -89,13 +90,14 @@ public class MultiplayerSetup : Photon.PunBehaviour
     public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
     {
         disableColliders();
+        networkManager.LeaveRoom();
         disconnected.SetActive(true);
     }
 
     public void ReturnToLobby()
     {
         disconnected.SetActive(false);
-        networkManager.LeaveRoom();
+        SceneManager.LoadScene("Lobby");
     }
 
     private void disableColliders()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 
 public class App : Photon.PunBehaviour
@@ -1275,13 +1276,14 @@ public class App : Photon.PunBehaviour
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
         disableColliders();
+        networkManager.LeaveRoom();
         disconnected.SetActive(true);
     }
 
     public void ReturnToLobby()
     {
         disconnected.SetActive(false);
-        networkManager.LeaveRoom();
+        SceneManager.LoadScene("Lobby");
     }
 
     private void disableColliders()
