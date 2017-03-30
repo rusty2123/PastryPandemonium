@@ -59,6 +59,29 @@ public class App : Photon.PunBehaviour
 
     #endregion
 
+    private void resetSoManyVariables()
+    {
+        firstPlayer = "";
+        gameStarted = false;
+        localIndex = 0; opponentIndex = 0; remainingLocal = 9; remainingOpponent = 9; outOfBoardOpponent = 9; outOfBoardLocal = 9;
+        gameOver = false; isDraw = false;
+        removePiece = false; placePiece = false;
+        moveFromPiece = false; moveToPiece = false; flyFromPiece = false; flyToPiece = false; validMove = false;
+        phase = 1;
+        createdMill = false;
+        clickedFirst = null;
+        clickedSecond = null;
+        NetworkGameManager.placeIndex = 0; NetworkGameManager.removeIndex = 0; NetworkGameManager.moveFromIndex = 0; NetworkGameManager.moveToIndex = 0; NetworkGameManager.flyFromIndex = 0; NetworkGameManager.flyToIndex = 0;
+        NetworkGameManager.localReady = false; NetworkGameManager.opponentReady = false;
+        //now do player variables
+        Player.isSinglePlayer = false;
+        Player.playerGoFirst = true;
+        Player.firstPlayer = true;
+        Player.characterLocalPlayer = "";
+        Player.characterOpponentPlayer = "";
+        Player.difficultyLevel = "easy";
+        Player.movesSinceLastMillFormed = 0;
+    }
 
     #region setup methods
 
@@ -1336,6 +1359,40 @@ public class App : Photon.PunBehaviour
         {
             collider.enabled = false;
         }
+    }
+
+    private void enableColliders()
+    {
+        colliders = FindObjectsOfType<Collider2D>();
+
+        foreach (Collider2D collider in colliders)
+        {
+            collider.enabled = true;
+        }
+    }
+
+    private void enableGamePieces()
+    {
+        foreach(GameObject opponentPiece in opponentPieces)
+        {
+            opponentPiece.SetActive(true);
+        }
+        foreach (GameObject localPiece in localPieces)
+        {
+            localPiece.SetActive(true);
+        }
+    }
+
+    private void resetBoard()
+    {
+        //reset BitArrays
+        Board.boardInstance.resetBoard();
+        //enable all colliders
+        enableColliders();
+        //enable all game pieces
+        enableGamePieces();
+        //set all game pieces to correct position
+        //reset so many variables
     }
 
     #endregion

@@ -237,4 +237,10 @@ public class Board : MonoBehaviour
         Debug.Log(bitArray2);
     }
 
+    public void resetBoard()
+    {
+        playerOne.SetAll(false);
+        playerTwo.SetAll(false);
+    }
+
 }

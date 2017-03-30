@@ -12,6 +12,11 @@ public class GamePiece : MonoBehaviour
 
     public string owner = "";
 
+    private void Awake()
+    {
+        location = 0;
+        owner = "";
+    }
     // Use this for initialization
     void Start()
     {
