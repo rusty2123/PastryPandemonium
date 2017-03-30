@@ -32,7 +32,11 @@ public class SinglePlayerMenu : MonoBehaviour {
 
     private void Awake()
     {
-		//Initiating all the game objects needed
+        selectedCharacter = null;
+        aiLevel = null;
+        firstTurn = null;
+
+        //Initiating all the game objects needed
         moveUser = GameObject.Find("userSelected");
         moveAi = GameObject.Find("aiSelected");
         difficultyNormal = GameObject.Find("normalSelected");
