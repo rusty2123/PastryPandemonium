@@ -21,7 +21,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-OutputBaseFilename=Pastery_Pandemonium_Installer
+OutputBaseFilename=Pastry_Pandemonium_Installer
 Compression=lzma
 SolidCompression=yes
 
