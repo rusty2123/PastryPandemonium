@@ -748,11 +748,10 @@ public class App : Photon.PunBehaviour
             yield return StartCoroutine("waitForChangePlayer");
             yield return StartCoroutine(waitForSeconds(2));
         }
-        else
+        else if(!gameOver)
         {
             yield return StartCoroutine(waitForSeconds(3));
             yield return StartCoroutine("executeAIMovePhaseTwo");
-            
         }
     }
 
