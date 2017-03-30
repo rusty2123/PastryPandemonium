@@ -118,6 +118,7 @@ public class SinglePlayerMenu : MonoBehaviour {
                     aiLevel = "hardButton";
                     break;
 			case "menuButton":
+				LeanTween.scale(current, new Vector3(0.4268945f, 0.4268945f, 0.4268945f), .05f);
 				menu.SetActive (false);
 				multiplayer.SetActive (true);
 				tutorial.SetActive (true);

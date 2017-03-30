@@ -11,6 +11,7 @@ public class MainMenuButton : MonoBehaviour {
 	private Vector3 popupSize;
 	public AudioClip menuClick;
 	private AudioSource audioSource;
+	//private OptionsPopup sfx = new OptionsPopup();
 
 
 	private void Awake()
@@ -40,8 +41,11 @@ public class MainMenuButton : MonoBehaviour {
 
     public void OnMouseUp()
     {
+		//Music.playSoundEffects = true;
 
-		playSound ();
+		if (Music.playSoundEffects) {
+			playSound ();
+		}
 		StartCoroutine(setPopup());
 
 

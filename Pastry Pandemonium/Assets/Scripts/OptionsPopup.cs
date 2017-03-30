@@ -7,8 +7,13 @@ public class OptionsPopup : MonoBehaviour {
 
 	public GameObject current, musicSlider;
 	public Slider slider;
+    public Music music;
+
+
 
 	private GameObject menu, singlePlayer, multiplayer, tutorial, options, help, exit;
+
+	private GameObject switchRight, switchLeft, offSwitch, onSwitch, effectsSwitch;
 
 	private void Awake()
 	{
@@ -20,6 +25,30 @@ public class OptionsPopup : MonoBehaviour {
 		help = GameObject.FindGameObjectWithTag ("help");
 		exit = GameObject.FindGameObjectWithTag ("exit");
 
+		switchRight = GameObject.Find ("switchRight");
+		switchLeft = GameObject.Find ("switchLeft");
+		effectsSwitch = GameObject.Find ("switch");
+		offSwitch = GameObject.Find ("offSwitch");
+		onSwitch = GameObject.Find ("onSwitch");
+
+
+
+		if (Music.playSoundEffects) {
+			offSwitch.GetComponent<Renderer> ().enabled = false;
+
+			onSwitch.GetComponent<Renderer> ().enabled = true;
+
+			effectsSwitch.transform.position = switchRight.transform.position;
+		} else {
+
+			offSwitch.GetComponent<Renderer> ().enabled = true;
+
+			onSwitch.GetComponent<Renderer> ().enabled = false;
+
+			effectsSwitch.transform.position = switchLeft.transform.position;
+
+		}
+
 
 	}
 
@@ -27,7 +56,9 @@ public class OptionsPopup : MonoBehaviour {
 	public void OnMouseEnter()
 	{
 		//Scales objects to indicate you can click on them
-		LeanTween.scale(current, new Vector3(0.43f, .43f, .43f), .075f);
+		if (current.name != "onSwitch" && current.name != "offSwitch") {
+			LeanTween.scale (current, new Vector3 (0.43f, .43f, .43f), .075f);
+		}
 
 	}
 
@@ -35,7 +66,9 @@ public class OptionsPopup : MonoBehaviour {
 	public void OnMouseExit()
 	{
 		//Sets objects back to their original size
-		LeanTween.scale(current, new Vector3(0.37f, 0.37f, 0.37f), .05f);
+		if (current.name != "onSwitch" && current.name != "offSwitch") {
+			LeanTween.scale (current, new Vector3 (0.37f, 0.37f, 0.37f), .05f);
+		}
 
 	}
 
@@ -60,7 +93,44 @@ public class OptionsPopup : MonoBehaviour {
 
 				break;
 			case "mute":
-				slider.value = 0f;
+                    music = Music.getInstance();
+                    if (music.vol.value == 0f)
+                    {
+                        music.vol.value = music.getLastVolume();
+                    }
+                    else
+                    {
+                        music.setLastVolume(music.vol.value);
+                        music.vol.value = 0f;
+                    }
+                    slider.value = music.vol.value;
+                    break;
+			case "onSwitch":
+
+				if (Music.playSoundEffects) {
+					offSwitch.GetComponent<Renderer> ().enabled = true;
+
+					onSwitch.GetComponent<Renderer> ().enabled = false;
+
+					effectsSwitch.transform.position = switchLeft.transform.position;
+					Music.playSoundEffects = false;
+				} else {
+					Music.playSoundEffects = true;
+					offSwitch.GetComponent<Renderer> ().enabled = false;
+
+					onSwitch.GetComponent<Renderer> ().enabled = true;
+
+					effectsSwitch.transform.position = switchRight.transform.position;
+				}
+				
+				break;
+			case "offSwitch":
+				
+				offSwitch.GetComponent<Renderer> ().enabled = false;
+
+				onSwitch.GetComponent<Renderer> ().enabled = true;
+
+				effectsSwitch.transform.position = switchRight.transform.position;
 				break;
 			default:
 				break;          
