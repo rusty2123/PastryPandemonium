@@ -15,10 +15,7 @@ public class AI : MonoBehaviour
 
     [DllImport(_dllVersion, CharSet = CharSet.Unicode)]
     static extern void getAIMove(int[] setPlayer, int[] setComputer, int phase, int difficulty, ref int from, ref int to, ref int remove);
-
-    [DllImport(_dllVersion)]
-    public static extern bool getDraw();
-
+   
     public static int[] move(BitArray playerBoard, BitArray computerBoard, int stage, string difficulty)
     {
         int[] response = new int[4];
