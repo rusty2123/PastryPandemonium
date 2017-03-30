@@ -33,7 +33,8 @@ public class Game : Photon.MonoBehaviour
     {
         if (gameInstance != null)
         {
-            Destroy(gameInstance);
+            //I don't know if this is needed
+            //Destroy(gameInstance);
         }
         else
         {

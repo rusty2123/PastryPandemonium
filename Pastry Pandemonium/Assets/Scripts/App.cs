@@ -59,35 +59,13 @@ public class App : Photon.PunBehaviour
 
     #endregion
 
-    private void resetSoManyVariables()
-    {
-        firstPlayer = "";
-        gameStarted = false;
-        localIndex = 0; opponentIndex = 0; remainingLocal = 9; remainingOpponent = 9; outOfBoardOpponent = 9; outOfBoardLocal = 9;
-        gameOver = false; isDraw = false;
-        removePiece = false; placePiece = false;
-        moveFromPiece = false; moveToPiece = false; flyFromPiece = false; flyToPiece = false; validMove = false;
-        phase = 1;
-        createdMill = false;
-        clickedFirst = null;
-        clickedSecond = null;
-        NetworkGameManager.placeIndex = 0; NetworkGameManager.removeIndex = 0; NetworkGameManager.moveFromIndex = 0; NetworkGameManager.moveToIndex = 0; NetworkGameManager.flyFromIndex = 0; NetworkGameManager.flyToIndex = 0;
-        NetworkGameManager.localReady = false; NetworkGameManager.opponentReady = false;
-        //now do player variables
-        Player.isSinglePlayer = false;
-        Player.playerGoFirst = true;
-        Player.firstPlayer = true;
-        Player.characterLocalPlayer = "";
-        Player.characterOpponentPlayer = "";
-        Player.difficultyLevel = "easy";
-        Player.movesSinceLastMillFormed = 0;
-    }
-
     #region setup methods
 
     void Awake()
     {
         disconnected.SetActive(false);
+
+        resetBoard();
 
         //initialize event system
         PhotonNetwork.OnEventCall += this.OnEvent;
@@ -96,10 +74,13 @@ public class App : Photon.PunBehaviour
 
         //why do we have two variables for the same game object?
         gameInstance = GameObject.FindGameObjectWithTag("gameBoard");
+        //DontDestroyOnLoad(gameInstance);
         boardInstance = GameObject.FindGameObjectWithTag("gameBoard");
+        //DontDestroyOnLoad(boardInstance);
 		win = GameObject.Find ("win");
 		lose = GameObject.Find ("lose");
         availableSpaceImage = GameObject.Find("availableSpace");
+        //shadow = GameObject.Find("shadow");
 
 		win.GetComponent<Renderer> ().enabled = false;
 		lose.GetComponent<Renderer> ().enabled = false;
@@ -603,7 +584,7 @@ public class App : Photon.PunBehaviour
     IEnumerator executeAIMovePhaseOne()
     {
 
-        int[] move = opponentPlayer.getAIMove(gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard());
+        int[] move = opponentPlayer.getAIMove(Board.boardInstance.getLocalPlayerBoard(), Board.boardInstance.getOpponentPlayerBoard());
 
         to = move[1];
         positionIndex = to + 1;
@@ -1360,6 +1341,22 @@ public class App : Photon.PunBehaviour
         }
     }
 
+    private void resetBoard()
+    {
+        //reset BitArrays
+        Board.boardInstance.resetBoard();
+        //enable all colliders
+        enableColliders();
+
+        //enable all game pieces
+        //enableGamePieces();
+
+        //set all game pieces to correct position
+        //reset so many variables
+        resetSoManyVariables();
+        //how can we prevent game objects from getting destroyed?
+    }
+
     private void enableColliders()
     {
         colliders = FindObjectsOfType<Collider2D>();
@@ -1372,7 +1369,7 @@ public class App : Photon.PunBehaviour
 
     private void enableGamePieces()
     {
-        foreach(GameObject opponentPiece in opponentPieces)
+        foreach (GameObject opponentPiece in opponentPieces)
         {
             opponentPiece.SetActive(true);
         }
@@ -1382,16 +1379,31 @@ public class App : Photon.PunBehaviour
         }
     }
 
-    private void resetBoard()
+    private void resetSoManyVariables()
     {
-        //reset BitArrays
-        Board.boardInstance.resetBoard();
-        //enable all colliders
-        enableColliders();
-        //enable all game pieces
-        enableGamePieces();
-        //set all game pieces to correct position
-        //reset so many variables
+        isSinglePlayer = false;
+        isLocalPlayerTurn = false;
+        localPlayerWon = false;
+        placeIndex = 0; moveFromIndex = 0; moveToIndex = 0; flyFromIndex = 0; flyToIndex = 0; from = 0; to = 0; pieceToRemove = 0; positionIndex = 0;
+        firstPlayer = "";
+        gameStarted = false;
+        localIndex = 0; opponentIndex = 0; remainingLocal = 9; remainingOpponent = 9; outOfBoardOpponent = 9; outOfBoardLocal = 9;
+        gameOver = false; isDraw = false;
+        removePiece = false; placePiece = false;
+        moveFromPiece = false; moveToPiece = false; flyFromPiece = false; flyToPiece = false; validMove = false;
+        phase = 1;
+        createdMill = false;
+        clickedFirst = null;
+        clickedSecond = null;
+        NetworkGameManager.placeIndex = 0; NetworkGameManager.removeIndex = 0; NetworkGameManager.moveFromIndex = 0; NetworkGameManager.moveToIndex = 0; NetworkGameManager.flyFromIndex = 0; NetworkGameManager.flyToIndex = 0;
+        NetworkGameManager.localReady = false; NetworkGameManager.opponentReady = false;
+        //Player.isSinglePlayer = false;
+        //Player.playerGoFirst = true;
+        //Player.firstPlayer = true;
+        //Player.characterLocalPlayer = "";
+        //Player.characterOpponentPlayer = "";
+        //Player.difficultyLevel = "easy";
+        //Player.movesSinceLastMillFormed = 0;
     }
 
     #endregion
@@ -1509,12 +1521,18 @@ public class App : Photon.PunBehaviour
 
     private void animationPhaseOne(GameObject gamePiece, GameObject startPosition, GameObject endPosition)
     {
-        shadow.SetActive(true);
+        if (shadow != null)
+        {
+            shadow.SetActive(true);
+        }
         gamePiece.transform.position = startPosition.transform.position;
 
-        shadow.transform.position = new Vector3(startPosition.transform.position.x,
+        if (shadow != null)
+        {
+            shadow.transform.position = new Vector3(startPosition.transform.position.x,
             startPosition.transform.position.y,
             startPosition.transform.position.z + 2);
+        }
 
         //scale piece
         LeanTween.scale(gamePiece, new Vector3(.65f, .65f, .5f), .5f);
@@ -1524,10 +1542,13 @@ public class App : Photon.PunBehaviour
         LeanTween.moveY(gamePiece, startPosition.transform.position.y + 140f, .5f);
         LeanTween.move(gamePiece, endPosition.transform.position, 2f).setEase(LeanTweenType.easeInOutQuint).setDelay(.6f);
 
-        //Move shadow
-        LeanTween.move(shadow, new Vector3(endPosition.transform.position.x,
+        if (shadow != null)
+        {
+            //Move shadow
+            LeanTween.move(shadow, new Vector3(endPosition.transform.position.x,
             endPosition.transform.position.y,
             endPosition.transform.position.z + 2), 2f).setEase(LeanTweenType.easeInOutQuint).setDelay(.63f);
+        }
 
         gamePiece.GetComponent<GamePiece>().location = Convert.ToInt32(endPosition.name);
 
