@@ -18,9 +18,15 @@ public class App : Photon.PunBehaviour
 
     private GameObject turnPositionLeft, turnPositionRight, muffinTurnOff, muffinTurnOn, cupcakeTurnOff, cupcakeTurnOn;
     private string firstPlayer;
+    private string createdMillHint = "You created a mill! Please remove an opponent’s piece.",
+                         placementPhaseHint = "Placement phase: select an empty board space to place a piece.",
+                         movementPhaseHint = "Movement phase: select the piece to move and then the space to move it to.",
+                         flyingPhaseHint = "Flying phase: you can now move to any open space.",
+                         falseMoveHint = "";
 
     public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake, disconnected;
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
+    public Text hintText;
     private GameObject destroyPosition, tempDestroy1, tempDestroy2, millPosition, millPosition2, millPosition3;
 	private GameObject win, lose;
     public bool gameStarted = false;
@@ -68,6 +74,7 @@ public class App : Photon.PunBehaviour
     void Awake()
     {
         disconnected.SetActive(false);
+        hintText.text = "";
 
         if (!NetworkGameManager.moveEventsAdded)
         {
@@ -517,14 +524,13 @@ public class App : Photon.PunBehaviour
     {
         yield return StartCoroutine("getPlaceIndex");
 
-        //place the piece and update the gameboard
-
         while (!validMove)
         {
             Debug.Log("not valid move.. select another place");
             yield return StartCoroutine("getPlaceIndex");
-
         }
+
+        hintText.text = "";
 
         Game.gameInstance.placePiece(placeIndex, true);
 
@@ -550,9 +556,11 @@ public class App : Photon.PunBehaviour
         if (Game.gameInstance.createdMill(placeIndex))
         {
             Debug.Log("Local player a created mill!");
-
+            hintText.text = createdMillHint;
             //allow the local player to select an opponent's piece to remove
             yield return StartCoroutine("getPieceToRemove");
+
+            hintText.text = "";
         }
 
         printPieceLocations();
@@ -585,6 +593,8 @@ public class App : Photon.PunBehaviour
 
     IEnumerator getPlaceIndex()
     {
+        hintText.text = placementPhaseHint;
+
         placePiece = true;
 
         yield return new WaitWhile(() => placePiece);
@@ -658,15 +668,16 @@ public class App : Photon.PunBehaviour
     {
         moveToIndex = 0; moveFromIndex = 0;
 
+        hintText.text = movementPhaseHint;
+
         yield return StartCoroutine(getMoveFromIndex());
+
         foreach (GameObject piece in localPieces)
         {
             if (piece != null && piece.GetComponent<GamePiece>().location == moveFromIndex)
-            {
-                
+            {      
                 selectAnimation(piece);
-                showAvailableMoves(Game.gameInstance.getValidMoves(moveFromIndex));
-                
+                showAvailableMoves(Game.gameInstance.getValidMoves(moveFromIndex));         
             }
         }
 
@@ -691,6 +702,8 @@ public class App : Photon.PunBehaviour
             }
 
         } while (!Game.gameInstance.validMove(moveFromIndex, moveToIndex));
+
+        hintText.text = "";
 
         //place the piece and update the gameboard
         Game.gameInstance.moveLocalPiece(moveFromIndex, moveToIndex);
@@ -727,9 +740,11 @@ public class App : Photon.PunBehaviour
         if (Game.gameInstance.createdMill(moveToIndex))
         {
             Debug.Log("Local player created a mill");
-  
+            hintText.text = createdMillHint;
             //allow the local player to select an opponent's piece to remove
             yield return StartCoroutine("getPieceToRemove");
+
+            hintText.text = "";
         }
 
         Debug.Log("Local turn over");
@@ -894,12 +909,16 @@ public class App : Photon.PunBehaviour
     {
         moveToIndex = 0; moveFromIndex = 0;
 
+        hintText.text = flyingPhaseHint;
+
         do
         {
             yield return StartCoroutine(getFlyFromIndex());
             yield return StartCoroutine(getFlyToIndex());
 
         } while (!Game.gameInstance.validFly(flyFromIndex, flyToIndex));
+
+        hintText.text = "";
 
         //place the piece and update the gameboard
         Game.gameInstance.moveLocalPiece(flyFromIndex, flyToIndex);
