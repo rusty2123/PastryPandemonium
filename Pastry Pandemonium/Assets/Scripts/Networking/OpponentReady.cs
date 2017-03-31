@@ -8,7 +8,7 @@ public class OpponentReady : MonoBehaviour {
 
     private void Awake()
     {
-        PhotonNetwork.OnEventCall = null;
+        //PhotonNetwork.OnEventCall = null;
         PhotonNetwork.OnEventCall += this.OnEvent;
         checkMarkOpp = GameObject.Find("checkMarkOpp");
         setOpponentCheckMark();

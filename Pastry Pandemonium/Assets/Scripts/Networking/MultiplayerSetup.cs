@@ -19,7 +19,7 @@ public class MultiplayerSetup : Photon.PunBehaviour
     {
         disconnected.SetActive(false);
 
-        PhotonNetwork.OnEventCall = null;
+        //PhotonNetwork.OnEventCall = null;
         PhotonNetwork.OnEventCall += this.OnEvent;
 
         Player.characterLocalPlayer = "";

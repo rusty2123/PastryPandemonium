@@ -68,7 +68,7 @@ public class App : Photon.PunBehaviour
         resetBoard();
 
         //initialize event system
-        PhotonNetwork.OnEventCall = null;
+        //PhotonNetwork.OnEventCall = null;
         PhotonNetwork.OnEventCall += this.OnEvent;
 
         gameBoard.initializeBoard();
