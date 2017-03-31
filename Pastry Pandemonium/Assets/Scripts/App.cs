@@ -660,14 +660,25 @@ public class App : Photon.PunBehaviour
                 
             }
         }
-                do
+
+        do
         {
-           // yield return StartCoroutine(getMoveFromIndex());
             yield return StartCoroutine(getMoveToIndex());
 
             if (!validMove)
             {
-                yield return StartCoroutine(getMoveToIndex());
+                Debug.Log("Changing from location.");
+                yield return StartCoroutine(getMoveFromIndex());
+                foreach (GameObject piece in localPieces)
+                {
+                    if (piece != null && piece.GetComponent<GamePiece>().location == moveFromIndex)
+                    {
+
+                        selectAnimation(piece);
+                        showAvailableMoves(Game.gameInstance.getValidMoves(moveFromIndex));
+
+                    }
+                }
             }
 
         } while (!Game.gameInstance.validMove(moveFromIndex, moveToIndex));
