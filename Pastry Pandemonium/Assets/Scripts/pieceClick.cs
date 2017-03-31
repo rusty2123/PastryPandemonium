@@ -33,7 +33,7 @@ public class pieceClick : MonoBehaviour
             case 1:
                 if (App.isLocalPlayerTurn && App.placePiece)
                 {
-                    if ((gameObject.name.Contains("local")) || (gameObject.name.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name)-1] != null))
+                    if ((gameObject.tag.Contains("local")) || (gameObject.tag.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name)-1] != null))
                     {
                         App.validMove = false;
                     }
@@ -52,9 +52,12 @@ public class pieceClick : MonoBehaviour
                 if (App.isLocalPlayerTurn && App.moveToPiece && !App.moveFromPiece)
                 {
 
-                    if ((gameObject.name.Contains("local")) || (gameObject.name.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name) - 1] != null))
+                    if ((gameObject.tag.Contains("local")) || (gameObject.tag.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name) - 1] != null))
                     {
                         App.validMove = false;
+                        App.moveFromPiece = true;
+                        App.moveToPiece = false;
+                        Debug.Log("reset moveFromPiece");
                     }
                     else
                     {
@@ -70,7 +73,7 @@ public class pieceClick : MonoBehaviour
             case 3:
                 if (App.isLocalPlayerTurn && App.flyToPiece && !App.flyFromPiece)
                 {
-                    if ((gameObject.name.Contains("local")) || (gameObject.name.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name) - 1] != null))
+                    if ((gameObject.tag.Contains("local")) || (gameObject.tag.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name) - 1] != null))
                     {
                         App.validMove = false;
                     }
