@@ -61,15 +61,23 @@ public class App : Photon.PunBehaviour
 
     #region setup methods
 
+    private void Start()
+    {
+    }
+
     void Awake()
     {
         disconnected.SetActive(false);
 
+        if (!NetworkGameManager.moveEventsAdded)
+        {
+            PhotonNetwork.OnEventCall += this.OnEvent;
+            NetworkGameManager.moveEventsAdded = true;
+        }
+
         resetBoard();
 
         //initialize event system
-        //PhotonNetwork.OnEventCall = null;
-        PhotonNetwork.OnEventCall += this.OnEvent;
 
         gameBoard.initializeBoard();
 

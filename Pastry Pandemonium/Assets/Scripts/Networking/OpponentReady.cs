@@ -8,16 +8,20 @@ public class OpponentReady : MonoBehaviour {
 
     private void Awake()
     {
-        //PhotonNetwork.OnEventCall = null;
-        PhotonNetwork.OnEventCall += this.OnEvent;
+        if(!NetworkGameManager.readyEventsAdded)
+        {
+            PhotonNetwork.OnEventCall += this.OnEvent;
+            NetworkGameManager.readyEventsAdded = true;
+        }
+
         checkMarkOpp = GameObject.Find("checkMarkOpp");
         setOpponentCheckMark();
     }
 
     // Use this for initialization
     void Start () {
-		
-	}
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {

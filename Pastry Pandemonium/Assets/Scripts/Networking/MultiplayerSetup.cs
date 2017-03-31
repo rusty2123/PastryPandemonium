@@ -15,12 +15,19 @@ public class MultiplayerSetup : Photon.PunBehaviour
 
     public NetworkGameManager networkManager;
 
+    private void Start()
+    {
+    }
+
     private void Awake()
     {
         disconnected.SetActive(false);
 
-        //PhotonNetwork.OnEventCall = null;
-        PhotonNetwork.OnEventCall += this.OnEvent;
+        if (!NetworkGameManager.setupEventsAdded)
+        {
+            PhotonNetwork.OnEventCall += this.OnEvent;
+            NetworkGameManager.setupEventsAdded = true;
+        }
 
         Player.characterLocalPlayer = "";
 
@@ -230,11 +237,6 @@ public class MultiplayerSetup : Photon.PunBehaviour
             }
         }
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
