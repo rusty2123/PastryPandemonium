@@ -86,6 +86,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public void Disconnect()
     {
+        PhotonNetwork.LeaveRoom();
         PhotonNetwork.Disconnect();
         SceneManager.LoadScene("mainMenu");
     }

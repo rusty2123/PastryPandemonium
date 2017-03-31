@@ -68,6 +68,7 @@ public class App : Photon.PunBehaviour
         resetBoard();
 
         //initialize event system
+        PhotonNetwork.OnEventCall = null;
         PhotonNetwork.OnEventCall += this.OnEvent;
 
         gameBoard.initializeBoard();
@@ -1308,6 +1309,7 @@ public class App : Photon.PunBehaviour
         disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
         disableColliders();
         //networkManager.LeaveRoom();
+        PhotonNetwork.LeaveRoom();
         MultiplayerSetup.selectedCharacter = "";
         Player.characterLocalPlayer = "";
         Player.characterOpponentPlayer = "";
@@ -1397,13 +1399,6 @@ public class App : Photon.PunBehaviour
         clickedSecond = null;
         NetworkGameManager.placeIndex = 0; NetworkGameManager.removeIndex = 0; NetworkGameManager.moveFromIndex = 0; NetworkGameManager.moveToIndex = 0; NetworkGameManager.flyFromIndex = 0; NetworkGameManager.flyToIndex = 0;
         NetworkGameManager.localReady = false; NetworkGameManager.opponentReady = false;
-        //Player.isSinglePlayer = false;
-        //Player.playerGoFirst = true;
-        //Player.firstPlayer = true;
-        //Player.characterLocalPlayer = "";
-        //Player.characterOpponentPlayer = "";
-        //Player.difficultyLevel = "easy";
-        //Player.movesSinceLastMillFormed = 0;
     }
 
     #endregion
@@ -1515,7 +1510,6 @@ public class App : Photon.PunBehaviour
     }
 
     #endregion
-
 
     #region Animations
 

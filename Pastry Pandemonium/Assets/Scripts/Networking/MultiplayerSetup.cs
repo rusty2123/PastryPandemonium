@@ -19,6 +19,7 @@ public class MultiplayerSetup : Photon.PunBehaviour
     {
         disconnected.SetActive(false);
 
+        PhotonNetwork.OnEventCall = null;
         PhotonNetwork.OnEventCall += this.OnEvent;
 
         Player.characterLocalPlayer = "";
@@ -100,7 +101,8 @@ public class MultiplayerSetup : Photon.PunBehaviour
     {
         disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
         disableColliders();
-        //networkManager.LeaveRoom();
+        //just added
+        PhotonNetwork.LeaveRoom();
         MultiplayerSetup.selectedCharacter = "";
         Player.characterLocalPlayer = "";
         Player.characterOpponentPlayer = "";
