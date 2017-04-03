@@ -51,7 +51,8 @@ public class App : Photon.PunBehaviour
 
     public static bool isSinglePlayer, gameOver = false, isDraw = false, 
          isLocalPlayerTurn, localPlayerWon, removePiece = false, placePiece = false,
-                        moveFromPiece = false, moveToPiece = false, flyFromPiece = false, flyToPiece = false, validMove=false;
+                        moveFromPiece = false, moveToPiece = false, flyFromPiece = false, flyToPiece = false, validMove=false,
+                        showHelfulHints = true;
 
     public static Player localPlayer, opponentPlayer;
     public static int phase = 1;
@@ -74,7 +75,7 @@ public class App : Photon.PunBehaviour
     void Awake()
     {
         disconnected.SetActive(false);
-        hintText.text = "";
+        updateHintText("");
 
         if (!NetworkGameManager.moveEventsAdded)
         {
@@ -228,10 +229,12 @@ public class App : Photon.PunBehaviour
 
     IEnumerator startGame()
     {
+        updateHintText(placementPhaseHint);
         //18 because piecePlacementPhase is called every time it is not your turn and when it is your turn
         for (int i = 0; i < 18; i++)
         {
             yield return StartCoroutine(piecePlacementPhase());
+            updateHintText("");
         }
         while (!gameOver)
         {
@@ -530,8 +533,6 @@ public class App : Photon.PunBehaviour
             yield return StartCoroutine("getPlaceIndex");
         }
 
-        hintText.text = "";
-
         Game.gameInstance.placePiece(placeIndex, true);
 
         if (isSinglePlayer)
@@ -556,11 +557,11 @@ public class App : Photon.PunBehaviour
         if (Game.gameInstance.createdMill(placeIndex))
         {
             Debug.Log("Local player a created mill!");
-            hintText.text = createdMillHint;
+            updateHintText(createdMillHint);
             //allow the local player to select an opponent's piece to remove
             yield return StartCoroutine("getPieceToRemove");
 
-            hintText.text = "";
+            updateHintText("");
         }
 
         printPieceLocations();
@@ -593,8 +594,6 @@ public class App : Photon.PunBehaviour
 
     IEnumerator getPlaceIndex()
     {
-        hintText.text = placementPhaseHint;
-
         placePiece = true;
 
         yield return new WaitWhile(() => placePiece);
@@ -668,7 +667,7 @@ public class App : Photon.PunBehaviour
     {
         moveToIndex = 0; moveFromIndex = 0;
 
-        hintText.text = movementPhaseHint;
+        updateHintText(movementPhaseHint);
 
         yield return StartCoroutine(getMoveFromIndex());
 
@@ -703,7 +702,7 @@ public class App : Photon.PunBehaviour
 
         } while (!Game.gameInstance.validMove(moveFromIndex, moveToIndex));
 
-        hintText.text = "";
+        updateHintText("");
 
         //place the piece and update the gameboard
         Game.gameInstance.moveLocalPiece(moveFromIndex, moveToIndex);
@@ -740,11 +739,11 @@ public class App : Photon.PunBehaviour
         if (Game.gameInstance.createdMill(moveToIndex))
         {
             Debug.Log("Local player created a mill");
-            hintText.text = createdMillHint;
+            updateHintText(createdMillHint);
             //allow the local player to select an opponent's piece to remove
             yield return StartCoroutine("getPieceToRemove");
 
-            hintText.text = "";
+            updateHintText("");
         }
 
         Debug.Log("Local turn over");
@@ -909,7 +908,7 @@ public class App : Photon.PunBehaviour
     {
         moveToIndex = 0; moveFromIndex = 0;
 
-        hintText.text = flyingPhaseHint;
+        updateHintText(flyingPhaseHint);
 
         do
         {
@@ -918,7 +917,7 @@ public class App : Photon.PunBehaviour
 
         } while (!Game.gameInstance.validFly(flyFromIndex, flyToIndex));
 
-        hintText.text = "";
+        updateHintText("");
 
         //place the piece and update the gameboard
         Game.gameInstance.moveLocalPiece(flyFromIndex, flyToIndex);
@@ -1049,6 +1048,14 @@ public class App : Photon.PunBehaviour
     #endregion
 
     #region utility methods
+
+    public void updateHintText(String value)
+    {
+        if (showHelfulHints)
+            hintText.text = value;
+        else
+            hintText.text = "";
+    }
 
     public void printPieceLocations()
     {
@@ -1241,6 +1248,10 @@ public class App : Photon.PunBehaviour
     private void Update()
     {
         //Debug.Log("update has been called");
+        if (!showHelfulHints)
+        {
+            updateHintText("");
+        }
         if (gameOver)
         {
             if (remainingOpponent < 3 || !Game.gameInstance.opponentCanMove())

@@ -38,6 +38,10 @@ public class GameboardButtons : MonoBehaviour {
                 musicInstance.vol.value = 0f;
             }
         }
+        if (current.name == "helpfulHints")
+        {
+            App.showHelfulHints = !App.showHelfulHints;
+        }
 
 	}
 }
