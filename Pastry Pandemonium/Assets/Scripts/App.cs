@@ -22,7 +22,8 @@ public class App : Photon.PunBehaviour
                          placementPhaseHint = "Placement phase: select an empty board space to place a piece.",
                          movementPhaseHint = "Movement phase: select the piece to move and then the space to move it to.",
                          flyingPhaseHint = "Flying phase: you can now move to any open space.",
-                         falseMoveHint = "";
+                         falseRemoveHint = "Pieces may only be removed from a mill if ALL of the opponent’s pieces are in a mill.",
+                         opponentFlyingHint = "Opponent has entered flying phase and can now move to any open space.";
 
     public GameObject shadow, chipMuffin, berryMuffin, lemonMuffin, chocolateCupcake, redCupcake, whiteCupcake, disconnected;
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
@@ -887,11 +888,15 @@ public class App : Photon.PunBehaviour
         //get move from AI or network
         if (!isLocalPlayerTurn && remainingOpponent == 3)
         {
+            hintText.text = opponentFlyingHint;
+
             Debug.Log("Phase 3 - Opponent");
             phase = 3;
             enableGameObjects(false);
 
             yield return StartCoroutine(opponentFlyPiece());
+
+            hintText.text = opponentFlyingHint = "";
         }
         else if (!isLocalPlayerTurn && remainingOpponent > 3)
         {
@@ -1549,6 +1554,14 @@ public class App : Photon.PunBehaviour
         else if (eventCode == 4)
         {
             isLocalPlayerTurn = true;
+        }
+        else if (eventCode == 7)
+        {
+            //opponent offered draw
+        }
+        else if (eventCode == 8)
+        {
+            //opponent replied to draw
         }
     }
 

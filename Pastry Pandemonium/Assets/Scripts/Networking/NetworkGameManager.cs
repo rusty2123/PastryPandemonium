@@ -152,6 +152,20 @@ public class NetworkGameManager : Photon.PunBehaviour
         PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 
+    public void offerDraw()
+    {
+        byte code = 7;
+        byte[] content = new byte[] {};
+        PhotonNetwork.RaiseEvent(code, content, true, null);
+    }
+
+    public void acceptDraw(int decision)
+    {
+        byte code = 8;
+        byte[] content = new byte[] { (byte)decision };
+        PhotonNetwork.RaiseEvent(code, content, true, null);
+    }
+
     public void LoadNetworkGame()
     {
         if (!PhotonNetwork.isMasterClient)
