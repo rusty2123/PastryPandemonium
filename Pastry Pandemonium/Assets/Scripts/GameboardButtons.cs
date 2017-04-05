@@ -10,38 +10,35 @@ public class GameboardButtons : MonoBehaviour {
 
 	public void OnMouseUp()
 	{
-		if  (current.name == "exitButton") {
-			Application.Quit ();
-			Debug.Log ("quit application");
-		} 
+		switch (current.name) 
+		{
+		case "mainMenuButton":
+				if (!App.isSinglePlayer) {
+					networkManager.LeaveRoom ();
+					networkManager.Disconnect ();
+				}
+				SceneManager.LoadScene ("mainMenu");
+			break;
+		case "mute":
+				// turn off the music here
+			Music musicInstance = Music.getInstance ();
+			if (musicInstance.vol.value == 0f) {
+				musicInstance.vol.value = musicInstance.getLastVolume ();
+			} else {
+				musicInstance.setLastVolume (musicInstance.vol.value);
+				musicInstance.vol.value = 0f;
+			}
+			break;
+		case "helpfulHints":
+			App.showHelfulHints = !App.showHelfulHints;
+			break;
+		default:
+			break;
 
-		if (current.name == "mainMenuButton") {
 
-            if (!App.isSinglePlayer)
-            {
-                networkManager.LeaveRoom();
-                networkManager.Disconnect();
-            }
-            SceneManager.LoadScene("mainMenu");
-        }
-        if (current.name == "mute")
-        {
-            // turn off the music here
-            Music musicInstance = Music.getInstance();
-            if (musicInstance.vol.value == 0f)
-            {
-                musicInstance.vol.value = musicInstance.getLastVolume();
-            }
-            else
-            {
-                musicInstance.setLastVolume(musicInstance.vol.value);
-                musicInstance.vol.value = 0f;
-            }
-        }
-        if (current.name == "helpfulHints")
-        {
-            App.showHelfulHints = !App.showHelfulHints;
-        }
+		}
+
+		 
 
 	}
 }
