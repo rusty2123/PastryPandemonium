@@ -15,7 +15,7 @@ public class GameboardButtons : MonoBehaviour {
 			Debug.Log ("quit application");
 		} 
 
-		if (current.name == "menuButton") {
+		if (current.name == "mainMenuButton") {
 
             if (!App.isSinglePlayer)
             {
