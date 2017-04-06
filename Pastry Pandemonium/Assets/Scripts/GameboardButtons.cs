@@ -95,6 +95,16 @@ public class GameboardButtons : MonoBehaviour {
 				hints = true;
 			}
 			break;
+        case "requestDraw":
+                if (Game.gameInstance.isDraw())
+                {
+                    // confirm draw and display draw message
+                }
+                else
+                {
+                    // deny draw 
+                }
+            break;
 		default:
 			break;
 
