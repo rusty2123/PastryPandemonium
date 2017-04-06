@@ -27,17 +27,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         movesSinceLastMillFormed = 0;
-
-        if (difficultyLevel == "easy")
-        {
-            //aIScript = gameObject.AddComponent<AIScript>();
-
-        }
-        else if (difficultyLevel == "hard")
-        {
-            //aIScript = gameObject.AddComponent<AIScript>();
-        }
-
+        difficultyLevel = "easy";
     }
 
 

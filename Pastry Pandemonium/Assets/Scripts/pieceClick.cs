@@ -23,6 +23,22 @@ public class pieceClick : MonoBehaviour
 
     }
 
+    public void OnMouseEnter()
+    {
+        if (App.phase == 1 && !((gameObject.tag.Contains("local")) || (gameObject.tag.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name) - 1] != null)))
+        {
+            // highlight the open board spot
+        }
+    }
+
+    public void OnMouseExit()
+    {
+        if (App.phase == 1 && !((gameObject.tag.Contains("local")) || (gameObject.tag.Contains("opponent") || App.piecesPositions[Convert.ToInt32(gameObject.name) - 1] != null)))
+        {
+            // unhighlight the open board spot
+        }
+    }
+
     public void OnMouseDown()
     {
         gameObj = GameObject.FindWithTag("gameBoard");
