@@ -50,6 +50,11 @@ public class Game : Photon.MonoBehaviour
         opponentPlayer = App.opponentPlayer;
     }
 
+    public void resetBoard()
+    {
+        Board.boardInstance.resetBoard();
+    }
+
     public void placePiece(int index, bool isLocalPiece)
     {
         Player.movesSinceLastMillFormed++;

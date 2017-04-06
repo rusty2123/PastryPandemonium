@@ -34,9 +34,9 @@ public class App : Photon.PunBehaviour
 
     public NetworkGameManager networkManager;
 
-    public Game game = Game.gameInstance;
+    //public Game game = Game.gameInstance;
 
-    public Board gameBoard = Board.boardInstance;
+    //public Board gameBoard = Board.boardInstance;
 
     public static int localIndex = 0, opponentIndex = 0, remainingLocal = 9, remainingOpponent = 9, outOfBoardOpponent = 9, outOfBoardLocal = 9;
 
@@ -88,7 +88,7 @@ public class App : Photon.PunBehaviour
 
         //initialize event system
 
-        gameBoard.initializeBoard();
+        Board.boardInstance.initializeBoard();
 
         //why do we have two variables for the same game object?
         gameInstance = GameObject.FindGameObjectWithTag("gameBoard");
@@ -797,7 +797,7 @@ public class App : Photon.PunBehaviour
     IEnumerator executeAIMovePhaseTwo()
     {
 
-        int[] move = opponentPlayer.getAIMove(gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard());
+        int[] move = opponentPlayer.getAIMove(Board.boardInstance.getLocalPlayerBoard(), Board.boardInstance.getOpponentPlayerBoard());
 
         from = move[0];
         to = move[1];
@@ -1014,7 +1014,7 @@ public class App : Photon.PunBehaviour
     IEnumerator executeAIMovePhaseThree()
     {
 
-        int[] move = opponentPlayer.getAIMove(gameBoard.getLocalPlayerBoard(), gameBoard.getOpponentPlayerBoard());
+        int[] move = opponentPlayer.getAIMove(Board.boardInstance.getLocalPlayerBoard(), Board.boardInstance.getOpponentPlayerBoard());
 
         from = move[0];
         to = move[1];
@@ -1403,7 +1403,8 @@ public class App : Photon.PunBehaviour
     private void resetBoard()
     {
         //reset BitArrays
-        Board.boardInstance.resetBoard();
+        //Board.boardInstance.resetBoard();
+        Game.gameInstance.resetBoard();
         //enable all colliders
         enableColliders();
 
