@@ -237,7 +237,7 @@ public class App : Photon.PunBehaviour
             yield return StartCoroutine(piecePlacementPhase());
             updateHintText("");
         }
-        while (!gameOver)
+        while (!gameOver && !isDraw)
         {
             if (remainingLocal > 3 && remainingOpponent > 3)
             {
@@ -607,9 +607,7 @@ public class App : Photon.PunBehaviour
 
         to = move[1];
         positionIndex = to + 1;
-
-       
-            
+        
         Game.gameInstance.placePiece(to, false);
         piecesPositions[to] = opponentPieces[opponentIndex];
 
@@ -764,7 +762,7 @@ public class App : Photon.PunBehaviour
             yield return StartCoroutine("waitForChangePlayer");
             yield return StartCoroutine(waitForSeconds(2));
         }
-        else if(!gameOver)
+        else if(!gameOver && !isDraw)
         {
             yield return StartCoroutine(waitForSeconds(3));
             yield return StartCoroutine("executeAIMovePhaseTwo");
@@ -888,7 +886,7 @@ public class App : Photon.PunBehaviour
         //get move from AI or network
         if (!isLocalPlayerTurn && remainingOpponent == 3)
         {
-            hintText.text = opponentFlyingHint;
+            updateHintText(opponentFlyingHint);
 
             Debug.Log("Phase 3 - Opponent");
             phase = 3;
@@ -896,7 +894,7 @@ public class App : Photon.PunBehaviour
 
             yield return StartCoroutine(opponentFlyPiece());
 
-            hintText.text = opponentFlyingHint = "";
+            updateHintText(opponentFlyingHint);
         }
         else if (!isLocalPlayerTurn && remainingOpponent > 3)
         {
@@ -1269,6 +1267,11 @@ public class App : Photon.PunBehaviour
                 Debug.Log("you lost");
 				displayLossMessage ();
             }
+        }
+        if (isDraw)
+        {
+            Debug.Log("you drew");
+            //display draw message
         }
        
     }
