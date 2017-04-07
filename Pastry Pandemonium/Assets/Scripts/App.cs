@@ -1142,10 +1142,8 @@ public class App : Photon.PunBehaviour
         Game.gameInstance.removeOpponentPiece(pieceToRemove);
 
         if (isSinglePlayer)
-        {
-           
-                animationRemove(piecesPositions[pieceToRemove - 1], characterOpponentPlayer);
-            
+        {         
+            animationRemove(piecesPositions[pieceToRemove - 1], characterOpponentPlayer);
             piecesPositions[pieceToRemove - 1] = null;
         }
         remainingOpponent--;
@@ -1153,6 +1151,20 @@ public class App : Photon.PunBehaviour
         if (!Player.isSinglePlayer)
         {
             networkManager.removePiece(pieceToRemove);
+
+            foreach (GameObject gameObj in opponentPieces)
+            {
+                if (gameObj != null && gameObj.GetComponent<GamePiece>().location == pieceToRemove)
+                {
+                    animationRemove(gameObj, characterOpponentPlayer);
+                    gameObj.GetComponent<GamePiece>().location = 0;
+                    Destroy(gameObj);
+                    Game.gameInstance.removeOpponentPiece(pieceToRemove);
+                    Debug.Log("removed.");
+                    break;
+                }
+            }
+
         }
 
         //reset them to active when piece is removed
@@ -1501,6 +1513,7 @@ public class App : Photon.PunBehaviour
             {
                 if (gameObj != null && gameObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
                 {
+                    animationRemove(gameObj, characterLocalPlayer);
                     gameObj.GetComponent<GamePiece>().location = 0;
                     Destroy(gameObj);
                     Game.gameInstance.removeLocalPiece(NetworkGameManager.removeIndex);
@@ -1566,6 +1579,21 @@ public class App : Photon.PunBehaviour
         else if (eventCode == 8)
         {
             //opponent replied to draw
+            NetworkGameManager.drawAccepted = false;
+
+            byte[] selected = (byte[])content;
+
+            if (selected[0] == 0)
+            {
+                //opponent declined
+                NetworkGameManager.drawAccepted = false;
+            }
+            else if(selected[0] == 1)
+            {
+                //opponent accepted
+                NetworkGameManager.drawAccepted = true;
+            }
+            NetworkGameManager.drawResponseRecieved = true;
         }
     }
 
