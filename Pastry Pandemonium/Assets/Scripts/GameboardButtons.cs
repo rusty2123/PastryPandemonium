@@ -97,7 +97,8 @@ public class GameboardButtons : MonoBehaviour {
 			break;
         case "requestDraw":
                 canvas.SetActive(true);
-                /*
+			// MOVED CODE TO RequestDrawPopup.cs
+                /* 
                 if (Game.gameInstance.isDraw())
                 {
                     // confirm draw and display draw message
@@ -120,7 +121,7 @@ public class GameboardButtons : MonoBehaviour {
 
 	}
 
-    private IEnumerator startCoroutine()
+    /*private IEnumerator startCoroutine()
     {
         yield return StartCoroutine(getDrawResponse());
     }
@@ -141,5 +142,5 @@ public class GameboardButtons : MonoBehaviour {
         {
             //continue game
         }
-    }
+    }*/
 }
