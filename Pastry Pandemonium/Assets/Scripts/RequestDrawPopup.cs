@@ -7,6 +7,7 @@ public class RequestDrawPopup : MonoBehaviour {
 	public GameObject current;
 	public NetworkGameManager networkManager;
 	private GameObject menu;
+    private App app = new App();
 
 	// Use this for initialization
 	void Start () {
@@ -49,6 +50,7 @@ public class RequestDrawPopup : MonoBehaviour {
 			case "noButton":
 				LeanTween.scale (current, new Vector3 (1.950775f, 1.950775f, 1.950775f), .05f);
 				menu.SetActive (false);
+                    app.resumeGame();
 				break;
 			default:
 				break;

@@ -1288,6 +1288,23 @@ public class App : Photon.PunBehaviour
        
     }
 
+
+    public void pauseGame()
+    {
+      
+       foreach( GameObject boardSpace in boardSpaces2)
+        {
+            boardSpace.SetActive(false);
+        }
+    }
+
+    public void resumeGame()
+    {
+        foreach (GameObject boardSpace in boardSpaces2)
+        {
+            boardSpace.SetActive(true);
+        }
+    }
   
 
     public void displayWinMessage()

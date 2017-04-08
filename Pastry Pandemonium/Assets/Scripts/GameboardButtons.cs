@@ -10,11 +10,13 @@ public class GameboardButtons : MonoBehaviour {
 	private GameObject musicSwitchRight, musicSwitchLeft, switchMusic, onSwitchMusic, offSwitchMusic;
 	private GameObject hintsSwitchRight , hintsSwitchLeft, switchHints, onSwitchHints, offSwitchHints;
 	private bool hints = true;
+    private App app = new App();
 
 
-	private void Awake()
+    private void Awake()
 	{
-
+       
+        
 		musicSwitchRight = GameObject.Find ("musicSwitchRight");
 		musicSwitchLeft = GameObject.Find ("musicSwitchLeft");
 		switchMusic = GameObject.Find ("switchMusic");
@@ -97,6 +99,7 @@ public class GameboardButtons : MonoBehaviour {
 			break;
         case "requestDraw":
                 canvas.SetActive(true);
+                app.pauseGame();
 			// MOVED CODE TO RequestDrawPopup.cs
                 /* 
                 if (Game.gameInstance.isDraw())
