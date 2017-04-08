@@ -67,8 +67,8 @@ public class showAvailableSpaces : MonoBehaviour {
 	}
 
 
-	public void OnMouseEnter()
-	{
+    public void OnMouseEnter()
+    {
 		if (App.phase == 1 || App.phase == 3 && App.isLocalPlayerTurn) {
 			current.GetComponent<Renderer> ().enabled = true;
 		}

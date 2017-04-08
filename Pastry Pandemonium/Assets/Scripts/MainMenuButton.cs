@@ -11,10 +11,10 @@ public class MainMenuButton : MonoBehaviour {
 	private Vector3 popupSize;
 	public AudioClip menuClick;
 	private AudioSource audioSource;
-	//private OptionsPopup sfx = new OptionsPopup();
+    //private OptionsPopup sfx = new OptionsPopup();
 
-
-	private void Awake()
+   
+    private void Awake()
 	{
 		audioSource = GetComponent<AudioSource>();
 		multiplayer = GameObject.FindGameObjectWithTag("multiplayer");
