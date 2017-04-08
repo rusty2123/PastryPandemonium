@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
-using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -33,10 +34,10 @@ public class App : Photon.PunBehaviour
     public bool gameStarted = false;
 
     public NetworkGameManager networkManager;
-
-    //public Game game = Game.gameInstance;
-
-    //public Board gameBoard = Board.boardInstance;
+    
+    private Thread aiThread;
+    private bool aiThreadRunning = false;
+    public static bool aiMoveMade = false;
 
     public static int localIndex = 0, opponentIndex = 0, remainingLocal = 9, remainingOpponent = 9, outOfBoardOpponent = 9, outOfBoardLocal = 9;
 
@@ -492,8 +493,6 @@ public class App : Photon.PunBehaviour
         }
     }
 
-
-
     #endregion
 
     #region phase one
@@ -579,10 +578,9 @@ public class App : Photon.PunBehaviour
         //get move from ai
         if (Player.isSinglePlayer)
         {
-            //check to make sure the player is allowed to move there
-            yield return StartCoroutine(waitForSeconds(3));
-            yield return StartCoroutine("executeAIMovePhaseOne");
-            
+            threadedAI();
+            yield return StartCoroutine("waitForChangePlayer");
+            yield return StartCoroutine(waitForSeconds(2));
         }
         //get move from network
         else if (!Player.isSinglePlayer)
@@ -602,10 +600,9 @@ public class App : Photon.PunBehaviour
 
     IEnumerator executeAIMovePhaseOne()
     {
+        Debug.Log("AI move phase one");
 
-        int[] move = opponentPlayer.getAIMove(Board.boardInstance.getLocalPlayerBoard(), Board.boardInstance.getOpponentPlayerBoard());
-
-        to = move[1];
+        to = opponentPlayer.to;
         positionIndex = to + 1;
         
         Game.gameInstance.placePiece(to, false);
@@ -625,13 +622,12 @@ public class App : Photon.PunBehaviour
         {
             Debug.Log("AI a created mill");
 
-            pieceToRemove = move[2];
+            //pieceToRemove = move[2];
+            pieceToRemove = opponentPlayer.from;
             yield return StartCoroutine("removeAIPiece");
         }
 
         changePlayer();
-
-      
     }
 
     #endregion
@@ -764,8 +760,9 @@ public class App : Photon.PunBehaviour
         }
         else if(!gameOver && !isDraw)
         {
-            yield return StartCoroutine(waitForSeconds(3));
-            yield return StartCoroutine("executeAIMovePhaseTwo");
+            threadedAI();
+            yield return StartCoroutine("waitForChangePlayer");
+            yield return StartCoroutine(waitForSeconds(2));
         }
     }
 
@@ -796,11 +793,8 @@ public class App : Photon.PunBehaviour
 
     IEnumerator executeAIMovePhaseTwo()
     {
-
-        int[] move = opponentPlayer.getAIMove(Board.boardInstance.getLocalPlayerBoard(), Board.boardInstance.getOpponentPlayerBoard());
-
-        from = move[0];
-        to = move[1];
+        from = opponentPlayer.from;
+        to = opponentPlayer.to;
 
         Debug.Log("AI moving from: " + from);
         Debug.Log("AI moving to:" + to);
@@ -832,16 +826,14 @@ public class App : Photon.PunBehaviour
         if (Game.gameInstance.createdMill(to))
         {
             Debug.Log("AI created a mill");
-
-            pieceToRemove = move[2];
+            
+            pieceToRemove = opponentPlayer.remove;
             yield return StartCoroutine("removeAIPiece");
         }
 
         changePlayer();
         print("AI move done");
-
-          
-       
+        
     }
 
 
@@ -980,8 +972,9 @@ public class App : Photon.PunBehaviour
         }
         else
         {
-            yield return StartCoroutine(waitForSeconds(3));
-            yield return StartCoroutine("executeAIMovePhaseThree");
+            threadedAI();
+            yield return StartCoroutine("waitForChangePlayer");
+            yield return StartCoroutine(waitForSeconds(2));
 
         }
     }
@@ -1013,11 +1006,8 @@ public class App : Photon.PunBehaviour
 
     IEnumerator executeAIMovePhaseThree()
     {
-
-        int[] move = opponentPlayer.getAIMove(Board.boardInstance.getLocalPlayerBoard(), Board.boardInstance.getOpponentPlayerBoard());
-
-        from = move[0];
-        to = move[1];
+        from = opponentPlayer.from;
+        to = opponentPlayer.to;
         Debug.Log("AI moving from: " + from);
         Debug.Log("AI moving to:" + to);
 
@@ -1039,7 +1029,7 @@ public class App : Photon.PunBehaviour
         {
             Debug.Log("AI created a mill");
 
-            pieceToRemove = move[2];
+            pieceToRemove = opponentPlayer.remove;
             yield return StartCoroutine("removeAIPiece");
         }
 
@@ -1285,10 +1275,36 @@ public class App : Photon.PunBehaviour
             Debug.Log("you drew");
             //display draw message
         }
-       
+        //AI move has returned with a value and these will call the functions for each phase
+        if (!gameOver && isSinglePlayer && !isLocalPlayerTurn && phase == 1 && aiMoveMade)
+        {
+            aiThread.Abort();
+            aiThreadRunning = false;
+            aiMoveMade = false;
+
+            StartCoroutine("executeAIMovePhaseOne");
+        }
+        if (!gameOver && isSinglePlayer && !isLocalPlayerTurn && phase == 2 && aiMoveMade)
+        {
+            aiThread.Abort();
+            aiThreadRunning = false;
+            aiMoveMade = false;
+
+            StartCoroutine("executeAIMovePhaseTwo");
+        }
+        if (!gameOver && isSinglePlayer && !isLocalPlayerTurn && phase == 3 && aiMoveMade)
+        {
+            aiThread.Abort();
+            aiThreadRunning = false;
+            aiMoveMade = false;
+
+            StartCoroutine("executeAIMovePhaseThree");
+        }
+
+
     }
 
-  
+
 
     public void displayWinMessage()
     {
@@ -1469,6 +1485,20 @@ public class App : Photon.PunBehaviour
         clickedSecond = null;
         NetworkGameManager.placeIndex = 0; NetworkGameManager.removeIndex = 0; NetworkGameManager.moveFromIndex = 0; NetworkGameManager.moveToIndex = 0; NetworkGameManager.flyFromIndex = 0; NetworkGameManager.flyToIndex = 0;
         NetworkGameManager.localReady = false; NetworkGameManager.opponentReady = false;
+        aiThreadRunning = false;
+        aiMoveMade = false;
+}
+
+    private void threadedAI()
+    {
+        Debug.Log("threadedAI called");
+
+        if (!aiThreadRunning)
+        {
+            aiThreadRunning = true;
+            aiThread = new Thread(() => opponentPlayer.getThreadedAIMove(Board.boardInstance.getLocalPlayerBoard(), Board.boardInstance.getOpponentPlayerBoard()));
+            aiThread.Start();
+        }
     }
 
     #endregion
