@@ -1305,7 +1305,7 @@ public class App : Photon.PunBehaviour
     }
 
 
-<<<<<<< HEAD
+
     public void pauseGame()
     {
       
@@ -1322,9 +1322,7 @@ public class App : Photon.PunBehaviour
             boardSpace.SetActive(true);
         }
     }
-  
-=======
->>>>>>> origin/master
+
 
     public void displayWinMessage()
     {
