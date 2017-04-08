@@ -30,7 +30,7 @@ public class App : Photon.PunBehaviour
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
     public Text hintText;
     private GameObject destroyPosition, tempDestroy1, tempDestroy2, millPosition, millPosition2, millPosition3;
-	private GameObject win, lose;
+	private GameObject win, lose, mainMenu;
     public bool gameStarted = false;
 
     public NetworkGameManager networkManager;
@@ -104,6 +104,10 @@ public class App : Photon.PunBehaviour
 		win.GetComponent<Renderer> ().enabled = false;
 		lose.GetComponent<Renderer> ().enabled = false;
 
+        mainMenu = GameObject.Find("mainMenuButton");
+
+        mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.3f);
+        mainMenu.GetComponent<BoxCollider2D>().enabled = false;
 
         //why do we need this variable? why can't we just use Player.isSinglePlayer?
         isSinglePlayer = Player.isSinglePlayer;
@@ -1245,7 +1249,9 @@ public class App : Photon.PunBehaviour
         if (remainingOpponent < 3 || remainingLocal < 3 || !Game.gameInstance.playerCanMove() || !Game.gameInstance.opponentCanMove())
         {
             gameOver = true;
-            
+            mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
+            mainMenu.GetComponent<BoxCollider2D>().enabled = true;
+
         }
 
     }
