@@ -1,8 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System;
 
 public class Player : MonoBehaviour
 {
@@ -18,6 +15,9 @@ public class Player : MonoBehaviour
     private int[] aiLocations = new int[24];
     private static int y;
 
+    public int from;
+    public int to;
+    public int remove;
 
     //AI levelset on single player menu
     public static string difficultyLevel = "easy"; 
@@ -37,8 +37,17 @@ public class Player : MonoBehaviour
         move = AI.move(player, computer, App.phase, difficultyLevel);
         return move;
     }
-
-
+    
+    public void getThreadedAIMove(BitArray computer, BitArray player)
+    {
+        Debug.Log("getThreadedAIMove called");
+        int[] move = new int[3];
+        move = AI.move(player, computer, App.phase, difficultyLevel);
+        from = move[0];
+        to = move[1];
+        remove = move[2];
+        App.aiMoveMade = true;
+    }
 
 }
 
