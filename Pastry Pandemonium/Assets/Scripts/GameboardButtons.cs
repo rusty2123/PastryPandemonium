@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameboardButtons : MonoBehaviour {
 
-    public GameObject current;
+    public GameObject current , canvas;
     public NetworkGameManager networkManager;
 	private GameObject musicSwitchRight, musicSwitchLeft, switchMusic, onSwitchMusic, offSwitchMusic;
 	private GameObject hintsSwitchRight , hintsSwitchLeft, switchHints, onSwitchHints, offSwitchHints;
@@ -96,6 +96,8 @@ public class GameboardButtons : MonoBehaviour {
 			}
 			break;
         case "requestDraw":
+                canvas.SetActive(true);
+                /*
                 if (Game.gameInstance.isDraw())
                 {
                     // confirm draw and display draw message
@@ -106,7 +108,7 @@ public class GameboardButtons : MonoBehaviour {
                 else
                 {
                     // deny draw 
-                }
+                }*/
             break;
 		default:
 			break;
