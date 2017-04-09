@@ -250,11 +250,14 @@ public class App : Photon.PunBehaviour
             {
                 phase = 2;
                 Debug.Log("phase 2");
+                shadow.transform.position = offTheBoard.transform.position;
+                shadow.GetComponent<Renderer>().enabled = false;
                 yield return StartCoroutine(pieceMovePhase());
                 //Board.boardInstance.printBoard();
             }
             else if (remainingLocal == 3 || remainingOpponent == 3)
             {
+                shadow.GetComponent<Renderer>().enabled = true;
                 yield return StartCoroutine(pieceFlyPhase());
             }
         }
@@ -1252,6 +1255,7 @@ public class App : Photon.PunBehaviour
         {
             gameOver = true;
             mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
+            shadow.GetComponent<Renderer>().enabled = false;
             mainMenu.GetComponent<BoxCollider2D>().enabled = true;
 
         }
@@ -1339,15 +1343,15 @@ public class App : Photon.PunBehaviour
         //dislay animation 
         pauseGame();
 
-        muffinTurnOff.SetActive(false);
-        cupcakeTurnOff.SetActive(false);
+        muffinTurnOn.SetActive(false);
+        cupcakeTurnOn.SetActive(false);
         win.GetComponent<Renderer> ().enabled = true;
        // LeanTween.moveY(muffinTurnOff, muffinTurnOff.transform.position.y + 150, .3f).setDelay(.5f);
-        LeanTween.move(muffinTurnOn, offTheBoard.transform.position, .5f).setDelay(.5f);
-        LeanTween.move(cupcakeTurnOn, offTheBoard.transform.position, .5f).setDelay(.5f);
+        LeanTween.move(muffinTurnOff, offTheBoard.transform.position, .5f).setDelay(1f);
+        LeanTween.move(cupcakeTurnOff, offTheBoard.transform.position, .5f).setDelay(1f);
        // LeanTween.moveY(cupcakeTurnOff, cupcakeTurnOff.transform.position.y + 150,.3f).setDelay(.5f);
 
-        LeanTween.move(win, gameOverPosition.transform.position, .6f).setDelay(1.3f);
+        LeanTween.move(win, gameOverPosition.transform.position, .6f).setDelay(1.5f);
 
       
 
@@ -1363,15 +1367,15 @@ public class App : Photon.PunBehaviour
 
         lose.GetComponent<Renderer> ().enabled = true;
 
-        muffinTurnOff.SetActive(false);
-        cupcakeTurnOff.SetActive(false);
+        muffinTurnOn.SetActive(false);
+        cupcakeTurnOn.SetActive(false);
 
        // LeanTween.moveY(muffinTurnOff, muffinTurnOff.transform.position.y + 150, .3f).setDelay(.5f);
-        LeanTween.move(muffinTurnOn, offTheBoard.transform.position, .5f).setDelay(.5f);
-        LeanTween.move(cupcakeTurnOn, offTheBoard.transform.position, .5f).setDelay(.5f);
+        LeanTween.move(muffinTurnOff, offTheBoard.transform.position, .5f).setDelay(1f);
+        LeanTween.move(cupcakeTurnOff, offTheBoard.transform.position, .5f).setDelay(1f);
        // LeanTween.moveY(cupcakeTurnOff, cupcakeTurnOff.transform.position.y + 150, .3f).setDelay(.5f);
 
-        LeanTween.move(lose, gameOverPosition.transform.position, .6f).setDelay(1.3f);
+        LeanTween.move(lose, gameOverPosition.transform.position, .6f).setDelay(1.5f);
 
 
 
@@ -1382,7 +1386,12 @@ public class App : Photon.PunBehaviour
         //disable buttons and pieces
         //set game object active
         //dislay animation 
-        LeanTween.move(draw, gameOverPosition.transform.position, .6f).setDelay(1.3f);
+        pauseGame();
+        muffinTurnOn.SetActive(false);
+        cupcakeTurnOn.SetActive(false);
+        LeanTween.move(muffinTurnOff, offTheBoard.transform.position, .5f).setDelay(1f);
+        LeanTween.move(cupcakeTurnOff, offTheBoard.transform.position, .5f).setDelay(1f);
+        LeanTween.move(draw, gameOverPosition.transform.position, .6f).setDelay(1.5f);
     }
 
     public void muteAudio()
