@@ -87,7 +87,7 @@ public class App : Photon.PunBehaviour
             NetworkGameManager.moveEventsAdded = true;
         }
 
-        resetBoard();
+        //resetBoard();
 
         //initialize event system
 

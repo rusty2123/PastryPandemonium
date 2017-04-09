@@ -100,19 +100,7 @@ public class GameboardButtons : MonoBehaviour {
         case "requestDraw":
                 canvas.SetActive(true);
                 app.pauseGame();
-			// MOVED CODE TO RequestDrawPopup.cs
-                /* 
-                if (Game.gameInstance.isDraw())
-                {
-                    // confirm draw and display draw message
-                        networkManager.offerDraw();
-                        //wait for response
-                        startCoroutine();
-                }
-                else
-                {
-                    // deny draw 
-                }*/
+			
             break;
 		default:
 			break;

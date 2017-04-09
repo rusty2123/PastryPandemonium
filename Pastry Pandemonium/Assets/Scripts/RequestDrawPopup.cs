@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RequestDrawPopup : MonoBehaviour {
 
@@ -34,18 +35,24 @@ public class RequestDrawPopup : MonoBehaviour {
 		{
 			switch (current.name)
 			{
-			case "yesButton":
-                if (Game.gameInstance.isDraw())
-                {
-                    // confirm draw and display draw message
+                case "yesButton":
+
+                    if (Game.gameInstance.isDraw())
+                    {
+                        if (App.isSinglePlayer)
+                        {
+                            SceneManager.LoadScene("MainMenu");
+                        }
+
+                        // confirm draw and display draw message
                         networkManager.offerDraw();
                         //wait for response
                         startCoroutine();
-                }
-                else
-                {
-                    // deny draw 
-                }
+                    }
+                    else
+                    {
+                        // deny draw 
+                    }
 				break;
 			case "noButton":
 				LeanTween.scale (current, new Vector3 (1.950775f, 1.950775f, 1.950775f), .05f);

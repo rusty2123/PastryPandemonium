@@ -11,7 +11,6 @@ public class Music : MonoBehaviour {
 	static bool AudioBegin = false; 
 	public Slider vol; 
 	private AudioSource audioSource;
-    //public AudioClip audio;
     private float lastVolume;
 
     public float getLastVolume()
@@ -48,11 +47,11 @@ public class Music : MonoBehaviour {
 
 	private void setMusic()
 	{
-		audioSource = GetComponent<AudioSource> ();
+        DontDestroyOnLoad(audioSource);
+        DontDestroyOnLoad(vol);
 
+        audioSource = GetComponent<AudioSource> ();
 		audioSource.Play ();
-		DontDestroyOnLoad (audioSource);
-		DontDestroyOnLoad (vol);
 
 	}
 
