@@ -30,7 +30,7 @@ public class App : Photon.PunBehaviour
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
     public Text hintText;
     private GameObject destroyPosition, tempDestroy1, tempDestroy2, millPosition, millPosition2, millPosition3;
-	private GameObject win, lose, mainMenu;
+	private GameObject win, lose, gameOverPosition, mainMenu, offTheBoard, draw;
     public bool gameStarted = false;
 
     public NetworkGameManager networkManager;
@@ -98,12 +98,14 @@ public class App : Photon.PunBehaviour
         //DontDestroyOnLoad(boardInstance);
 		win = GameObject.Find ("win");
 		lose = GameObject.Find ("lose");
+        draw = GameObject.Find("draw");
         availableSpaceImage = GameObject.Find("availableSpace");
         //shadow = GameObject.Find("shadow");
 
 		win.GetComponent<Renderer> ().enabled = false;
 		lose.GetComponent<Renderer> ().enabled = false;
-
+        gameOverPosition = GameObject.Find("GameOverPosition");
+        offTheBoard = GameObject.Find("offTheBoard");
         mainMenu = GameObject.Find("mainMenuButton");
 
         mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.3f);
@@ -1335,7 +1337,20 @@ public class App : Photon.PunBehaviour
         //disable buttons and pieces
         //set game object active
         //dislay animation 
-		win.GetComponent<Renderer> ().enabled = true;
+        pauseGame();
+
+        muffinTurnOff.SetActive(false);
+        cupcakeTurnOff.SetActive(false);
+        win.GetComponent<Renderer> ().enabled = true;
+       // LeanTween.moveY(muffinTurnOff, muffinTurnOff.transform.position.y + 150, .3f).setDelay(.5f);
+        LeanTween.move(muffinTurnOn, offTheBoard.transform.position, .5f).setDelay(.5f);
+        LeanTween.move(cupcakeTurnOn, offTheBoard.transform.position, .5f).setDelay(.5f);
+       // LeanTween.moveY(cupcakeTurnOff, cupcakeTurnOff.transform.position.y + 150,.3f).setDelay(.5f);
+
+        LeanTween.move(win, gameOverPosition.transform.position, .6f).setDelay(1.3f);
+
+      
+
 
     }
 
@@ -1344,7 +1359,21 @@ public class App : Photon.PunBehaviour
         //disable buttons and pieces
         //set game object active
         //dislay animation 
-		lose.GetComponent<Renderer> ().enabled = true;
+        pauseGame();
+
+        lose.GetComponent<Renderer> ().enabled = true;
+
+        muffinTurnOff.SetActive(false);
+        cupcakeTurnOff.SetActive(false);
+
+       // LeanTween.moveY(muffinTurnOff, muffinTurnOff.transform.position.y + 150, .3f).setDelay(.5f);
+        LeanTween.move(muffinTurnOn, offTheBoard.transform.position, .5f).setDelay(.5f);
+        LeanTween.move(cupcakeTurnOn, offTheBoard.transform.position, .5f).setDelay(.5f);
+       // LeanTween.moveY(cupcakeTurnOff, cupcakeTurnOff.transform.position.y + 150, .3f).setDelay(.5f);
+
+        LeanTween.move(lose, gameOverPosition.transform.position, .6f).setDelay(1.3f);
+
+
 
     }
 
@@ -1353,6 +1382,7 @@ public class App : Photon.PunBehaviour
         //disable buttons and pieces
         //set game object active
         //dislay animation 
+        LeanTween.move(draw, gameOverPosition.transform.position, .6f).setDelay(1.3f);
     }
 
     public void muteAudio()
@@ -1395,16 +1425,7 @@ public class App : Photon.PunBehaviour
         }
     }
 
-    public void enableButtons()
-    {
-        //disable all buttons
-    }
-
-    public void disableButtons()
-    {
-        // enable all buttons
-    }
-
+   
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
         disconnected.GetComponentInChildren<Text>().text = "Opponent has disconnected";
