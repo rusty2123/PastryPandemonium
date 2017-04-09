@@ -49,6 +49,8 @@ public class App : Photon.PunBehaviour
     private static GameObject[] boardSpaces2 = new GameObject[24];
     private Collider2D[] colliders;
 
+    private List<int> lastAvailableSpaces = new List<int>();
+
     public static  GameObject[] piecesPositions = new GameObject[24];
 
     public static bool isSinglePlayer, gameOver = false, isDraw = false, 
@@ -690,6 +692,7 @@ public class App : Photon.PunBehaviour
 
             if (!validMove)
             {
+
                 Debug.Log("Changing from location.");
                 yield return StartCoroutine(getMoveFromIndex());
                 foreach (GameObject piece in localPieces)
@@ -727,7 +730,7 @@ public class App : Photon.PunBehaviour
                     piecesPositions[moveToIndex - 1] = piece;
                     piecesPositions[moveFromIndex - 1] = null;
                 }
-
+                destroyAvailableMoves();
                 //start position needs to be the gamepiece with location at moveFromIndex
                 startPosition = piece;
                 endPosition = GameObject.Find(moveToIndex.ToString());
@@ -1812,7 +1815,13 @@ public class App : Photon.PunBehaviour
 
     private void showAvailableMoves(List<int> availableMoves)
     {
-        foreach(int m in availableMoves)
+
+        if (lastAvailableSpaces.Count > 0)
+        {
+            destroyAvailableMoves();
+        }
+        lastAvailableSpaces = availableMoves;
+        foreach (int m in availableMoves)
         {
             availableSpace = Instantiate(availableSpaceImage) as GameObject;
             piecePosition = GameObject.Find(m.ToString());
@@ -1823,21 +1832,20 @@ public class App : Photon.PunBehaviour
             
         }
 
-       StartCoroutine(destroyAvailableMoves(availableMoves));
     }
 
-    IEnumerator destroyAvailableMoves(List<int> availableMoves)
+
+    private void destroyAvailableMoves()
     {
-        yield return new WaitForSeconds(1f);
-
-
-        foreach (int m in availableMoves)
+        if (lastAvailableSpaces.Count > 0)
         {
-            Destroy(GameObject.Find("AS" + m.ToString()));
+            foreach (int m in lastAvailableSpaces)
+            {
+                Destroy(GameObject.Find("AS" + m.ToString()));
+            }
         }
 
-
-
+        lastAvailableSpaces.Clear();
     }
     private void animationRemove(GameObject gamePiece, GameObject player)
     {
