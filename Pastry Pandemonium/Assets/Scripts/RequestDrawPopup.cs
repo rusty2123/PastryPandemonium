@@ -57,7 +57,8 @@ public class RequestDrawPopup : MonoBehaviour {
 			case "noButton":
 				LeanTween.scale (current, new Vector3 (1.950775f, 1.950775f, 1.950775f), .05f);
 				menu.SetActive (false);
-                    app.resumeGame();
+                App.isDraw = false;
+                app.resumeGame();
 				break;
 			default:
 				break;

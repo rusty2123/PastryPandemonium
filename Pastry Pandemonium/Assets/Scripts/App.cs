@@ -612,33 +612,41 @@ public class App : Photon.PunBehaviour
     IEnumerator executeAIMovePhaseOne()
     {
         Debug.Log("AI move phase one");
-
-        to = opponentPlayer.to;
-        positionIndex = to + 1;
-        
-        Game.gameInstance.placePiece(to, false);
-        piecesPositions[to] = opponentPieces[opponentIndex];
-
-        startPosition = opponentPieces[opponentIndex];
-        endPosition = GameObject.Find(positionIndex.ToString());
-        animationPhaseOne(startPosition, startPosition, endPosition);
-
-        opponentIndex++;
-        outOfBoardOpponent--;
-
-        printPieceLocations();
-
-        //check if the placement created a mill
-        if (Game.gameInstance.createdMill(to))
+        if (!isDraw)
         {
-            Debug.Log("AI a created mill");
+            to = opponentPlayer.to;
+            positionIndex = to + 1;
 
-            //pieceToRemove = move[2];
-            pieceToRemove = opponentPlayer.from;
-            yield return StartCoroutine("removeAIPiece");
+            Game.gameInstance.placePiece(to, false);
+            piecesPositions[to] = opponentPieces[opponentIndex];
+
+            startPosition = opponentPieces[opponentIndex];
+            endPosition = GameObject.Find(positionIndex.ToString());
+            animationPhaseOne(startPosition, startPosition, endPosition);
+
+            opponentIndex++;
+            outOfBoardOpponent--;
+
+            printPieceLocations();
+
+            //check if the placement created a mill
+            if (Game.gameInstance.createdMill(to))
+            {
+                Debug.Log("AI a created mill");
+
+                //pieceToRemove = move[2];
+                pieceToRemove = opponentPlayer.from;
+                yield return StartCoroutine("removeAIPiece");
+            }
+
+            changePlayer();
         }
-
-        changePlayer();
+        else
+        {
+            yield return new WaitWhile(() => isDraw);
+            yield return StartCoroutine("executeAIMovePhaseOne");
+        }
+       
     }
 
     #endregion
@@ -663,8 +671,6 @@ public class App : Photon.PunBehaviour
 
             yield return StartCoroutine(opponentMovePiece());
             checkGameOver();
-
-
         }
         
     }
@@ -805,47 +811,54 @@ public class App : Photon.PunBehaviour
 
     IEnumerator executeAIMovePhaseTwo()
     {
-        from = opponentPlayer.from;
-        to = opponentPlayer.to;
-
-        Debug.Log("AI moving from: " + from);
-        Debug.Log("AI moving to:" + to);
-
-        positionIndex = to + 1;
-
-        //place the piece and update the gameboard
-        Game.gameInstance.moveOpponentPiece(from, to);
-
-
-        startPosition = piecesPositions[from];
-        endPosition = GameObject.Find(positionIndex.ToString());
-        animationPhaseTwo(startPosition, startPosition, endPosition);
-
-        piecesPositions[to] = piecesPositions[from];
-        piecesPositions[from] = null;
-
-        foreach (GameObject piece in opponentPieces)
+        if (!isDraw)
         {
-            if (piece != null && piece.GetComponent<GamePiece>().location == from + 1)
+            from = opponentPlayer.from;
+            to = opponentPlayer.to;
+
+            Debug.Log("AI moving from: " + from);
+            Debug.Log("AI moving to:" + to);
+
+            positionIndex = to + 1;
+
+            //place the piece and update the gameboard
+            Game.gameInstance.moveOpponentPiece(from, to);
+
+
+            startPosition = piecesPositions[from];
+            endPosition = GameObject.Find(positionIndex.ToString());
+            animationPhaseTwo(startPosition, startPosition, endPosition);
+
+            piecesPositions[to] = piecesPositions[from];
+            piecesPositions[from] = null;
+
+            foreach (GameObject piece in opponentPieces)
             {
-                piece.GetComponent<GamePiece>().location = to + 1;
-                break;
+                if (piece != null && piece.GetComponent<GamePiece>().location == from + 1)
+                {
+                    piece.GetComponent<GamePiece>().location = to + 1;
+                    break;
+                }
             }
-        }
 
-        printPieceLocations();
-        //check if the placement created a mill
-        if (Game.gameInstance.createdMill(to))
+            printPieceLocations();
+            //check if the placement created a mill
+            if (Game.gameInstance.createdMill(to))
+            {
+                Debug.Log("AI created a mill");
+
+                pieceToRemove = opponentPlayer.remove;
+                yield return StartCoroutine("removeAIPiece");
+            }
+
+            changePlayer();
+            print("AI move done");
+        }
+        else
         {
-            Debug.Log("AI created a mill");
-            
-            pieceToRemove = opponentPlayer.remove;
-            yield return StartCoroutine("removeAIPiece");
-        }
-
-        changePlayer();
-        print("AI move done");
-        
+            yield return new WaitWhile(() => isDraw);
+            yield return StartCoroutine("executeAIMovePhaseTwo");
+        }      
     }
 
 
@@ -1018,37 +1031,44 @@ public class App : Photon.PunBehaviour
 
     IEnumerator executeAIMovePhaseThree()
     {
-        from = opponentPlayer.from;
-        to = opponentPlayer.to;
-        Debug.Log("AI moving from: " + from);
-        Debug.Log("AI moving to:" + to);
-
-        positionIndex = to + 1;
-
-
-        //place the piece and update the gameboard
-        Game.gameInstance.moveOpponentPiece(from, to);
-
-        startPosition = piecesPositions[from];
-        endPosition = GameObject.Find(positionIndex.ToString());
-        animationPhaseOne(startPosition, startPosition, endPosition);
-
-        piecesPositions[to] = piecesPositions[from];
-        piecesPositions[from] = null;
-
-        //check if the placement created a mill
-        if (Game.gameInstance.createdMill(to))
+        if (!isDraw)
         {
-            Debug.Log("AI created a mill");
+            from = opponentPlayer.from;
+            to = opponentPlayer.to;
+            Debug.Log("AI moving from: " + from);
+            Debug.Log("AI moving to:" + to);
 
-            pieceToRemove = opponentPlayer.remove;
-            yield return StartCoroutine("removeAIPiece");
+            positionIndex = to + 1;
+
+
+            //place the piece and update the gameboard
+            Game.gameInstance.moveOpponentPiece(from, to);
+
+            startPosition = piecesPositions[from];
+            endPosition = GameObject.Find(positionIndex.ToString());
+            animationPhaseOne(startPosition, startPosition, endPosition);
+
+            piecesPositions[to] = piecesPositions[from];
+            piecesPositions[from] = null;
+
+            //check if the placement created a mill
+            if (Game.gameInstance.createdMill(to))
+            {
+                Debug.Log("AI created a mill");
+
+                pieceToRemove = opponentPlayer.remove;
+                yield return StartCoroutine("removeAIPiece");
+            }
+
+            changePlayer();
+            print("AI move done");
+
         }
-
-        changePlayer();
-        print("AI move done");
-
-     
+        else
+        {
+            yield return new WaitWhile(() => isDraw);
+            yield return StartCoroutine("executeAIMovePhaseThree");
+        }
     }
     #endregion
 
@@ -1315,16 +1335,11 @@ public class App : Photon.PunBehaviour
 
             StartCoroutine("executeAIMovePhaseThree");
         }
-
-
     }
-
-
 
     public void pauseGame()
     {
-      
-       foreach( GameObject boardSpace in boardSpaces2)
+          foreach( GameObject boardSpace in boardSpaces2)
         {
             boardSpace.SetActive(false);
         }
@@ -1337,7 +1352,6 @@ public class App : Photon.PunBehaviour
             boardSpace.SetActive(true);
         }
     }
-
 
     public void displayWinMessage()
     {
@@ -1379,9 +1393,6 @@ public class App : Photon.PunBehaviour
        // LeanTween.moveY(cupcakeTurnOff, cupcakeTurnOff.transform.position.y + 150, .3f).setDelay(.5f);
 
         LeanTween.move(lose, gameOverPosition.transform.position, .6f).setDelay(1.5f);
-
-
-
     }
 
     public void displayTieMessage()
@@ -1410,33 +1421,6 @@ public class App : Photon.PunBehaviour
             GetComponent<AudioSource>().mute = false;
         }
     }
-
-    public void enablePieces()
-    {
-        foreach (var piece in localPieces)
-        {
-            //enable game object 
-        }
-
-        foreach (var piece in opponentPieces)
-        {
-            //enable game object 
-        }
-    }
-
-    public void disablePieces()
-    {
-        foreach (var piece in localPieces)
-        {
-            //disable game object 
-        }
-
-        foreach (var piece in opponentPieces)
-        {
-            //disable game object 
-        }
-    }
-
    
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
@@ -1831,9 +1815,7 @@ public class App : Photon.PunBehaviour
             availableSpace.transform.position = piecePosition.transform.position;
             
         }
-
     }
-
 
     private void destroyAvailableMoves()
     {
