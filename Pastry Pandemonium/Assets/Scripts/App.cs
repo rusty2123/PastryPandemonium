@@ -87,13 +87,12 @@ public class App : Photon.PunBehaviour
             NetworkGameManager.moveEventsAdded = true;
         }
 
-        //resetBoard();
+        resetBoard();
 
         //initialize event system
 
         Board.boardInstance.initializeBoard();
 
-        //why do we have two variables for the same game object?
         gameInstance = GameObject.FindGameObjectWithTag("gameBoard");
         //DontDestroyOnLoad(gameInstance);
         boardInstance = GameObject.FindGameObjectWithTag("gameBoard");
@@ -102,7 +101,6 @@ public class App : Photon.PunBehaviour
 		lose = GameObject.Find ("lose");
         draw = GameObject.Find("draw");
         availableSpaceImage = GameObject.Find("availableSpace");
-        //shadow = GameObject.Find("shadow");
 
 		win.GetComponent<Renderer> ().enabled = false;
 		lose.GetComponent<Renderer> ().enabled = false;
@@ -113,7 +111,6 @@ public class App : Photon.PunBehaviour
         mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.3f);
         mainMenu.GetComponent<BoxCollider2D>().enabled = false;
 
-        //why do we need this variable? why can't we just use Player.isSinglePlayer?
         isSinglePlayer = Player.isSinglePlayer;
 
         localPlayer = gameObject.AddComponent<Player>();
