@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class RequestDrawPopup : MonoBehaviour {
 
-	public GameObject current;
+	public GameObject current, canvas;
 	public NetworkGameManager networkManager;
 	private GameObject menu;
     private App app = new App();
@@ -36,6 +36,7 @@ public class RequestDrawPopup : MonoBehaviour {
 			switch (current.name)
 			{
                 case "yesButton":
+					LeanTween.scale (current, new Vector3 (1.950775f, 1.950775f, 1.950775f), .05f);
 
                     networkManager.offerDraw();
                     menu.SetActive(false);
@@ -55,7 +56,7 @@ public class RequestDrawPopup : MonoBehaviour {
                     }
                     else
                     {
-                        // deny draw 
+						canvas.SetActive(true);
                     }
 				break;
 			case "noButton":
