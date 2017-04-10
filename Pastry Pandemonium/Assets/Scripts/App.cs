@@ -30,7 +30,7 @@ public class App : Photon.PunBehaviour
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
     public Text hintText;
     private GameObject destroyPosition, tempDestroy1, tempDestroy2, millPosition, millPosition2, millPosition3;
-	private GameObject win, lose, gameOverPosition, mainMenu, offTheBoard, draw;
+	private GameObject win, lose, gameOverPosition, mainMenu, offTheBoard, draw, drawRequested;
     public bool gameStarted = false;
 
     public NetworkGameManager networkManager;
@@ -107,6 +107,7 @@ public class App : Photon.PunBehaviour
         gameOverPosition = GameObject.Find("GameOverPosition");
         offTheBoard = GameObject.Find("offTheBoard");
         mainMenu = GameObject.Find("mainMenuButton");
+        drawRequested = GameObject.Find("drawRequested");
 
         mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.3f);
         mainMenu.GetComponent<BoxCollider2D>().enabled = false;
@@ -1421,7 +1422,7 @@ public class App : Photon.PunBehaviour
    
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
-        disconnected.GetComponentInChildren<Text>().text = "Opponent has disconnected";
+        //disconnected.GetComponentInChildren<Text>().text = "Opponent has disconnected";
         disableColliders();
         networkManager.LeaveRoom();
         disconnected.SetActive(true);
@@ -1642,7 +1643,9 @@ public class App : Photon.PunBehaviour
         }
         else if (eventCode == 7)
         {
+            Debug.Log("opponent offered draw");
             //opponent offered draw
+            drawRequested.SetActive(true);
         }
         else if (eventCode == 8)
         {
@@ -1661,7 +1664,6 @@ public class App : Photon.PunBehaviour
                 //opponent accepted
                 NetworkGameManager.drawAccepted = true;
             }
-            NetworkGameManager.drawResponseRecieved = true;
         }
     }
 

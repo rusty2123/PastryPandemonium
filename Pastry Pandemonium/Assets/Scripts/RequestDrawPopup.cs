@@ -37,6 +37,9 @@ public class RequestDrawPopup : MonoBehaviour {
 			{
                 case "yesButton":
 
+                    networkManager.offerDraw();
+                    menu.SetActive(false);
+
                     if (Game.gameInstance.isDraw())
                     {
                         if (App.isSinglePlayer)
@@ -46,8 +49,9 @@ public class RequestDrawPopup : MonoBehaviour {
 
                         // confirm draw and display draw message
                         networkManager.offerDraw();
+                        menu.SetActive(false);
                         //wait for response
-                        startCoroutine();
+                        //startCoroutine();
                     }
                     else
                     {
