@@ -631,9 +631,8 @@ public class App : Photon.PunBehaviour
             if (Game.gameInstance.createdMill(to))
             {
                 Debug.Log("AI a created mill");
-
-                //pieceToRemove = move[2];
-                pieceToRemove = opponentPlayer.from;
+                
+                pieceToRemove = opponentPlayer.remove;
                 yield return StartCoroutine("removeAIPiece");
             }
 

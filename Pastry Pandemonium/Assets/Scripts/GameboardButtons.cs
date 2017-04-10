@@ -112,27 +112,4 @@ public class GameboardButtons : MonoBehaviour {
 		 
 
 	}
-
-    /*private IEnumerator startCoroutine()
-    {
-        yield return StartCoroutine(getDrawResponse());
-    }
-
-    private IEnumerator getDrawResponse()
-    {
-        NetworkGameManager.drawResponseRecieved = false;
-
-        yield return new WaitUntil(() => NetworkGameManager.drawResponseRecieved);
-
-        NetworkGameManager.drawResponseRecieved = false;
-
-        if (NetworkGameManager.drawAccepted)
-        {
-            //draw
-        }
-        else if(!NetworkGameManager.drawAccepted)
-        {
-            //continue game
-        }
-    }*/
 }
