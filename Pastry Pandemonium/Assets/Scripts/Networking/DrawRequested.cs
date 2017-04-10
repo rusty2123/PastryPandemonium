@@ -5,7 +5,7 @@ using UnityEngine;
 public class DrawRequested : MonoBehaviour {
 
     public GameObject current;
-    private GameObject requestDrawPopup;
+    private GameObject requestDrawPopup, acceptButton, declineButton;
 
     public NetworkGameManager networkManager;
 
@@ -13,11 +13,25 @@ public class DrawRequested : MonoBehaviour {
 
     private void Awake()
     {
+        if (!NetworkGameManager.drawEventsAdded)
+        {
+            Debug.Log("opponent draw event added");
+            PhotonNetwork.OnEventCall += this.OnEvent;
+            NetworkGameManager.drawEventsAdded = true;
+        }
+
         requestDrawPopup = GameObject.Find("requestDrawPopup");
+        acceptButton = GameObject.Find("acceptButton");
+        declineButton = GameObject.Find("declineButton");
 
-        current.SetActive(false);
+        current.SetActive(true);
+
+        requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
+        acceptButton.transform.localScale = new Vector3(0, 0, 0);
+        declineButton.transform.localScale = new Vector3(0, 0, 0);
+
+        //current.SetActive(false);
     }
-
     public void OnMouseEnter()
     {
         //Scales menu options to indicate that you can click on them
@@ -40,8 +54,12 @@ public class DrawRequested : MonoBehaviour {
                     //send draw declined to opponent
                     networkManager.acceptDraw(1);
                     //make popup go away
-                    requestDrawPopup.SetActive(false);
-
+                    requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
+                    acceptButton.transform.localScale = new Vector3(0, 0, 0);
+                    declineButton.transform.localScale = new Vector3(0, 0, 0);
+                    //current.SetActive(false);
+                    acceptButton.SetActive(false);
+                    declineButton.SetActive(false);
                     break;
 
 
@@ -50,17 +68,43 @@ public class DrawRequested : MonoBehaviour {
                     //send draw declined to opponent
                     networkManager.acceptDraw(0);
                     //make popup go away
-                    requestDrawPopup.SetActive(false);
+                    requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
+                    acceptButton.transform.localScale = new Vector3(0, 0, 0);
+                    declineButton.transform.localScale = new Vector3(0, 0, 0);
+                    //current.SetActive(false);
+                    acceptButton.SetActive(false);
+                    declineButton.SetActive(false);
 
                     break;
             }
         }
     }
 
+    private void OnEvent(byte eventCode, object content, int senderid)
+    {
+        if (eventCode == 7)
+        {
+            Debug.Log("opponent offered draw");
+            //opponent offered draw
+            current.SetActive(true);
+            acceptButton.SetActive(true);
+            declineButton.SetActive(true);
+            requestDrawPopup.transform.localScale = new Vector3(1, 1, 1);
+            acceptButton.transform.localScale = new Vector3(1, 1, 1);
+            declineButton.transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
     // Use this for initialization
     void Start () {
-		
-	}
+        requestDrawPopup = GameObject.Find("requestDrawPopup");
+        acceptButton = GameObject.Find("acceptButton");
+        declineButton = GameObject.Find("declineButton");
+
+        requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
+        acceptButton.transform.localScale = new Vector3(0, 0, 0);
+        declineButton.transform.localScale = new Vector3(0, 0, 0);
+    }
 	
 	// Update is called once per frame
 	void Update () {

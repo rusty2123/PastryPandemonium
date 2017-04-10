@@ -30,7 +30,7 @@ public class App : Photon.PunBehaviour
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
     public Text hintText;
     private GameObject destroyPosition, tempDestroy1, tempDestroy2, millPosition, millPosition2, millPosition3;
-	private GameObject win, lose, gameOverPosition, mainMenu, offTheBoard, draw, drawRequested;
+	private GameObject win, lose, gameOverPosition, mainMenu, offTheBoard, draw;
     public bool gameStarted = false;
 
     public NetworkGameManager networkManager;
@@ -107,7 +107,6 @@ public class App : Photon.PunBehaviour
         gameOverPosition = GameObject.Find("GameOverPosition");
         offTheBoard = GameObject.Find("offTheBoard");
         mainMenu = GameObject.Find("mainMenuButton");
-        drawRequested = GameObject.Find("drawRequested");
 
         mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.3f);
         mainMenu.GetComponent<BoxCollider2D>().enabled = false;
@@ -1640,12 +1639,12 @@ public class App : Photon.PunBehaviour
         {
             isLocalPlayerTurn = true;
         }
-        else if (eventCode == 7)
-        {
-            Debug.Log("opponent offered draw");
-            //opponent offered draw
-            drawRequested.SetActive(true);
-        }
+        //else if (eventCode == 7)
+        //{
+        //    Debug.Log("opponent offered draw");
+        //    //opponent offered draw
+        //    drawRequested.SetActive(true);
+        //}
         else if (eventCode == 8)
         {
             //opponent replied to draw
@@ -1657,11 +1656,14 @@ public class App : Photon.PunBehaviour
             {
                 //opponent declined
                 NetworkGameManager.drawAccepted = false;
+                Debug.Log("opponent declined draw");
             }
             else if(selected[0] == 1)
             {
                 //opponent accepted
                 NetworkGameManager.drawAccepted = true;
+                isDraw = true;
+                Debug.Log("opponent accepted draw");
             }
         }
     }

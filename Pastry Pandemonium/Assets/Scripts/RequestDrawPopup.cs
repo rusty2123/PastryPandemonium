@@ -37,9 +37,6 @@ public class RequestDrawPopup : MonoBehaviour {
 			{
                 case "yesButton":
 
-                    networkManager.offerDraw();
-                    menu.SetActive(false);
-
                     if (Game.gameInstance.isDraw())
                     {
                         if (App.isSinglePlayer)

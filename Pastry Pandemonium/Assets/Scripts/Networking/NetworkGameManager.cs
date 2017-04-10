@@ -13,7 +13,7 @@ public class NetworkGameManager : Photon.PunBehaviour
     public static Player localPlayer, opponentPlayer;
     public static int placeIndex = 0, removeIndex = 0, moveFromIndex = 0, moveToIndex = 0, flyFromIndex = 0, flyToIndex = 0;
     public static bool localReady = false, opponentReady = false, moveEventsAdded = false, setupEventsAdded = false, readyEventsAdded = false,
-                       drawResponseRecieved = false, drawAccepted = false;
+                       drawEventsAdded = false, drawResponseRecieved = false, drawAccepted = false;
 
     #region Photon Messages
 
