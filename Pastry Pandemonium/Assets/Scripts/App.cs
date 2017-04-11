@@ -30,7 +30,7 @@ public class App : Photon.PunBehaviour
     public GameObject destroyBerry, destroyChip, destroyChocolate, destroyLemon, destroyRed, destroyWhite, destroyY2, destroy2;
     public Text hintText;
     private GameObject destroyPosition, tempDestroy1, tempDestroy2, millPosition, millPosition2, millPosition3;
-	private GameObject win, lose, gameOverPosition, mainMenu, offTheBoard, draw;
+	private GameObject win, lose, gameOverPosition, mainMenu, offTheBoard, draw, drawButton;
     public bool gameStarted = false;
 
     public NetworkGameManager networkManager;
@@ -100,6 +100,7 @@ public class App : Photon.PunBehaviour
 		win = GameObject.Find ("win");
 		lose = GameObject.Find ("lose");
         draw = GameObject.Find("draw");
+        drawButton = GameObject.Find("requestDraw");
         availableSpaceImage = GameObject.Find("availableSpace");
 
 		win.GetComponent<Renderer> ().enabled = false;
@@ -1277,7 +1278,8 @@ public class App : Photon.PunBehaviour
             mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
             shadow.GetComponent<Renderer>().enabled = false;
             mainMenu.GetComponent<BoxCollider2D>().enabled = true;
-
+            drawButton.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.3f);
+            drawButton.GetComponent<BoxCollider2D>().enabled = false; ;
         }
 
     }
