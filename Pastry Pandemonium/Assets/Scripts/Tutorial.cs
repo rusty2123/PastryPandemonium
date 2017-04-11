@@ -46,6 +46,7 @@ public class Tutorial : MonoBehaviour {
 
     private void defaultSetup()
     {
+		forwardArrow.GetComponent<Renderer> ().enabled = true;
         info.GetComponent<Renderer>().enabled = true;
         backArrow.GetComponent<Renderer>().enabled = false;
         mills.GetComponent<Renderer>().enabled = false;

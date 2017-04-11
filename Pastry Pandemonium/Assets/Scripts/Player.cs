@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
     void Awake()
     {
         movesSinceLastMillFormed = 0;
-        difficultyLevel = "easy";
     }
 
 
