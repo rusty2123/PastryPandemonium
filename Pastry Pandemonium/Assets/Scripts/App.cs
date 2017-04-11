@@ -1424,42 +1424,6 @@ public class App : Photon.PunBehaviour
             GetComponent<AudioSource>().mute = false;
         }
     }
-   
-    public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
-    {
-        //disconnected.GetComponentInChildren<Text>().text = "Opponent has disconnected";
-        disableColliders();
-        networkManager.LeaveRoom();
-        disconnected.SetActive(true);
-    }
-
-    public override void OnDisconnectedFromPhoton()
-    {
-        disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
-        disableColliders();
-        //networkManager.LeaveRoom();
-        PhotonNetwork.LeaveRoom();
-        MultiplayerSetup.selectedCharacter = "";
-        Player.characterLocalPlayer = "";
-        Player.characterOpponentPlayer = "";
-        NetworkGameManager.localReady = false;
-        NetworkGameManager.opponentReady = false;
-        disconnected.SetActive(true);
-    }
-
-    public void ReturnToLobby()
-    {
-        disconnected.SetActive(false);
-
-        if (PhotonNetwork.connected)
-        {
-            SceneManager.LoadScene("Lobby");
-        }
-        else
-        {
-            SceneManager.LoadScene("mainMenu");
-        }
-    }
 
     private void disableColliders()
     {
@@ -1529,6 +1493,7 @@ public class App : Photon.PunBehaviour
         clickedSecond = null;
         NetworkGameManager.placeIndex = 0; NetworkGameManager.removeIndex = 0; NetworkGameManager.moveFromIndex = 0; NetworkGameManager.moveToIndex = 0; NetworkGameManager.flyFromIndex = 0; NetworkGameManager.flyToIndex = 0;
         NetworkGameManager.localReady = false; NetworkGameManager.opponentReady = false;
+        NetworkGameManager.drawResponseRecieved = false; NetworkGameManager.drawAccepted = false;
         aiThreadRunning = false;
         aiMoveMade = false;
 }
@@ -1681,6 +1646,42 @@ public class App : Photon.PunBehaviour
         }
     }
 
+    public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+    {
+        //disconnected.GetComponentInChildren<Text>().text = "Opponent has disconnected";
+        disableColliders();
+        networkManager.LeaveRoom();
+        disconnected.SetActive(true);
+    }
+
+    public override void OnDisconnectedFromPhoton()
+    {
+        NetworkGameManager.opponentDisconnected = true;
+        disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
+        disableColliders();
+        //networkManager.LeaveRoom();
+        PhotonNetwork.LeaveRoom();
+        MultiplayerSetup.selectedCharacter = "";
+        Player.characterLocalPlayer = "";
+        Player.characterOpponentPlayer = "";
+        NetworkGameManager.localReady = false;
+        NetworkGameManager.opponentReady = false;
+        disconnected.SetActive(true);
+    }
+
+    public void ReturnToLobby()
+    {
+        disconnected.SetActive(false);
+
+        if (PhotonNetwork.connected)
+        {
+            SceneManager.LoadScene("Lobby");
+        }
+        else
+        {
+            SceneManager.LoadScene("mainMenu");
+        }
+    }
 
     IEnumerator waitForChangePlayer()
     {

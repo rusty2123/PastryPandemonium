@@ -13,7 +13,8 @@ public class NetworkGameManager : Photon.PunBehaviour
     public static Player localPlayer, opponentPlayer;
     public static int placeIndex = 0, removeIndex = 0, moveFromIndex = 0, moveToIndex = 0, flyFromIndex = 0, flyToIndex = 0;
     public static bool localReady = false, opponentReady = false, moveEventsAdded = false, setupEventsAdded = false, readyEventsAdded = false,
-                       drawEventsAdded = false, drawResponseRecieved = false, drawAccepted = false;
+                       drawEventsAdded = false, drawResponseRecieved = false, drawAccepted = false,
+                       youDisconnected = false, hostDisconnected = false, opponentDisconnected = false;
 
     #region Photon Messages
 
@@ -37,6 +38,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
     {
+        hostDisconnected = true;
         LeaveRoom();
         //disconnected.GetComponentInChildren<Text>().text = "Host has disconnected";
         //disableColliders();
@@ -45,6 +47,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public override void OnDisconnectedFromPhoton()
     {
+        youDisconnected = true;
         LeaveRoom();
         //disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
         //disableColliders();

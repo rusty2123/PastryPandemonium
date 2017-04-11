@@ -111,14 +111,6 @@ public class MultiplayerSetup : Photon.PunBehaviour
     {
         networkManager.LeaveRoom();
         disconnected.SetActive(false);
-        //if(PhotonNetwork.connected)
-        //{
-        //    SceneManager.LoadScene("Lobby");
-        //}
-        //else
-        //{
-        //    SceneManager.LoadScene("mainMenu");
-        //}
     }
 
     public void sendCharacterSelection(string character)

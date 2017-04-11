@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReadyButton : MonoBehaviour {
+public class ReadyButton : Photon.PunBehaviour
+{
 
     public GameObject checkBox, checkMark;
 
@@ -50,6 +51,11 @@ public class ReadyButton : MonoBehaviour {
         {
             //display connection problems
         }
+    }
+
+    public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+    {
+        checkMark.SetActive(false);
     }
 
     // Use this for initialization

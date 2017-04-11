@@ -8,7 +8,7 @@ public class Lobby : Photon.PunBehaviour
 {
     #region Public Variables
 
-    public GameObject roomList, disconnected;
+    public GameObject roomList, hostDisconnected, opponentDisconnected;
     public Button roomPrefab;
     public NetworkGameManager gameManager;
 
@@ -37,7 +37,26 @@ public class Lobby : Photon.PunBehaviour
         // #Critical
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.automaticallySyncScene = true;
-        disconnected.SetActive(false);
+
+        if (NetworkGameManager.hostDisconnected)
+        {
+            //pop-up
+            hostDisconnected.GetComponent<Text>().text = "Host has disconnected.";
+            hostDisconnected.SetActive(true);
+            //opponentDisconnected.SetActive(false);
+            NetworkGameManager.hostDisconnected = false;
+        }
+        else if (NetworkGameManager.opponentDisconnected && NetworkGameManager.youDisconnected)
+        {
+            //pop-up
+            opponentDisconnected.SetActive(true);
+            NetworkGameManager.opponentDisconnected = false;
+        }
+        else
+        {
+            opponentDisconnected.SetActive(false);
+            hostDisconnected.SetActive(false);
+        }
         clearRoomList();
         populateRoomList();
     }
@@ -198,22 +217,23 @@ public class Lobby : Photon.PunBehaviour
 
     public override void OnDisconnectedFromPhoton()
     {
-        disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
+        hostDisconnected.GetComponentInChildren<Text>().text = "You have disconnected";
         disableColliders();
         MultiplayerSetup.selectedCharacter = "";
         Player.characterLocalPlayer = "";
         Player.characterOpponentPlayer = "";
         NetworkGameManager.localReady = false;
         NetworkGameManager.opponentReady = false;
-        disconnected.SetActive(true);
+        hostDisconnected.SetActive(true);
     }
 
     public void ReturnToLobby()
     {
-        disconnected.SetActive(false);
+        hostDisconnected.SetActive(false);
+        opponentDisconnected.SetActive(false);
         if (PhotonNetwork.connected)
         {
-            SceneManager.LoadScene("Lobby");
+            //SceneManager.LoadScene("Lobby");
         }
         else
         {
