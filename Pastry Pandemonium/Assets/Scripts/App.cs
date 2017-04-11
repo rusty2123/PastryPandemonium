@@ -552,6 +552,7 @@ public class App : Photon.PunBehaviour
         if (!Player.isSinglePlayer)
         {
             networkManager.placePiece(placeIndex);
+            //changeTurnIndicator(true);
         }
 
         //play move animation
@@ -1294,6 +1295,10 @@ public class App : Photon.PunBehaviour
             {
                 Debug.Log("you won");
 				displayWinMessage ();
+                if(!isSinglePlayer)
+                {
+                    networkManager.sendWin();
+                }
             }
             else if (remainingLocal < 3 || !Game.gameInstance.playerCanMove())
             {
@@ -1566,7 +1571,7 @@ public class App : Photon.PunBehaviour
                 opponentIndex++;
                 outOfBoardOpponent--;
             }
-
+            //changeTurnIndicator(false);
         }
         //if eventCode is 1, then it's removePiece
         else if (eventCode == 1)
@@ -1658,13 +1663,19 @@ public class App : Photon.PunBehaviour
                 NetworkGameManager.drawAccepted = false;
                 Debug.Log("opponent declined draw");
             }
-            else if(selected[0] == 1)
+            else if (selected[0] == 1)
             {
                 //opponent accepted
                 NetworkGameManager.drawAccepted = true;
                 isDraw = true;
                 Debug.Log("opponent accepted draw");
+                displayTieMessage();
+                networkManager.acceptDraw(1);
             }
+        }
+        else if (eventCode == 9)
+        {
+            displayLossMessage();
         }
     }
 

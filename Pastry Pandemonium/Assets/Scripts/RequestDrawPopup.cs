@@ -38,22 +38,25 @@ public class RequestDrawPopup : MonoBehaviour {
                 case "yesButton":
 					LeanTween.scale (current, new Vector3 (1.950775f, 1.950775f, 1.950775f), .05f);
 
-                    if (Game.gameInstance.isDraw())
+                    if (!App.isSinglePlayer)
                     {
-                        if (App.isSinglePlayer)
-                        {
-                            SceneManager.LoadScene("MainMenu");
-                        }
-
-                        // confirm draw and display draw message
                         networkManager.offerDraw();
                         menu.SetActive(false);
-                        //wait for response
-                        //startCoroutine();
                     }
+
                     else
                     {
-						canvas.SetActive(true);
+                        if (Game.gameInstance.isDraw())
+                        {
+                            if (App.isSinglePlayer)
+                            {
+                                SceneManager.LoadScene("MainMenu");
+                            }
+                        }
+                        else
+                        {
+                            canvas.SetActive(true);
+                        }
                     }
 				break;
 			case "noButton":

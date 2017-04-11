@@ -27,7 +27,6 @@ public class BackButton : MonoBehaviour {
 
     public void OnMouseUp()
     {
-
         //Finds what option you clicked on
         if (backButton != null)
         {

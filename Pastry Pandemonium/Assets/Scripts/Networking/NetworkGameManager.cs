@@ -19,8 +19,42 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public override void OnLeftRoom()
     {
+        if (PhotonNetwork.connected)
+        {
+            SceneManager.LoadScene("Lobby");
+        }
+        else
+        {
+            SceneManager.LoadScene("mainMenu");
+        }
+        Debug.Log("leaving room");
+        MultiplayerSetup.selectedCharacter = "";
+        Player.characterLocalPlayer = "";
+        Player.characterOpponentPlayer = "";
+        localReady = false;
+        opponentReady = false;
+    }
+
+    public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
+    {
         LeaveRoom();
-        //SceneManager.LoadScene("Lobby");
+        //disconnected.GetComponentInChildren<Text>().text = "Host has disconnected";
+        //disableColliders();
+        //disconnected.SetActive(true);
+    }
+
+    public override void OnDisconnectedFromPhoton()
+    {
+        LeaveRoom();
+        //disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
+        //disableColliders();
+        //PhotonNetwork.LeaveRoom();
+        //MultiplayerSetup.selectedCharacter = "";
+        //Player.characterLocalPlayer = "";
+        //Player.characterOpponentPlayer = "";
+        //NetworkGameManager.localReady = false;
+        //NetworkGameManager.opponentReady = false;
+        //disconnected.SetActive(true);
     }
 
     public override void OnJoinedRoom()
@@ -74,21 +108,13 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public void LeaveRoom()
     {
-        Debug.Log("leaving room");
-        MultiplayerSetup.selectedCharacter = "";
-        Player.characterLocalPlayer = "";
-        Player.characterOpponentPlayer = "";
-        localReady = false;
-        opponentReady = false;
         PhotonNetwork.LeaveRoom();
-        //SceneManager.LoadScene("Lobby");
     }
 
     public void Disconnect()
     {
-        PhotonNetwork.LeaveRoom();
         PhotonNetwork.Disconnect();
-        SceneManager.LoadScene("mainMenu");
+        //SceneManager.LoadScene("mainMenu");
     }
 
     public void placePiece(int i)
@@ -164,6 +190,13 @@ public class NetworkGameManager : Photon.PunBehaviour
     {
         byte code = 8;
         byte[] content = new byte[] { (byte)decision };
+        PhotonNetwork.RaiseEvent(code, content, true, null);
+    }
+
+    public void sendWin()
+    {
+        byte code = 9;
+        byte[] content = new byte[] { };
         PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 

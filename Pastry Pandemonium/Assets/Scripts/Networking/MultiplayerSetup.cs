@@ -96,28 +96,6 @@ public class MultiplayerSetup : Photon.PunBehaviour
         Player.characterLocalPlayer = selectedCharacter;
     }
 
-    public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
-    {
-        disconnected.GetComponentInChildren<Text>().text = "Host has disconnected";
-        disableColliders();
-        networkManager.LeaveRoom();
-        disconnected.SetActive(true);
-    }
-
-    public override void OnDisconnectedFromPhoton()
-    {
-        disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
-        disableColliders();
-        //just added
-        PhotonNetwork.LeaveRoom();
-        MultiplayerSetup.selectedCharacter = "";
-        Player.characterLocalPlayer = "";
-        Player.characterOpponentPlayer = "";
-        NetworkGameManager.localReady = false;
-        NetworkGameManager.opponentReady = false;
-        disconnected.SetActive(true);
-    }
-
     private void disableColliders()
     {
         //disable all 2d colliders
@@ -131,15 +109,16 @@ public class MultiplayerSetup : Photon.PunBehaviour
 
     public void ReturnToLobby()
     {
+        networkManager.LeaveRoom();
         disconnected.SetActive(false);
-        if(PhotonNetwork.connected)
-        {
-            SceneManager.LoadScene("Lobby");
-        }
-        else
-        {
-            SceneManager.LoadScene("mainMenu");
-        }
+        //if(PhotonNetwork.connected)
+        //{
+        //    SceneManager.LoadScene("Lobby");
+        //}
+        //else
+        //{
+        //    SceneManager.LoadScene("mainMenu");
+        //}
     }
 
     public void sendCharacterSelection(string character)
