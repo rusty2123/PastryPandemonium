@@ -65,6 +65,9 @@ public class App : Photon.PunBehaviour
     private GameObject clickedFirst = null;
     private GameObject clickedSecond = null;
 
+    public AudioClip removeSound;
+    private AudioSource audioSource;
+
     //goal is to use selectedGamePiece to indicate which piece is clicked when deciding when to remove or move a piece
     public static int placeIndex, moveFromIndex, moveToIndex, flyFromIndex, flyToIndex, from, to, pieceToRemove, positionIndex;
 
@@ -80,6 +83,9 @@ public class App : Photon.PunBehaviour
     {
         disconnected.SetActive(false);
         updateHintText("");
+
+        audioSource = GetComponent<AudioSource>();
+
 
         if (!NetworkGameManager.moveEventsAdded)
         {
@@ -1892,7 +1898,7 @@ public class App : Photon.PunBehaviour
     private void animationRemove(GameObject gamePiece, GameObject player)
     {
         destroyPosition = gamePiece;
-
+        StartCoroutine(playRemoveSound(0f));
         Destroy(gamePiece);
 
         switch (player.name)
@@ -1935,10 +1941,23 @@ public class App : Photon.PunBehaviour
         tempDestroy1.transform.position = destroyPosition.transform.position;
 
         tempDestroy2.transform.position = destroyPosition.transform.position;
+        
+        Destroy(tempDestroy1, .7f);
+        StartCoroutine(playRemoveSound(.45f));
+        Destroy(tempDestroy2, 1.2f);
 
-        Destroy(tempDestroy1, .5f);
+        StartCoroutine(playRemoveSound(1.05f));
+    }
 
-        Destroy(tempDestroy2, 1f);
+
+    IEnumerator playRemoveSound(float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (Music.playSoundEffects)
+        {
+            audioSource.PlayOneShot(removeSound, .5f);
+        }
+
     }
 
 
