@@ -627,6 +627,7 @@ public class App : Photon.PunBehaviour
         //get move from ai
         if (Player.isSinglePlayer)
         {
+            yield return StartCoroutine(waitForSeconds(2));
             threadedAI();
             yield return StartCoroutine("waitForChangePlayer");
             yield return StartCoroutine(waitForSeconds(2));
@@ -1546,7 +1547,7 @@ public class App : Photon.PunBehaviour
     {
         Debug.Log("#1 begin");
 
-        if (!aiThreadRunning)
+        if (!aiThreadRunning && !gameOver)
         {
             aiThreadRunning = true;
             aiThread = new Thread(() => opponentPlayer.getThreadedAIMove(Board.boardInstance.getLocalPlayerBoard(), Board.boardInstance.getOpponentPlayerBoard()));

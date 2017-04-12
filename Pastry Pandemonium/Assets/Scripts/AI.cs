@@ -30,7 +30,10 @@ public class AI : MonoBehaviour
             computerBoardInt[i] = (computerBoard[i] ? 1 : 0);
         }
 
-        getAIMove(playerBoardInt, computerBoardInt, stage, difficultyInt, ref from, ref to, ref remove);
+        if (!App.gameOver)
+        {
+            getAIMove(playerBoardInt, computerBoardInt, stage, difficultyInt, ref from, ref to, ref remove);
+        }
 
         // move is a 0-23 scale, not a 1-24
         response[0] = from - 1;

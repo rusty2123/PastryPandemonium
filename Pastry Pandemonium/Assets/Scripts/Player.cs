@@ -41,14 +41,17 @@ public class Player : MonoBehaviour
     
     public void getThreadedAIMove(BitArray computer, BitArray player)
     {
-        Debug.Log("#2 begin");
-        int[] move = new int[3];
-        move = AI.move(player, computer, App.phase, difficultyLevel);
-        from = move[0];
-        to = move[1];
-        remove = move[2];
-        aiMadeMove = true;
-        Debug.Log("#2 end");
+        if (!App.gameOver)
+        {
+            Debug.Log("#2 begin");
+            int[] move = new int[3];
+            move = AI.move(player, computer, App.phase, difficultyLevel);
+            from = move[0];
+            to = move[1];
+            remove = move[2];
+            aiMadeMove = true;
+            Debug.Log("#2 end");
+        }
     }
 
 }
