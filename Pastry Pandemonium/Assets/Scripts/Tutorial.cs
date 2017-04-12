@@ -15,8 +15,12 @@ public class Tutorial : MonoBehaviour {
 
     public static int currentPage;
 
+    public AudioClip changePage;
+    private AudioSource audioSource;
+
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         menu = GameObject.Find("TutorialPopup");
         multiplayer = GameObject.FindGameObjectWithTag("multiplayer");
         tutorial = GameObject.FindGameObjectWithTag("tutorial");
@@ -155,8 +159,9 @@ public class Tutorial : MonoBehaviour {
     }
 
 
-    private void setTutorial(int currentPage)
+    IEnumerator setTutorial(int currentPage)
 	{
+        yield return new WaitForSeconds(.5f);
 		switch (currentPage) {
 
 		case 1:
@@ -234,22 +239,35 @@ public class Tutorial : MonoBehaviour {
 				exit.SetActive (true);
 				currentPage = 1;
                 defaultSetup();
+                LeanTween.scale(current, new Vector3(0.37f, 0.37f, 0.37f), .05f);
                 break;
 			case "forwardArrow":
 				if (currentPage < 5) {
 					++currentPage;
 				}
-                    setTutorial (currentPage);
+                    playChangePageSound();
+                    StartCoroutine(setTutorial(currentPage));
 				break;
 			case "backArrow":
 				if (currentPage > 1) {
 					--currentPage;
 				}
-                    setTutorial (currentPage);
+                    playChangePageSound();
+                    StartCoroutine(setTutorial(currentPage));
 				break;
 			default:
 				break;          
 			}
 		}
 	}
+
+
+    private void playChangePageSound()
+    {
+        if (Music.playSoundEffects)
+        {
+            audioSource.PlayOneShot(changePage, .25f);
+        }
+
+    }
 }

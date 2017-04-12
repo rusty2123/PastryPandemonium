@@ -54,7 +54,7 @@ public class MainMenuButton : MonoBehaviour {
     private void playSound()
     {
 
-        audioSource.PlayOneShot(menuClick, .5f);
+        audioSource.PlayOneShot(menuClick, 1.3f);
 
     }
 
