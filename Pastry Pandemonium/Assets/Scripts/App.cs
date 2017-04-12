@@ -919,7 +919,7 @@ public class App : Photon.PunBehaviour
         gamePiece.transform.position = startPosition.transform.position;
 
         
-        LeanTween.move(gamePiece, endPosition.transform.position, 2f).setEase(LeanTweenType.easeOutQuint).setDelay(0.3f);
+        LeanTween.move(gamePiece, endPosition.transform.position, 1.7f).setEase(LeanTweenType.easeOutQuint).setDelay(0.2f);
     }
 
     #endregion

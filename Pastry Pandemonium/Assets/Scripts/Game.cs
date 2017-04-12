@@ -221,7 +221,14 @@ public class Game : Photon.MonoBehaviour
     
     IEnumerator waitForMillAnimation(int item1, int item2, int item3)
     {
-        yield return new WaitForSeconds(3);
+        if (App.phase == 1 || App.phase == 3)
+        {
+            yield return new WaitForSeconds(3);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1.9f);
+        }
         a.animationCreatedMill(item1, item2, item3);
 
     }
