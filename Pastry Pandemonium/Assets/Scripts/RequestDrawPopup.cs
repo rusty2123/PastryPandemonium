@@ -55,10 +55,9 @@ public class RequestDrawPopup : MonoBehaviour {
                         }
                         else
                         {
-                            // canvas.SetActive(true);
+                            canvas.SetActive(true);
                             menu.SetActive(false);
-                            App.isDraw = false;
-                             app.resumeGame();
+							App.isDraw = false;
                         }
                     }
 				break;
@@ -67,6 +66,12 @@ public class RequestDrawPopup : MonoBehaviour {
 				menu.SetActive (false);
                 App.isDraw = false;
                 app.resumeGame();
+				break;
+			case "okButton":
+				canvas.SetActive (false);
+				App.isDraw = false;
+				app.resumeGame ();
+				LeanTween.scale (current, new Vector3 (1.950775f, 1.950775f, 1.950775f), .05f);
 				break;
 			default:
 				break;

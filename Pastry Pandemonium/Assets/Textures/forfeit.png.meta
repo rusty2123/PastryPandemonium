@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: b135b7f03f29b4dda943e0a635f443d8
-timeCreated: 1492010547
+guid: 6d016fcb7b71c44eb87eb1ed8405aad5
+timeCreated: 1492017798
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: background
-    21300002: forfeit
+    21300000: forfeit
+    21300002: background
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -61,8 +61,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Standalone
-    maxTextureSize: 4096
-    textureFormat: 4
+    maxTextureSize: 2048
+    textureFormat: 12
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -80,26 +80,26 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: background
+      name: forfeit
       rect:
         serializedVersion: 2
-        x: 82
-        y: 1110
-        width: 1335
-        height: 779
+        x: 81
+        y: 2062
+        width: 1339
+        height: 776
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: forfeit
+      name: background
       rect:
         serializedVersion: 2
-        x: 83
-        y: 2064
-        width: 1335
-        height: 772
+        x: 80
+        y: 1107
+        width: 1339
+        height: 783
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
