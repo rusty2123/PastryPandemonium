@@ -115,8 +115,8 @@ public class App : Photon.PunBehaviour
         offTheBoard = GameObject.Find("offTheBoard");
         mainMenu = GameObject.Find("mainMenuButton");
 
-        mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.3f);
-        mainMenu.GetComponent<BoxCollider2D>().enabled = false;
+      //  mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.3f);
+     //   mainMenu.GetComponent<BoxCollider2D>().enabled = false;
 
         isSinglePlayer = Player.isSinglePlayer;
 
@@ -1321,9 +1321,9 @@ public class App : Photon.PunBehaviour
         if (remainingOpponent < 3 || remainingLocal < 3 || !Game.gameInstance.playerCanMove() || !Game.gameInstance.opponentCanMove())
         {
             gameOver = true;
-            mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
+           // mainMenu.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
             shadow.GetComponent<Renderer>().enabled = false;
-            mainMenu.GetComponent<BoxCollider2D>().enabled = true;
+           // mainMenu.GetComponent<BoxCollider2D>().enabled = true;
             drawButton.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.3f);
             drawButton.GetComponent<BoxCollider2D>().enabled = false; ;
         }

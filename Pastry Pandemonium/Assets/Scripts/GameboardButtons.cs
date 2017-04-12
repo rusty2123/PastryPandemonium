@@ -58,11 +58,19 @@ public class GameboardButtons : MonoBehaviour {
 		switch (current.name) 
 		{
 		case "mainMenuButton":
-				if (!App.isSinglePlayer) {
-					networkManager.LeaveRoom ();
-					networkManager.Disconnect ();
-				}
-				SceneManager.LoadScene ("mainMenu");
+
+                if (App.gameOver)
+                {
+                    if (!App.isSinglePlayer)
+                    {
+                        networkManager.LeaveRoom();
+                        networkManager.Disconnect();
+                    }
+                    SceneManager.LoadScene("mainMenu");
+                }else
+                {
+                    canvas.SetActive(true);
+                }
 			break;
 		case "musicMute":
 				// turn off the music here

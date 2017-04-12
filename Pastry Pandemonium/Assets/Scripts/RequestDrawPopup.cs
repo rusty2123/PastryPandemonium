@@ -55,7 +55,10 @@ public class RequestDrawPopup : MonoBehaviour {
                         }
                         else
                         {
-                            canvas.SetActive(true);
+                            // canvas.SetActive(true);
+                            menu.SetActive(false);
+                            App.isDraw = false;
+                             app.resumeGame();
                         }
                     }
 				break;
