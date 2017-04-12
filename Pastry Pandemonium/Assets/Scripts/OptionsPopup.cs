@@ -13,17 +13,21 @@ public class OptionsPopup : MonoBehaviour {
 
 	private GameObject menu, singlePlayer, multiplayer, tutorial, options, help, exit;
 
-	private GameObject switchRight, switchLeft, offSwitch, onSwitch, effectsSwitch;
+	private GameObject switchRight, switchLeft, offSwitch, onSwitch, effectsSwitch, mute, unmute;
 
 	private void Awake()
 	{
-		menu = GameObject.Find ("OptionsPopup");
+        
+
+           menu = GameObject.Find ("OptionsPopup");
 		multiplayer = GameObject.FindGameObjectWithTag ("multiplayer");
 		tutorial = GameObject.FindGameObjectWithTag ("tutorial");
 		options = GameObject.FindGameObjectWithTag ("options");
 		singlePlayer = GameObject.FindGameObjectWithTag ("singleplayer");
 		help = GameObject.FindGameObjectWithTag ("help");
 		exit = GameObject.FindGameObjectWithTag ("exit");
+        mute = GameObject.Find("mute");
+        unmute = GameObject.Find("unmute");
 
 		switchRight = GameObject.Find ("switchRight");
 		switchLeft = GameObject.Find ("switchLeft");
@@ -31,9 +35,10 @@ public class OptionsPopup : MonoBehaviour {
 		offSwitch = GameObject.Find ("offSwitch");
 		onSwitch = GameObject.Find ("onSwitch");
 
+        music = Music.getInstance();
+       
 
-
-		if (Music.playSoundEffects) {
+        if (Music.playSoundEffects) {
 			offSwitch.GetComponent<Renderer> ().enabled = false;
 
 			onSwitch.GetComponent<Renderer> ().enabled = true;
@@ -72,9 +77,22 @@ public class OptionsPopup : MonoBehaviour {
 
 	}
 
+    public void Update()
+    {
+        if(slider.value == 0)
+        {
+            mute.GetComponent<Renderer>().enabled = true;
+            unmute.GetComponent<Renderer>().enabled = false;
+        }
+        else
+        {
+            unmute.GetComponent<Renderer>().enabled = true;
+            mute.GetComponent<Renderer>().enabled = false;
+        }
+    }
 
 
-	public void OnMouseUp()
+    public void OnMouseUp()
 	{
 
 		//Finds what option you clicked on
@@ -93,15 +111,19 @@ public class OptionsPopup : MonoBehaviour {
 
 				break;
 			case "mute":
-                    music = Music.getInstance();
+                   
                     if (music.vol.value == 0f)
                     {
                         music.vol.value = music.getLastVolume();
+                       // mute.GetComponent<Renderer>().enabled = false;
+                       // unmute.GetComponent<Renderer>().enabled = true;
                     }
                     else
                     {
                         music.setLastVolume(music.vol.value);
                         music.vol.value = 0f;
+                      //  mute.GetComponent<Renderer>().enabled = true;
+                      //  unmute.GetComponent<Renderer>().enabled = false;
                     }
                     slider.value = music.vol.value;
                     break;
