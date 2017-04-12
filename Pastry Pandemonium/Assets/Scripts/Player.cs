@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     public int from;
     public int to;
     public int remove;
+    public bool aiMadeMove;
 
     //AI levelset on single player menu
     public static string difficultyLevel = "easy"; 
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         movesSinceLastMillFormed = 0;
+        aiMadeMove = false;
     }
 
 
@@ -39,13 +41,14 @@ public class Player : MonoBehaviour
     
     public void getThreadedAIMove(BitArray computer, BitArray player)
     {
-        Debug.Log("getThreadedAIMove called");
+        Debug.Log("#2 begin");
         int[] move = new int[3];
         move = AI.move(player, computer, App.phase, difficultyLevel);
         from = move[0];
         to = move[1];
         remove = move[2];
-        App.aiMoveMade = true;
+        aiMadeMove = true;
+        Debug.Log("#2 end");
     }
 
 }

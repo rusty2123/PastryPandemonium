@@ -1353,29 +1353,35 @@ public class App : Photon.PunBehaviour
             //display draw message
         }
         //AI move has returned with a value and these will call the functions for each phase
-        if (!gameOver && isSinglePlayer && !isLocalPlayerTurn && phase == 1 && aiMoveMade)
+        if (!gameOver && isSinglePlayer && !isLocalPlayerTurn && phase == 1 && opponentPlayer.aiMadeMove)
         {
+            Debug.Log("#3 (1) begin");
             aiThread.Abort();
             aiThreadRunning = false;
-            aiMoveMade = false;
+            opponentPlayer.aiMadeMove = false;
 
             StartCoroutine("executeAIMovePhaseOne");
+            Debug.Log("#3 (1) end");
         }
-        if (!gameOver && isSinglePlayer && !isLocalPlayerTurn && phase == 2 && aiMoveMade)
+        if (!gameOver && isSinglePlayer && !isLocalPlayerTurn && phase == 2 && opponentPlayer.aiMadeMove)
         {
+            Debug.Log("#3 (2) begin");
             aiThread.Abort();
             aiThreadRunning = false;
-            aiMoveMade = false;
+            opponentPlayer.aiMadeMove = false;
 
             StartCoroutine("executeAIMovePhaseTwo");
+            Debug.Log("#3 (2) end");
         }
-        if (!gameOver && isSinglePlayer && !isLocalPlayerTurn && phase == 3 && aiMoveMade)
+        if (!gameOver && isSinglePlayer && !isLocalPlayerTurn && phase == 3 && opponentPlayer.aiMadeMove)
         {
+            Debug.Log("#3 (3) begin");
             aiThread.Abort();
             aiThreadRunning = false;
-            aiMoveMade = false;
+            opponentPlayer.aiMadeMove = false;
 
             StartCoroutine("executeAIMovePhaseThree");
+            Debug.Log("#3 (3) end");
         }
     }
 
@@ -1534,12 +1540,11 @@ public class App : Photon.PunBehaviour
         NetworkGameManager.localReady = false; NetworkGameManager.opponentReady = false;
         NetworkGameManager.drawResponseRecieved = false; NetworkGameManager.drawAccepted = false;
         aiThreadRunning = false;
-        aiMoveMade = false;
 }
 
     private void threadedAI()
     {
-        Debug.Log("threadedAI called");
+        Debug.Log("#1 begin");
 
         if (!aiThreadRunning)
         {
@@ -1547,6 +1552,7 @@ public class App : Photon.PunBehaviour
             aiThread = new Thread(() => opponentPlayer.getThreadedAIMove(Board.boardInstance.getLocalPlayerBoard(), Board.boardInstance.getOpponentPlayerBoard()));
             aiThread.Start();
         }
+        Debug.Log("#1 end");
     }
 
     #endregion
