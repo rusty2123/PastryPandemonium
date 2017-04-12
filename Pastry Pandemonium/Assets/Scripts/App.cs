@@ -154,6 +154,8 @@ public class App : Photon.PunBehaviour
         //if multiplayer
         else
 		{
+            setUpMultiplayerTurnIndicator();
+
             if (Player.firstPlayer)
             {
                 StartCoroutine(changeTurnIndicator(true));
@@ -184,6 +186,50 @@ public class App : Photon.PunBehaviour
             cupcakeTurnOff.transform.position = turnPositionRight.transform.position;
             muffinTurnOff.transform.position = turnPositionLeft.transform.position;
             firstPlayer = "cupcake";
+        }
+
+        cupcakeTurnOn.transform.position = new Vector3(cupcakeTurnOff.transform.position.x + 2,
+            cupcakeTurnOff.transform.position.y + 2,
+            cupcakeTurnOff.transform.position.z - 3f);
+
+        muffinTurnOn.transform.position = new Vector3(muffinTurnOff.transform.position.x - 10,
+            muffinTurnOff.transform.position.y + 5,
+            muffinTurnOff.transform.position.z - 3f);
+    }
+
+    private void setUpMultiplayerTurnIndicator()
+    {
+        muffinTurnOff = GameObject.Find("muffinTurnOff");
+        cupcakeTurnOff = GameObject.Find("cupcakeTurnOff");
+
+        if (Player.characterLocalPlayer.Contains("Muffin"))
+        {
+            muffinTurnOff.transform.position = turnPositionRight.transform.position;
+            cupcakeTurnOff.transform.position = turnPositionLeft.transform.position;
+
+            if (networkManager.isMasterClient())
+            {         
+                firstPlayer = "muffin";
+            }
+            else
+            {
+                firstPlayer = "cupcake";
+            }
+
+        }
+        else if(Player.characterLocalPlayer.Contains("Cupcake") && networkManager.isMasterClient())
+        {
+            cupcakeTurnOff.transform.position = turnPositionRight.transform.position;
+            muffinTurnOff.transform.position = turnPositionLeft.transform.position;
+
+            if (networkManager.isMasterClient())
+            {
+                firstPlayer = "cupcake";
+            }
+            else
+            {
+                firstPlayer = "muffin";
+            }
         }
 
         cupcakeTurnOn.transform.position = new Vector3(cupcakeTurnOff.transform.position.x + 2,
@@ -351,24 +397,11 @@ public class App : Photon.PunBehaviour
     {
         if (networkManager.isMasterClient())
         {
-        //    Debug.Log("starting game");
-        //    //for now host will always go second, and will play as red cupcakes
             isLocalPlayerTurn = true;
-        //    characterLocalPlayer = redCupcake;
-        //    setUpPiecesLocal(characterLocalPlayer);
-
-        //    characterOpponentPlayer = berryMuffin;
-        //    setUpPiecesOpponent(characterOpponentPlayer);
         }
         else
         {
-        //    //for now client will always go first, and will play as berry muffins
             isLocalPlayerTurn = false;
-        //    characterLocalPlayer = berryMuffin;
-        //    setUpPiecesLocal(characterLocalPlayer);
-
-        //    characterOpponentPlayer = redCupcake;
-        //    setUpPiecesOpponent(characterOpponentPlayer);
         }
 
         switch (Player.characterLocalPlayer)
@@ -579,6 +612,12 @@ public class App : Photon.PunBehaviour
        
         changePlayer();
         networkManager.changePlayer();
+
+        //turn indicator
+        if (networkManager.isMasterClient())
+            StartCoroutine(changeTurnIndicator(false));
+        else
+            StartCoroutine(changeTurnIndicator(false));
     }
 
     IEnumerator opponentPlacePiece()
@@ -1538,7 +1577,6 @@ public class App : Photon.PunBehaviour
                 opponentIndex++;
                 outOfBoardOpponent--;
             }
-            //changeTurnIndicator(false);
         }
         //if eventCode is 1, then it's removePiece
         else if (eventCode == 1)
@@ -1610,13 +1648,14 @@ public class App : Photon.PunBehaviour
         else if (eventCode == 4)
         {
             isLocalPlayerTurn = true;
+
+            //turn indicator
+            if (networkManager.isMasterClient())
+                StartCoroutine(changeTurnIndicator(true));
+            else
+                StartCoroutine(changeTurnIndicator(true));
         }
-        //else if (eventCode == 7)
-        //{
-        //    Debug.Log("opponent offered draw");
-        //    //opponent offered draw
-        //    drawRequested.SetActive(true);
-        //}
+
         else if (eventCode == 8)
         {
             //opponent replied to draw

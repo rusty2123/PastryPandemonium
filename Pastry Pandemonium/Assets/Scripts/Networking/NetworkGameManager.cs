@@ -38,6 +38,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
     {
+        Debug.Log("host switched");
         hostDisconnected = true;
         LeaveRoom();
         //disconnected.GetComponentInChildren<Text>().text = "Host has disconnected";

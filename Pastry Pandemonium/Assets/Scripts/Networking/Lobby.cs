@@ -25,7 +25,6 @@ public class Lobby : Photon.PunBehaviour
 
     #endregion
 
-
     #region MonoBehaviour CallBacks
 
 
@@ -43,7 +42,6 @@ public class Lobby : Photon.PunBehaviour
             //pop-up
             hostDisconnected.GetComponent<Text>().text = "Host has disconnected.";
             hostDisconnected.SetActive(true);
-            //opponentDisconnected.SetActive(false);
             NetworkGameManager.hostDisconnected = false;
         }
         else if (NetworkGameManager.opponentDisconnected && NetworkGameManager.youDisconnected)
