@@ -1357,6 +1357,8 @@ public class App : Photon.PunBehaviour
         if (isDraw)
         {
             Debug.Log("you drew");
+            displayTieMessage();
+            isDraw = false;
             //display draw message
         }
         //AI move has returned with a value and these will call the functions for each phase

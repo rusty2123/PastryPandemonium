@@ -50,7 +50,12 @@ public class RequestDrawPopup : MonoBehaviour {
                         {
                             if (App.isSinglePlayer)
                             {
-                                SceneManager.LoadScene("MainMenu");
+                                App.gameOver = true;
+                                menu.SetActive(false);
+                                App.isDraw = true;
+                                // app.displayTieMessage();
+
+                                //SceneManager.LoadScene("MainMenu");
                             }
                         }
                         else

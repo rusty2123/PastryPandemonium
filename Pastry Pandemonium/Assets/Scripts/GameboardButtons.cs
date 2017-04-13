@@ -108,7 +108,7 @@ public class GameboardButtons : MonoBehaviour {
         case "requestDraw":
                 if (App.isSinglePlayer)
                 {
-                    App.isDraw = true;
+                   // App.isDraw = true;
                 }
                 canvas.SetActive(true);
                 app.pauseGame();
