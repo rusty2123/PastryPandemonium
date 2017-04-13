@@ -67,6 +67,8 @@ public class Tutorial : MonoBehaviour {
         piece2.GetComponent<Renderer>().enabled = false;
         piece3.GetComponent<Renderer>().enabled = false;
         shadow3.GetComponent<Renderer>().enabled = false;
+        forwardArrow.GetComponent<Collider2D>().enabled = true;
+        backArrow.GetComponent<Collider2D>().enabled = true;
     }
 	public void OnMouseEnter()
 	{
@@ -208,7 +210,7 @@ public class Tutorial : MonoBehaviour {
             shadow.GetComponent<Renderer>().enabled = false;
             piece2.GetComponent<Renderer>().enabled = true;
             InvokeRepeating ("animatePhaseTwo", 0.0001f, 5);
-            break;
+             break;
 		case 5:
 			moving.GetComponent<Renderer> ().enabled = false;
 			phaseTwo.GetComponent<Renderer> ().enabled = false;
@@ -235,6 +237,7 @@ public class Tutorial : MonoBehaviour {
 			switch (current.name) 
 			{
 			case "menuButton":
+                   
                 CancelInvoke();
                 menu.SetActive (false);
 				multiplayer.SetActive (true);
@@ -248,20 +251,24 @@ public class Tutorial : MonoBehaviour {
                 LeanTween.scale(current, new Vector3(0.37f, 0.37f, 0.37f), .05f);
                 break;
 			case "forwardArrow":
-				if (currentPage < 5) {
-					++currentPage;
-				}
-                    playChangePageSound();
-                    StartCoroutine(disableArrows());
-                    StartCoroutine(setTutorial(currentPage));
+                    if (currentPage < 5)
+                    {
+                        ++currentPage;
+
+                        playChangePageSound();
+                        StartCoroutine(disableArrows());
+                        StartCoroutine(setTutorial(currentPage));
+                    }
 				break;
 			case "backArrow":
-				if (currentPage > 1) {
-					--currentPage;
-				}
-                    playChangePageSound();
-                    StartCoroutine(setTutorial(currentPage));
-                    StartCoroutine(disableArrows());
+                    if (currentPage > 1)
+                    {
+                        --currentPage;
+
+                        playChangePageSound();
+                        StartCoroutine(setTutorial(currentPage));
+                        StartCoroutine(disableArrows());
+                    }
                     break;
 			default:
 				break;          
@@ -274,7 +281,7 @@ public class Tutorial : MonoBehaviour {
     {
         if (Music.playSoundEffects)
         {
-            audioSource.PlayOneShot(changePage, .25f);
+            audioSource.PlayOneShot(changePage, .5f);
         }
 
     }
