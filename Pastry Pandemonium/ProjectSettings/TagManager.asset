@@ -19,6 +19,8 @@ TagManager:
   - volSlider
   - character
   - gameSpaces
+  - music
+  - slider
   layers:
   - Default
   - TransparentFX

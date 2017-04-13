@@ -4396,8 +4396,8 @@ GameObject:
   - component: {fileID: 1103739615}
   - component: {fileID: 1103739614}
   m_Layer: 0
-  m_Name: music
-  m_TagString: Untagged
+  m_Name: music2
+  m_TagString: music
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6780,9 +6780,10 @@ GameObject:
   - component: {fileID: 1629645880}
   - component: {fileID: 1629645879}
   - component: {fileID: 1629645878}
+  - component: {fileID: 1629645881}
   m_Layer: 5
   m_Name: volSlider
-  m_TagString: Untagged
+  m_TagString: slider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6862,6 +6863,17 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1629645881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1629645876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23b9d6375c561449db1e97800043538b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1632589249
 GameObject:
   m_ObjectHideFlags: 0
@@ -7358,6 +7370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1741763009}
   - component: {fileID: 1741763010}
+  - component: {fileID: 1741763011}
   m_Layer: 5
   m_Name: Slider
   m_TagString: volSlider
@@ -7445,6 +7458,17 @@ MonoBehaviour:
         m_CallState: 1
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1741763011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1741763008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23b9d6375c561449db1e97800043538b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1743704858
 GameObject:
   m_ObjectHideFlags: 0
