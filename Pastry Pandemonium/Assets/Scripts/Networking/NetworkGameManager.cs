@@ -14,7 +14,7 @@ public class NetworkGameManager : Photon.PunBehaviour
     public static int placeIndex = 0, removeIndex = 0, moveFromIndex = 0, moveToIndex = 0, flyFromIndex = 0, flyToIndex = 0;
     public static bool localReady = false, opponentReady = false, moveEventsAdded = false, setupEventsAdded = false, readyEventsAdded = false,
                        drawEventsAdded = false, drawResponseRecieved = false, drawAccepted = false,
-                       youDisconnected = false, hostDisconnected = false, opponentDisconnected = false;
+                       youDisconnected = false, hostDisconnected = false, opponentDisconnected = false, inRoom = false;
 
     #region Photon Messages
 
@@ -36,12 +36,13 @@ public class NetworkGameManager : Photon.PunBehaviour
         Player.characterOpponentPlayer = "";
         localReady = false;
         opponentReady = false;
+        inRoom = false;
     }
 
     public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
     {
         Debug.Log("host switched");
-        hostDisconnected = true;
+        //hostDisconnected = true;
         LeaveRoom();
     }
 
@@ -53,6 +54,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public override void OnJoinedRoom()
     {
+        inRoom = true;
         SceneManager.LoadScene("Room");
     }
 
@@ -102,7 +104,8 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public void LeaveRoom()
     {
-        PhotonNetwork.LeaveRoom();
+        if(inRoom)
+            PhotonNetwork.LeaveRoom();
     }
 
     public void Disconnect()
@@ -174,6 +177,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public void offerDraw()
     {
+        Debug.Log("offer draw");
         byte code = 7;
         byte[] content = new byte[] {};
         PhotonNetwork.RaiseEvent(code, content, true, null);
@@ -181,6 +185,7 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public void acceptDraw(int decision)
     {
+        Debug.Log("accept/decline draw");
         byte code = 8;
         byte[] content = new byte[] { (byte)decision };
         PhotonNetwork.RaiseEvent(code, content, true, null);

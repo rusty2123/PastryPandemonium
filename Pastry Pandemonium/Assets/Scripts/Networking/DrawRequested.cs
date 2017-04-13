@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DrawRequested : MonoBehaviour {
 
-    public GameObject current;
-    private GameObject requestDrawPopup, acceptButton, declineButton;
+    public GameObject requestDrawPopup, current;
+    private GameObject acceptButton, declineButton;
 
     public NetworkGameManager networkManager;
 
@@ -21,14 +21,25 @@ public class DrawRequested : MonoBehaviour {
         }
 
         requestDrawPopup = GameObject.Find("requestDrawPopup");
+        //requestDrawPopup.SetActive(false);
+        //requestDrawPopup = GameObject.Find("drawRequested");
         acceptButton = GameObject.Find("acceptButton");
         declineButton = GameObject.Find("declineButton");
 
-        current.SetActive(true);
+        //current.SetActive(true);
 
-        requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
-        acceptButton.transform.localScale = new Vector3(0, 0, 0);
-        declineButton.transform.localScale = new Vector3(0, 0, 0);
+        //requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
+        //acceptButton.transform.localScale = new Vector3(0, 0, 0);
+        //declineButton.transform.localScale = new Vector3(0, 0, 0);
+
+        current.GetComponent<Collider2D>().enabled = false;
+        acceptButton.GetComponent<Collider2D>().enabled = false;
+        declineButton.GetComponent<Collider2D>().enabled = false;
+
+        current.GetComponent<Renderer>().enabled = false;
+        acceptButton.GetComponent<Renderer>().enabled = false;
+        declineButton.GetComponent<Renderer>().enabled = false;
+        requestDrawPopup.GetComponent<Renderer>().enabled = false;
 
         //current.SetActive(false);
     }
@@ -54,12 +65,28 @@ public class DrawRequested : MonoBehaviour {
                     //send draw declined to opponent
                     networkManager.acceptDraw(1);
                     //make popup go away
-                    requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
-                    acceptButton.transform.localScale = new Vector3(0, 0, 0);
-                    declineButton.transform.localScale = new Vector3(0, 0, 0);
+                    //requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
+                    //acceptButton.transform.localScale = new Vector3(0, 0, 0);
+                    //declineButton.transform.localScale = new Vector3(0, 0, 0);
                     //current.SetActive(false);
-                    acceptButton.SetActive(false);
-                    declineButton.SetActive(false);
+                    //acceptButton.SetActive(false);
+                    //declineButton.SetActive(false);
+
+                    current.GetComponent<Collider2D>().enabled = false;
+                    acceptButton.GetComponent<Collider2D>().enabled = false;
+                    declineButton.GetComponent<Collider2D>().enabled = false;
+
+                    current.GetComponent<Renderer>().enabled = false;
+                    acceptButton.GetComponent<Renderer>().enabled = false;
+                    declineButton.GetComponent<Renderer>().enabled = false;
+                    requestDrawPopup.GetComponent<Renderer>().enabled = false;
+
+                    requestDrawPopup.SetActive(false);
+
+
+                    App.gameOver = true;
+                    App.isDraw = true;
+                    networkManager.LeaveRoom();
                     break;
 
 
@@ -68,12 +95,23 @@ public class DrawRequested : MonoBehaviour {
                     //send draw declined to opponent
                     networkManager.acceptDraw(0);
                     //make popup go away
-                    requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
-                    acceptButton.transform.localScale = new Vector3(0, 0, 0);
-                    declineButton.transform.localScale = new Vector3(0, 0, 0);
+                    //requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
+                    //acceptButton.transform.localScale = new Vector3(0, 0, 0);
+                    //declineButton.transform.localScale = new Vector3(0, 0, 0);
                     //current.SetActive(false);
-                    acceptButton.SetActive(false);
-                    declineButton.SetActive(false);
+                    //acceptButton.SetActive(false);
+                    //declineButton.SetActive(false);
+
+                    current.GetComponent<Collider2D>().enabled = false;
+                    acceptButton.GetComponent<Collider2D>().enabled = false;
+                    declineButton.GetComponent<Collider2D>().enabled = false;
+
+                    current.GetComponent<Renderer>().enabled = false;
+                    acceptButton.GetComponent<Renderer>().enabled = false;
+                    declineButton.GetComponent<Renderer>().enabled = false;
+                    requestDrawPopup.GetComponent<Renderer>().enabled = false;
+
+                    requestDrawPopup.SetActive(false);
 
                     break;
             }
@@ -86,24 +124,35 @@ public class DrawRequested : MonoBehaviour {
         {
             Debug.Log("opponent offered draw");
             //opponent offered draw
-            current.SetActive(true);
-            acceptButton.SetActive(true);
-            declineButton.SetActive(true);
-            requestDrawPopup.transform.localScale = new Vector3(1, 1, 1);
-            acceptButton.transform.localScale = new Vector3(1, 1, 1);
-            declineButton.transform.localScale = new Vector3(1, 1, 1);
+            //current.SetActive(true);
+            //acceptButton.SetActive(true);
+            //declineButton.SetActive(true);
+            //requestDrawPopup.transform.localScale = new Vector3(1, 1, 1);
+            //acceptButton.transform.localScale = new Vector3(1, 1, 1);
+            //declineButton.transform.localScale = new Vector3(1, 1, 1);
+
+            current.GetComponent<Renderer>().enabled = true;
+            acceptButton.GetComponent<Renderer>().enabled = true;
+            declineButton.GetComponent<Renderer>().enabled = true;
+
+            current.GetComponent<Renderer>().enabled = true;
+            acceptButton.GetComponent<Renderer>().enabled = true;
+            declineButton.GetComponent<Renderer>().enabled = true;
+            requestDrawPopup.GetComponent<Renderer>().enabled = true;
+
+            requestDrawPopup.SetActive(true);
         }
     }
 
     // Use this for initialization
     void Start () {
-        requestDrawPopup = GameObject.Find("requestDrawPopup");
-        acceptButton = GameObject.Find("acceptButton");
-        declineButton = GameObject.Find("declineButton");
+        //requestDrawPopup = GameObject.Find("requestDrawPopup");
+        //acceptButton = GameObject.Find("acceptButton");
+        //declineButton = GameObject.Find("declineButton");
 
-        requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
-        acceptButton.transform.localScale = new Vector3(0, 0, 0);
-        declineButton.transform.localScale = new Vector3(0, 0, 0);
+        //requestDrawPopup.transform.localScale = new Vector3(0, 0, 0);
+        //acceptButton.transform.localScale = new Vector3(0, 0, 0);
+        //declineButton.transform.localScale = new Vector3(0, 0, 0);
     }
 	
 	// Update is called once per frame

@@ -61,14 +61,17 @@ public class GameboardButtons : MonoBehaviour {
 
                 if (App.gameOver)
                 {
+                    Debug.Log("you clicked main menu1");
                     if (!App.isSinglePlayer)
                     {
                         networkManager.LeaveRoom();
                         networkManager.Disconnect();
                     }
                     SceneManager.LoadScene("mainMenu");
-                }else
+                }
+                else
                 {
+                    Debug.Log("you clicked main menu2");
                     canvas.SetActive(true);
                 }
 			break;
