@@ -807,6 +807,11 @@ public class App : Photon.PunBehaviour
         printPieceLocations();
         changePlayer();
         networkManager.changePlayer();
+        //turn indicator
+        if (networkManager.isMasterClient())
+            StartCoroutine(changeTurnIndicator(false));
+        else
+            StartCoroutine(changeTurnIndicator(false));
     }
 
 
@@ -1027,6 +1032,11 @@ public class App : Photon.PunBehaviour
         Debug.Log("Local turn over");
         changePlayer();
         networkManager.changePlayer();
+        //turn indicator
+        if (networkManager.isMasterClient())
+            StartCoroutine(changeTurnIndicator(false));
+        else
+            StartCoroutine(changeTurnIndicator(false));
     }
 
     IEnumerator opponentFlyPiece()
