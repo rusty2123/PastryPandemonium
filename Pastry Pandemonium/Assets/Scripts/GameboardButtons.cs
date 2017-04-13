@@ -111,16 +111,16 @@ public class GameboardButtons : MonoBehaviour {
                    // App.isDraw = true;
                 }
                 canvas.SetActive(true);
-                app.pauseGame();
-			
-            break;
+                //app.pauseGame();
+
+                break;
 		default:
 			break;
 
-
 		}
-
-		 
+	 
 
 	}
+
+
 }
