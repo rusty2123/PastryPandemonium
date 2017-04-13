@@ -20,12 +20,14 @@ public class NetworkGameManager : Photon.PunBehaviour
 
     public override void OnLeftRoom()
     {
-        if (PhotonNetwork.connected)
+        if (PhotonNetwork.connected && !App.gameOver)
         {
+            Debug.Log("game over: " + App.gameOver);
             SceneManager.LoadScene("Lobby");
         }
-        else
+        else if(!PhotonNetwork.connected && !App.gameOver)
         {
+            Debug.Log("game over: " + App.gameOver);
             SceneManager.LoadScene("mainMenu");
         }
         Debug.Log("leaving room");
@@ -41,24 +43,12 @@ public class NetworkGameManager : Photon.PunBehaviour
         Debug.Log("host switched");
         hostDisconnected = true;
         LeaveRoom();
-        //disconnected.GetComponentInChildren<Text>().text = "Host has disconnected";
-        //disableColliders();
-        //disconnected.SetActive(true);
     }
 
     public override void OnDisconnectedFromPhoton()
     {
         youDisconnected = true;
         LeaveRoom();
-        //disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
-        //disableColliders();
-        //PhotonNetwork.LeaveRoom();
-        //MultiplayerSetup.selectedCharacter = "";
-        //Player.characterLocalPlayer = "";
-        //Player.characterOpponentPlayer = "";
-        //NetworkGameManager.localReady = false;
-        //NetworkGameManager.opponentReady = false;
-        //disconnected.SetActive(true);
     }
 
     public override void OnJoinedRoom()
@@ -118,7 +108,6 @@ public class NetworkGameManager : Photon.PunBehaviour
     public void Disconnect()
     {
         PhotonNetwork.Disconnect();
-        //SceneManager.LoadScene("mainMenu");
     }
 
     public void placePiece(int i)

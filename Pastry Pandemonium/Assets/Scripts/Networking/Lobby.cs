@@ -37,14 +37,14 @@ public class Lobby : Photon.PunBehaviour
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.automaticallySyncScene = true;
 
-        if (NetworkGameManager.hostDisconnected)
+        if (NetworkGameManager.hostDisconnected && !App.gameOver)
         {
             //pop-up
             hostDisconnected.GetComponent<Text>().text = "Host has disconnected.";
             hostDisconnected.SetActive(true);
             NetworkGameManager.hostDisconnected = false;
         }
-        else if (NetworkGameManager.opponentDisconnected && NetworkGameManager.youDisconnected)
+        else if (NetworkGameManager.opponentDisconnected && NetworkGameManager.youDisconnected && !App.gameOver)
         {
             //pop-up
             opponentDisconnected.SetActive(true);
