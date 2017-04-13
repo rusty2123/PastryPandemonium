@@ -1202,6 +1202,18 @@ public class App : Photon.PunBehaviour
         yield return new WaitWhile(() => removePiece);
         Debug.Log("Local removing opponent piece :" + pieceToRemove);
 
+        if (!GamePiece.validPiece)
+        {
+            updateHintText(falseRemoveHint);
+
+            removePiece = true;
+
+            yield return new WaitWhile(() => removePiece && GamePiece.validPiece != false);
+
+            updateHintText("");
+
+        }
+
         removePiece = false;
 
         //pieceToRemove is set by the user clicking on a piece in GamePiece.cs
