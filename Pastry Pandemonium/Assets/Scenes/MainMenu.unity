@@ -6379,7 +6379,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current: {fileID: 1595385215}
   musicSlider: {fileID: 1629645876}
-  slider: {fileID: 0}
+  slider: {fileID: 1741763010}
   music: {fileID: 0}
 --- !u!1 &1609631802
 GameObject:
@@ -7012,7 +7012,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current: {fileID: 1677552405}
   musicSlider: {fileID: 0}
-  slider: {fileID: 0}
+  slider: {fileID: 1741763010}
   music: {fileID: 0}
 --- !u!1 &1709330399
 GameObject:
@@ -7393,7 +7393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current: {fileID: 1743704858}
   musicSlider: {fileID: 0}
-  slider: {fileID: 0}
+  slider: {fileID: 1741763010}
   music: {fileID: 0}
 --- !u!1 &1766971844
 GameObject:
