@@ -1366,7 +1366,7 @@ public class App : Photon.PunBehaviour
 
     private void Update()
     {
-        checkMultiplayerGameOver();
+        //checkMultiplayerGameOver();
 
         //Debug.Log("update has been called");
         if (!showHelfulHints)
@@ -1724,28 +1724,31 @@ public class App : Photon.PunBehaviour
             {
                 //opponent accepted
                 NetworkGameManager.drawAccepted = true;
+                gameOver = true;
                 isDraw = true;
                 Debug.Log("opponent accepted draw");
-                displayTieMessage();
-                networkManager.acceptDraw(1);
-                gameOver = true;
+                networkManager.LeaveRoom();
+                //displayTieMessage();
+                //networkManager.acceptDraw(1);
             }
         }
         else if (eventCode == 9)
         {
             displayLossMessage();
             gameOver = true;
+            networkManager.LeaveRoom();
         }
     }
 
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
         //disconnected.GetComponentInChildren<Text>().text = "Opponent has disconnected";
-        disableColliders();
-        networkManager.LeaveRoom();
-
-        if(!gameOver)
+        if (!gameOver)
+        {
+            disableColliders();
+            networkManager.LeaveRoom();
             disconnected.SetActive(true);
+        }
     }
 
     public override void OnDisconnectedFromPhoton()
