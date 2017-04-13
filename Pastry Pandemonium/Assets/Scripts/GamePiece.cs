@@ -7,7 +7,7 @@ public class GamePiece : MonoBehaviour
 
     public GameObject gamePiece;
     public Game game = Game.gameInstance;
-
+    public static bool validPiece;
     public int location = 0;
 
     public string owner = "";
@@ -31,7 +31,7 @@ public class GamePiece : MonoBehaviour
 
     public void OnMouseDown()
     {
-        if (App.removePiece && owner == "opponent" 
+        if (App.removePiece && owner == "opponent"
             && (!game.piecePartOfMill(location) || game.allPiecesPartOfMill())
             && !App.placePiece && !App.moveToPiece && !App.moveFromPiece)
         {
@@ -40,9 +40,18 @@ public class GamePiece : MonoBehaviour
             {
                 Destroy(gamePiece);
             }
+
+            validPiece = true;
             App.removePiece = false;
         }
-        else if(App.moveFromPiece && owner == "local")
+        else if (App.removePiece && owner == "opponent"
+            && (game.piecePartOfMill(location) && game.allPiecesPartOfMill()))
+        {
+
+            validPiece = false;
+            App.removePiece = false;
+        }
+        else if (App.moveFromPiece && owner == "local")
         {
             //highlight gamePiece
             App.moveFromIndex = location;
@@ -56,4 +65,5 @@ public class GamePiece : MonoBehaviour
             Debug.Log("flying from location: " + App.flyFromIndex);
         }
     }
+
 }
