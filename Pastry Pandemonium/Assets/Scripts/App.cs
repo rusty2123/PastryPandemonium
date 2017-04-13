@@ -652,6 +652,9 @@ public class App : Photon.PunBehaviour
         placePiece = true;
 
         yield return new WaitWhile(() => placePiece);
+      
+        yield return new WaitForSeconds(.7f);
+     
     }
 
     IEnumerator executeAIMovePhaseOne()
@@ -860,6 +863,7 @@ public class App : Photon.PunBehaviour
 
     IEnumerator executeAIMovePhaseTwo()
     {
+        yield return new WaitForSeconds(3f);
         if (!isDraw)
         {
             from = opponentPlayer.from;
@@ -1212,6 +1216,18 @@ public class App : Photon.PunBehaviour
         yield return new WaitWhile(() => removePiece);
         Debug.Log("Local removing opponent piece :" + pieceToRemove);
 
+        if (!GamePiece.validPiece)
+        {
+            updateHintText(falseRemoveHint);
+
+            removePiece = true;
+
+            yield return new WaitWhile(() => removePiece && GamePiece.validPiece != false);
+
+            updateHintText("");
+
+        }
+
         removePiece = false;
 
         //pieceToRemove is set by the user clicking on a piece in GamePiece.cs
@@ -1367,6 +1383,8 @@ public class App : Photon.PunBehaviour
         if (isDraw)
         {
             Debug.Log("you drew");
+            displayTieMessage();
+            isDraw = false;
             //display draw message
         }
         //AI move has returned with a value and these will call the functions for each phase
