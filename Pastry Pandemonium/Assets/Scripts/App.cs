@@ -1393,6 +1393,8 @@ public class App : Photon.PunBehaviour
         if (isDraw)
         {
             Debug.Log("you drew");
+            drawButton.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.3f);
+            drawButton.GetComponent<BoxCollider2D>().enabled = false;
             displayTieMessage();
             isDraw = false;
             //display draw message
