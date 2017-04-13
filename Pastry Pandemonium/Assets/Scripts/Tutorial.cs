@@ -11,7 +11,7 @@ public class Tutorial : MonoBehaviour {
 						phaseOne, phaseTwo, phaseThree;
 
 
-	private GameObject startPosition, endPosition, piece, shadow, piece2;
+	private GameObject startPosition, endPosition, piece, shadow, piece2, piece3, shadow3;
 
     public static int currentPage;
 
@@ -31,6 +31,8 @@ public class Tutorial : MonoBehaviour {
         piece = GameObject.Find("redGamePiece");
         shadow = GameObject.Find("shadow");
         piece2 = GameObject.Find("redGamePiece2");
+        shadow3 = GameObject.Find("shadow3");
+        piece3 = GameObject.Find("redGamePiece3");
         currentPage = 1;
 
         info = GameObject.Find("generalInfo");
@@ -63,6 +65,8 @@ public class Tutorial : MonoBehaviour {
         piece.GetComponent<Renderer>().enabled = false;
         shadow.GetComponent<Renderer>().enabled = false;
         piece2.GetComponent<Renderer>().enabled = false;
+        piece3.GetComponent<Renderer>().enabled = false;
+        shadow3.GetComponent<Renderer>().enabled = false;
     }
 	public void OnMouseEnter()
 	{
@@ -142,19 +146,19 @@ public class Tutorial : MonoBehaviour {
         startPosition = GameObject.Find("phase3Start");
         endPosition = GameObject.Find("phase3End");
 
-        piece.transform.position = startPosition.transform.position;
-        shadow.transform.position = startPosition.transform.position;
+        piece3.transform.position = startPosition.transform.position;
+        shadow3.transform.position = startPosition.transform.position;
 
         //scale piece
-        LeanTween.scale(piece, new Vector3(.12f, .12f, .12f), .6f).setDelay(.5f);
-        LeanTween.scale(piece, new Vector3(0.09006101f, 0.09006101f, 0.09006101f), 1.3f).setDelay(2.9f);
+        LeanTween.scale(piece3, new Vector3(.12f, .12f, .12f), .6f).setDelay(.5f);
+        LeanTween.scale(piece3, new Vector3(0.09006101f, 0.09006101f, 0.09006101f), 1.3f).setDelay(2.9f);
 
         //move piece up and then to the endPosition
-        LeanTween.moveY(piece, startPosition.transform.position.y + 22f, .6f).setDelay(.5f);
-        LeanTween.move(piece, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
+        LeanTween.moveY(piece3, startPosition.transform.position.y + 22f, .6f).setDelay(.5f);
+        LeanTween.move(piece3, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.1f);
 
         //Move shadow
-        LeanTween.move(shadow, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.15f);
+        LeanTween.move(shadow3, endPosition.transform.position, 3f).setEase(LeanTweenType.easeInOutQuint).setDelay(1.15f);
 
     }
 
@@ -198,6 +202,8 @@ public class Tutorial : MonoBehaviour {
 			forwardArrow.GetComponent<Renderer> ().enabled = true;
 			phaseThree.GetComponent<Renderer> ().enabled = false;
 			phaseTwo.GetComponent<Renderer> ().enabled = true;
+            piece3.GetComponent<Renderer>().enabled = false;
+            shadow3.GetComponent<Renderer>().enabled = false;
             piece.GetComponent<Renderer>().enabled = false;
             shadow.GetComponent<Renderer>().enabled = false;
             piece2.GetComponent<Renderer>().enabled = true;
@@ -210,8 +216,8 @@ public class Tutorial : MonoBehaviour {
 			phaseThree.GetComponent<Renderer> ().enabled = true;
 			forwardArrow.GetComponent<Renderer> ().enabled = false;
             piece2.GetComponent<Renderer>().enabled = false;
-            piece.GetComponent<Renderer>().enabled = true;
-            shadow.GetComponent<Renderer>().enabled = true;
+            piece3.GetComponent<Renderer>().enabled = true;
+            shadow3.GetComponent<Renderer>().enabled = true;
             InvokeRepeating("animatePhaseThree", 0.0001f, 5);
             break;
 		default:
@@ -246,6 +252,7 @@ public class Tutorial : MonoBehaviour {
 					++currentPage;
 				}
                     playChangePageSound();
+                    StartCoroutine(disableArrows());
                     StartCoroutine(setTutorial(currentPage));
 				break;
 			case "backArrow":
@@ -254,7 +261,8 @@ public class Tutorial : MonoBehaviour {
 				}
                     playChangePageSound();
                     StartCoroutine(setTutorial(currentPage));
-				break;
+                    StartCoroutine(disableArrows());
+                    break;
 			default:
 				break;          
 			}
@@ -268,6 +276,19 @@ public class Tutorial : MonoBehaviour {
         {
             audioSource.PlayOneShot(changePage, .25f);
         }
+
+    }
+
+    IEnumerator disableArrows()
+    {
+        forwardArrow.GetComponent<Collider2D>().enabled = false;
+        backArrow.GetComponent<Collider2D>().enabled = false;
+
+        yield return new WaitForSeconds(1);
+
+        forwardArrow.GetComponent<Collider2D>().enabled = true;
+        backArrow.GetComponent<Collider2D>().enabled = true;
+
 
     }
 }
