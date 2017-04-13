@@ -37,6 +37,14 @@ public class Lobby : Photon.PunBehaviour
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.automaticallySyncScene = true;
 
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "MainMenu")
+        {
+            Disconnect();
+        }
+
+        Player.characterLocalPlayer = "";
+
         gameManager.LeaveRoom();
         App.gameOver = false;
         App.isDraw = false;
@@ -49,12 +57,14 @@ public class Lobby : Photon.PunBehaviour
             hostDisconnected.GetComponent<Text>().text = "Host has disconnected.";
             hostDisconnected.SetActive(true);
             NetworkGameManager.hostDisconnected = false;
+            NetworkGameManager.opponentDisconnected = false;
         }
         else if (NetworkGameManager.opponentDisconnected && NetworkGameManager.youDisconnected && !App.gameOver)
         {
             //pop-up
             Debug.Log("opponent has disconnected");
             opponentDisconnected.SetActive(true);
+            NetworkGameManager.hostDisconnected = false;
             NetworkGameManager.opponentDisconnected = false;
         }
         else
@@ -236,6 +246,8 @@ public class Lobby : Photon.PunBehaviour
     {
         hostDisconnected.SetActive(false);
         opponentDisconnected.SetActive(false);
+        NetworkGameManager.hostDisconnected = false;
+        NetworkGameManager.opponentDisconnected = false;
         if (PhotonNetwork.connected)
         {
             //SceneManager.LoadScene("Lobby");

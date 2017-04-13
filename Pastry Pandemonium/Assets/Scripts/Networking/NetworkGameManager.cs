@@ -25,6 +25,10 @@ public class NetworkGameManager : Photon.PunBehaviour
             Debug.Log("game over: " + App.gameOver);
             SceneManager.LoadScene("Lobby");
         }
+        else if(PhotonNetwork.connected && App.gameOver)
+        {
+
+        }
         else if(!PhotonNetwork.connected)
         {
             Debug.Log("game over: " + App.gameOver);
@@ -67,6 +71,16 @@ public class NetworkGameManager : Photon.PunBehaviour
     {
         inRoom = true;
         SceneManager.LoadScene("Room");
+        if(Player.characterOpponentPlayer.Contains("Muffin"))
+        {
+            Player.characterLocalPlayer = "redCupcake";
+            MultiplayerSetup.selectedCharacter = "redCupcake";
+        }
+        else if(Player.characterOpponentPlayer.Contains("Muffin"))
+        {
+            Player.characterLocalPlayer = "berryMuffin";
+            MultiplayerSetup.selectedCharacter = "berryMuffin";
+        }
     }
 
     //called when another player joins the room
@@ -94,6 +108,7 @@ public class NetworkGameManager : Photon.PunBehaviour
         opponentReady = false;
         localReady = false;
         Player.characterOpponentPlayer = "";
+
     }
 
     #endregion
@@ -202,10 +217,10 @@ public class NetworkGameManager : Photon.PunBehaviour
         PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 
-    public void sendWin()
+    public void sendWin(int win)
     {
         byte code = 9;
-        byte[] content = new byte[] { };
+        byte[] content = new byte[] { (byte)win };
         PhotonNetwork.RaiseEvent(code, content, true, null);
     }
 

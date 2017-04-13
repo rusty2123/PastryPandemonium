@@ -2490,6 +2490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 631092766}
+  networkManager: {fileID: 1160407420}
 --- !u!61 &631092769
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5700,6 +5701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: {fileID: 1389323385}
+  networkManager: {fileID: 0}
 --- !u!61 &1389323388
 BoxCollider2D:
   m_ObjectHideFlags: 0

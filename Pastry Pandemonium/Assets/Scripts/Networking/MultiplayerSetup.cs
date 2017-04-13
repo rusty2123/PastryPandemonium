@@ -202,7 +202,11 @@ public class MultiplayerSetup : Photon.PunBehaviour
                     Player.characterLocalPlayer = "redCupcake"; selectedCharacter = "redCupcake";
                 }
 
-                sendCharacterSelection(Player.characterLocalPlayer);
+                Scene currentScene = SceneManager.GetActiveScene();
+                if (currentScene.name == "Room")
+                {
+                    sendCharacterSelection(Player.characterLocalPlayer);
+                }
 
                 characters = GameObject.FindGameObjectsWithTag("character");
 
@@ -220,12 +224,25 @@ public class MultiplayerSetup : Photon.PunBehaviour
                         }
                     }
                 }
-            }
+           }
         }
     }
 	
 	// Update is called once per frame
 	void Update () {
 
+        if (!networkManager.isMasterClient())
+        {
+            if (Player.characterOpponentPlayer.Contains("Cupcake") && Player.characterLocalPlayer.Contains("Cupcake"))
+            {
+                Player.characterLocalPlayer = "berryMuffin"; selectedCharacter = "berryMuffin";
+                sendCharacterSelection("berryMuffin");
+            }
+            else if (Player.characterOpponentPlayer.Contains("Muffin") && Player.characterLocalPlayer.Contains("Muffin"))
+            {
+                Player.characterLocalPlayer = "redCupcake"; selectedCharacter = "redCupcake";
+                sendCharacterSelection("redCupcake");
+            }
+        }
     }
 }

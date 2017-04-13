@@ -65,7 +65,7 @@ public class GameboardButtons : MonoBehaviour {
                     if (!App.isSinglePlayer)
                     {
                         networkManager.LeaveRoom();
-                        networkManager.Disconnect();
+                        //networkManager.Disconnect();
                     }
                     SceneManager.LoadScene("mainMenu");
                 }

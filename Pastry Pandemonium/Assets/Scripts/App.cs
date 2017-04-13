@@ -1381,7 +1381,7 @@ public class App : Photon.PunBehaviour
 				displayWinMessage ();
                 if(!isSinglePlayer)
                 {
-                    networkManager.sendWin();
+                    networkManager.sendWin(1);
                 }
             }
             else if (remainingLocal < 3 || !Game.gameInstance.playerCanMove())
@@ -1739,8 +1739,20 @@ public class App : Photon.PunBehaviour
         }
         else if (eventCode == 9)
         {
-            displayLossMessage();
+            byte[] selected = (byte[])content;
+
             gameOver = true;
+
+            if (selected[0] == 1)
+            {
+                displayLossMessage();
+            }
+            else if(selected[0] == 0)
+            {
+                Debug.Log("you win!");
+                displayWinMessage();
+            }
+
             networkManager.LeaveRoom();
         }
     }
@@ -1750,6 +1762,7 @@ public class App : Photon.PunBehaviour
         //disconnected.GetComponentInChildren<Text>().text = "Opponent has disconnected";
         if (!gameOver)
         {
+            Debug.Log("testing");
             disableColliders();
             networkManager.LeaveRoom();
             disconnected.SetActive(true);
