@@ -53,10 +53,7 @@ public class GamePiece : MonoBehaviour
         }
         else if (App.moveFromPiece && owner == "local")
         {
-            //highlight gamePiece
-            App.moveFromIndex = location;
-            App.moveFromPiece = false;
-            Debug.Log("moving from location: " + App.moveFromIndex);
+            selectPiece();
         }
         else if (App.flyFromPiece && owner == "local")
         {
@@ -64,6 +61,16 @@ public class GamePiece : MonoBehaviour
             App.flyFromPiece = false;
             Debug.Log("flying from location: " + App.flyFromIndex);
         }
+    }
+
+
+    public void selectPiece()
+    {
+        //highlight gamePiece
+        App.moveToPiece = true;
+        App.moveFromIndex = location;
+        App.moveFromPiece = false;
+        Debug.Log("moving from location: " + App.moveFromIndex);
     }
 
 }
