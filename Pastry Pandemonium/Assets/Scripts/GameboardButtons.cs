@@ -36,7 +36,7 @@ public class GameboardButtons : MonoBehaviour {
 		switchHints.transform.position = hintsSwitchRight.transform.position;
 
 
-		Music musicInstance = Music.getInstance ();
+		Music2 musicInstance = Music2.getInstance ();
 
 		if (musicInstance.vol.value == 0f) {
 			onSwitchMusic.GetComponent<Renderer> ().enabled = false;

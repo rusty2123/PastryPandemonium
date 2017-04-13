@@ -37,6 +37,9 @@ public class Music2 : MonoBehaviour
             Destroy(this.gameObject);
         }
         DontDestroyOnLoad(this.gameObject);
+		
+
+
 
         instance = this;
     }
