@@ -58,7 +58,8 @@ public class ForfeitPopup : MonoBehaviour {
                             App.gameOver = true;
                             networkManager.sendWin(0);
                             Debug.Log("sent loss message");
-                            app.displayLossMessage();
+                            //app.displayLossMessage();
+                            App.remainingLocal = 2;
                             menu.SetActive(false);
                         }
                     }

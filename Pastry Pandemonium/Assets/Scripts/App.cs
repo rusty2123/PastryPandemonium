@@ -410,64 +410,87 @@ public class App : Photon.PunBehaviour
             isLocalPlayerTurn = false;
         }
 
-        switch (Player.characterLocalPlayer)
+        if (Player.characterLocalPlayer == "" || Player.characterOpponentPlayer == "")
         {
-		case "berryMuffin":
-				characterLocalPlayer = berryMuffin;
-				setUpPiecesLocal (characterLocalPlayer);
-                break;
-            case "chipMuffin":
-                characterLocalPlayer = chipMuffin;
-                setUpPiecesLocal(characterLocalPlayer);
-                break;
-            case "lemonMuffin":
-                characterLocalPlayer = lemonMuffin;
-                setUpPiecesLocal(characterLocalPlayer);
-                break;
-            case "chocolateCupcake":
-                characterLocalPlayer = chocolateCupcake;
-                setUpPiecesLocal(characterLocalPlayer);
-                break;
-            case "redCupcake":
+            if (networkManager.isMasterClient())
+            {
                 characterLocalPlayer = redCupcake;
                 setUpPiecesLocal(characterLocalPlayer);
-                break;
-            case "whiteCupcake":
-                characterLocalPlayer = whiteCupcake;
-                setUpPiecesLocal(characterLocalPlayer);
-                break;
-            default:
-                break;
-        }
-        switch (Player.characterOpponentPlayer)
-        {
-            case "berryMuffin":
+
                 characterOpponentPlayer = berryMuffin;
                 setUpPiecesOpponent(characterOpponentPlayer);
-                break;
-            case "chipMuffin":
-                characterOpponentPlayer = chipMuffin;
-                setUpPiecesOpponent(characterOpponentPlayer);
-                break;
-            case "lemonMuffin":
-                characterOpponentPlayer = lemonMuffin;
-                setUpPiecesOpponent(characterOpponentPlayer);
-                break;
-            case "chocolateCupcake":
-                characterOpponentPlayer = chocolateCupcake;
-                setUpPiecesOpponent(characterOpponentPlayer);
-                break;
-            case "redCupcake":
+            }
+            else
+            {
+                characterLocalPlayer = berryMuffin;
+                setUpPiecesLocal(characterLocalPlayer);
+
                 characterOpponentPlayer = redCupcake;
                 setUpPiecesOpponent(characterOpponentPlayer);
-                break;
-            case "whiteCupcake":
-                characterOpponentPlayer = whiteCupcake;
-                setUpPiecesOpponent(characterOpponentPlayer);
-                break;
-            default:
-                break;
+            }
+        }
 
+        else
+        {
+            switch (Player.characterLocalPlayer)
+            {
+                case "berryMuffin":
+                    characterLocalPlayer = berryMuffin;
+                    setUpPiecesLocal(characterLocalPlayer);
+                    break;
+                case "chipMuffin":
+                    characterLocalPlayer = chipMuffin;
+                    setUpPiecesLocal(characterLocalPlayer);
+                    break;
+                case "lemonMuffin":
+                    characterLocalPlayer = lemonMuffin;
+                    setUpPiecesLocal(characterLocalPlayer);
+                    break;
+                case "chocolateCupcake":
+                    characterLocalPlayer = chocolateCupcake;
+                    setUpPiecesLocal(characterLocalPlayer);
+                    break;
+                case "redCupcake":
+                    characterLocalPlayer = redCupcake;
+                    setUpPiecesLocal(characterLocalPlayer);
+                    break;
+                case "whiteCupcake":
+                    characterLocalPlayer = whiteCupcake;
+                    setUpPiecesLocal(characterLocalPlayer);
+                    break;
+                default:
+                    break;
+            }
+            switch (Player.characterOpponentPlayer)
+            {
+                case "berryMuffin":
+                    characterOpponentPlayer = berryMuffin;
+                    setUpPiecesOpponent(characterOpponentPlayer);
+                    break;
+                case "chipMuffin":
+                    characterOpponentPlayer = chipMuffin;
+                    setUpPiecesOpponent(characterOpponentPlayer);
+                    break;
+                case "lemonMuffin":
+                    characterOpponentPlayer = lemonMuffin;
+                    setUpPiecesOpponent(characterOpponentPlayer);
+                    break;
+                case "chocolateCupcake":
+                    characterOpponentPlayer = chocolateCupcake;
+                    setUpPiecesOpponent(characterOpponentPlayer);
+                    break;
+                case "redCupcake":
+                    characterOpponentPlayer = redCupcake;
+                    setUpPiecesOpponent(characterOpponentPlayer);
+                    break;
+                case "whiteCupcake":
+                    characterOpponentPlayer = whiteCupcake;
+                    setUpPiecesOpponent(characterOpponentPlayer);
+                    break;
+                default:
+                    break;
+
+            }
         }
 
 
@@ -1745,12 +1768,14 @@ public class App : Photon.PunBehaviour
 
             if (selected[0] == 1)
             {
-                displayLossMessage();
+                //displayLossMessage();
+                remainingLocal = 2;
             }
             else if(selected[0] == 0)
             {
                 Debug.Log("you win!");
-                displayWinMessage();
+                //displayWinMessage();
+                remainingOpponent = 2;
             }
 
             networkManager.LeaveRoom();
