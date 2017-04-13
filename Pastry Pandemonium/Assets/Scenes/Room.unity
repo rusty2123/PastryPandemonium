@@ -419,6 +419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backButton: {fileID: 538935980}
   gameLobby: {fileID: 799351491}
+  networkManager: {fileID: 2117881540}
 --- !u!1 &585644939
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,6 +647,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomList: {fileID: 0}
+  hostDisconnected: {fileID: 0}
+  opponentDisconnected: {fileID: 0}
   roomPrefab: {fileID: 0}
   gameManager: {fileID: 0}
 --- !u!4 &799351492

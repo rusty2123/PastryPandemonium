@@ -1639,13 +1639,16 @@ public class App : Photon.PunBehaviour
 
             Debug.Log("recieved remove: " + NetworkGameManager.removeIndex);
 
+            //animationRemove(piecesPositions[NetworkGameManager.removeIndex], characterLocalPlayer);
+            //piecesPositions[pieceToRemove] = null;
+
             foreach (GameObject gameObj in localPieces)
             {
                 if (gameObj != null && gameObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
                 {
                     animationRemove(gameObj, characterLocalPlayer);
                     gameObj.GetComponent<GamePiece>().location = 0;
-                    Destroy(gameObj);
+                    //Destroy(gameObj);
                     Game.gameInstance.removeLocalPiece(NetworkGameManager.removeIndex);
                     Debug.Log("removed.");
                     break;
@@ -1755,11 +1758,11 @@ public class App : Photon.PunBehaviour
 
     public override void OnDisconnectedFromPhoton()
     {
-        NetworkGameManager.opponentDisconnected = true;
+        //NetworkGameManager.opponentDisconnected = true;
         disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
         disableColliders();
         //networkManager.LeaveRoom();
-        PhotonNetwork.LeaveRoom();
+        networkManager.LeaveRoom();
         MultiplayerSetup.selectedCharacter = "";
         Player.characterLocalPlayer = "";
         Player.characterOpponentPlayer = "";

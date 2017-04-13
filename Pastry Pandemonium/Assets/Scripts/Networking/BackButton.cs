@@ -7,6 +7,7 @@ public class BackButton : MonoBehaviour {
 
     public GameObject backButton;
     public Lobby gameLobby;
+    public NetworkGameManager networkManager;
 
     private void Awake()
     {
@@ -30,7 +31,8 @@ public class BackButton : MonoBehaviour {
         //Finds what option you clicked on
         if (backButton != null)
         {
-            gameLobby.Leave();
+            //networkManager.LeaveRoom();
+            SceneManager.LoadScene("Lobby");
         }
         else
         {

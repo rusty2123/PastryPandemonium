@@ -13,7 +13,7 @@ public class NetworkGameManager : Photon.PunBehaviour
     public static Player localPlayer, opponentPlayer;
     public static int placeIndex = 0, removeIndex = 0, moveFromIndex = 0, moveToIndex = 0, flyFromIndex = 0, flyToIndex = 0;
     public static bool localReady = false, opponentReady = false, moveEventsAdded = false, setupEventsAdded = false, readyEventsAdded = false,
-                       drawEventsAdded = false, drawResponseRecieved = false, drawAccepted = false,
+                       drawEventsAdded = false, drawResponseRecieved = false, drawAccepted = false, drawRequested = false,
                        youDisconnected = false, hostDisconnected = false, opponentDisconnected = false, inRoom = false;
 
     #region Photon Messages
@@ -25,7 +25,7 @@ public class NetworkGameManager : Photon.PunBehaviour
             Debug.Log("game over: " + App.gameOver);
             SceneManager.LoadScene("Lobby");
         }
-        else if(!PhotonNetwork.connected && !App.gameOver)
+        else if(!PhotonNetwork.connected)
         {
             Debug.Log("game over: " + App.gameOver);
             SceneManager.LoadScene("mainMenu");
@@ -42,8 +42,19 @@ public class NetworkGameManager : Photon.PunBehaviour
     public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
     {
         Debug.Log("host switched");
-        //hostDisconnected = true;
-        LeaveRoom();
+        //LeaveRoom();
+        if (PhotonNetwork.connected && !App.gameOver)
+        {
+            hostDisconnected = true;
+            Debug.Log("game over: " + App.gameOver);
+            SceneManager.LoadScene("Lobby");
+        }
+        else if (!PhotonNetwork.connected && !App.gameOver)
+        {
+            hostDisconnected = true;
+            Debug.Log("game over: " + App.gameOver);
+            SceneManager.LoadScene("mainMenu");
+        }
     }
 
     public override void OnDisconnectedFromPhoton()

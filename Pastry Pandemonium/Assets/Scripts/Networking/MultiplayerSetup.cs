@@ -107,6 +107,21 @@ public class MultiplayerSetup : Photon.PunBehaviour
         }
     }
 
+    public override void OnDisconnectedFromPhoton()
+    {
+        //NetworkGameManager.opponentDisconnected = true;
+        disconnected.GetComponentInChildren<Text>().text = "You have disconnected";
+        disableColliders();
+        //networkManager.LeaveRoom();
+        networkManager.LeaveRoom();
+        MultiplayerSetup.selectedCharacter = "";
+        Player.characterLocalPlayer = "";
+        Player.characterOpponentPlayer = "";
+        NetworkGameManager.localReady = false;
+        NetworkGameManager.opponentReady = false;
+        disconnected.SetActive(true);
+    }
+
     public void ReturnToLobby()
     {
         networkManager.LeaveRoom();
