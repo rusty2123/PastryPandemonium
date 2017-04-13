@@ -652,6 +652,9 @@ public class App : Photon.PunBehaviour
         placePiece = true;
 
         yield return new WaitWhile(() => placePiece);
+      
+        yield return new WaitForSeconds(.7f);
+     
     }
 
     IEnumerator executeAIMovePhaseOne()
@@ -855,6 +858,7 @@ public class App : Photon.PunBehaviour
 
     IEnumerator executeAIMovePhaseTwo()
     {
+        yield return new WaitForSeconds(3f);
         if (!isDraw)
         {
             from = opponentPlayer.from;
