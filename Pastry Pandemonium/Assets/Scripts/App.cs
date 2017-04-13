@@ -1646,11 +1646,11 @@ public class App : Photon.PunBehaviour
             {
                 if (gameObj != null && gameObj.GetComponent<GamePiece>().location == NetworkGameManager.removeIndex)
                 {
-                    animationRemove(gameObj, characterLocalPlayer);
-                    gameObj.GetComponent<GamePiece>().location = 0;
-                    //Destroy(gameObj);
-                    Game.gameInstance.removeLocalPiece(NetworkGameManager.removeIndex);
                     Debug.Log("removed.");
+                    //animationRemove(gameObj, characterLocalPlayer);
+                    Destroy(gameObj);
+                    gameObj.GetComponent<GamePiece>().location = 0;
+                    Game.gameInstance.removeLocalPiece(NetworkGameManager.removeIndex);
                     break;
                 }
             }
