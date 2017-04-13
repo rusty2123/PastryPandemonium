@@ -8,6 +8,7 @@ public class OptionsPopup : MonoBehaviour {
 	public GameObject current, musicSlider;
 	public Slider slider;
     public Music music;
+    public Music2 music2;
 
 
 
@@ -36,6 +37,7 @@ public class OptionsPopup : MonoBehaviour {
 		onSwitch = GameObject.Find ("onSwitch");
 
         music = Music.getInstance();
+        music2 = Music2.getInstance();
        
 
         if (Music.playSoundEffects) {
@@ -112,20 +114,20 @@ public class OptionsPopup : MonoBehaviour {
 				break;
 			case "mute":
                    
-                    if (music.vol.value == 0f)
+                    if (music2.vol.value == 0f)
                     {
-                        music.vol.value = music.getLastVolume();
+                        music2.vol.value = music2.getLastVolume();
                        // mute.GetComponent<Renderer>().enabled = false;
                        // unmute.GetComponent<Renderer>().enabled = true;
                     }
                     else
                     {
-                        music.setLastVolume(music.vol.value);
-                        music.vol.value = 0f;
+                        music2.setLastVolume(music2.vol.value);
+                        music2.vol.value = 0f;
                       //  mute.GetComponent<Renderer>().enabled = true;
                       //  unmute.GetComponent<Renderer>().enabled = false;
                     }
-                    slider.value = music.vol.value;
+                    slider.value = music2.vol.value;
                     break;
 			case "onSwitch":
 
