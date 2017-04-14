@@ -57,7 +57,7 @@ public class NetworkGameManager : Photon.PunBehaviour
         {
             hostDisconnected = true;
             Debug.Log("game over: " + App.gameOver);
-            SceneManager.LoadScene("mainMenu");
+            //SceneManager.LoadScene("mainMenu");
         }
     }
 

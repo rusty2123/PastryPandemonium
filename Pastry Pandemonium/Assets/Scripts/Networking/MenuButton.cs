@@ -36,8 +36,10 @@ public class MenuButton : MonoBehaviour
             {
                 case "menuButton":
                     //go to a room creation pop-up similar to that of singleplayer then create game
-                    networkManager.Disconnect();
-                    SceneManager.LoadScene("MainMenu");
+                    if(PhotonNetwork.connected)
+                        networkManager.Disconnect();
+                    else
+                        SceneManager.LoadScene("MainMenu");
                     break;
                 default:
                     break;
