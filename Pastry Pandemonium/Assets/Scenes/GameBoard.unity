@@ -2684,6 +2684,7 @@ GameObject:
   - component: {fileID: 735655375}
   - component: {fileID: 735655378}
   - component: {fileID: 735655377}
+  - component: {fileID: 735655379}
   m_Layer: 0
   m_Name: musicMute
   m_TagString: Untagged
@@ -2753,6 +2754,9 @@ MonoBehaviour:
   current: {fileID: 735655374}
   canvas: {fileID: 0}
   networkManager: {fileID: 0}
+  music: {fileID: 0}
+  music2: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!61 &735655378
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2767,6 +2771,86 @@ BoxCollider2D:
   m_Offset: {x: 157.6054, y: 0}
   serializedVersion: 2
   m_Size: {x: 505.21252, y: 93}
+--- !u!82 &735655379
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 735655374}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 2460901e18dfe4fa4ad2e0f0e74c94bd, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &737915251
 GameObject:
   m_ObjectHideFlags: 0
@@ -3369,6 +3453,9 @@ MonoBehaviour:
   current: {fileID: 823270149}
   canvas: {fileID: 852659386}
   networkManager: {fileID: 1160407420}
+  music: {fileID: 0}
+  music2: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!61 &823270153
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3641,6 +3728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vol: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!82 &906043679
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5008,6 +5096,9 @@ MonoBehaviour:
   current: {fileID: 1197537192}
   canvas: {fileID: 0}
   networkManager: {fileID: 0}
+  music: {fileID: 0}
+  music2: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!61 &1197537196
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6042,6 +6133,9 @@ MonoBehaviour:
   current: {fileID: 1484954550}
   canvas: {fileID: 1278246860}
   networkManager: {fileID: 1160407420}
+  music: {fileID: 0}
+  music2: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!61 &1484954554
 BoxCollider2D:
   m_ObjectHideFlags: 0

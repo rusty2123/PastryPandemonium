@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Music2 : MonoBehaviour
 {
 
-    private AudioSource audioSource;
+    public static AudioSource audioSource;
     public Slider vol;
     private static Music2 instance;
 
@@ -30,13 +30,13 @@ public class Music2 : MonoBehaviour
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("music");
-        if (objs.Length > 1)
-        {
-            Destroy(this.gameObject);
-        }
-        DontDestroyOnLoad(this.gameObject);
+      //  -
+      //-  GameObject[] objs = GameObject.FindGameObjectsWithTag("music");
+      //  if (objs.Length > 1)
+      //  {
+      //      Destroy(this.gameObject);
+      //  }
+      //  DontDestroyOnLoad(this.gameObject);
 		
 
 
@@ -53,7 +53,7 @@ public class Music2 : MonoBehaviour
     public void VolumeController()
     {
         lastVolume = audioSource.volume;
-        audioSource.volume = vol.value;
+        audioSource.volume = vol.value; 
     }
 
 }

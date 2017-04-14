@@ -9,7 +9,7 @@ public class OptionsPopup : MonoBehaviour {
 	public Slider slider;
     public Music music;
     public Music2 music2;
-
+    public static bool isMute;
 
 
 	private GameObject menu, singlePlayer, multiplayer, tutorial, options, help, exit;
@@ -46,13 +46,15 @@ public class OptionsPopup : MonoBehaviour {
 			onSwitch.GetComponent<Renderer> ().enabled = true;
 
 			effectsSwitch.transform.position = switchRight.transform.position;
-		} else {
+            isMute = false;
+                } else {
 
 			offSwitch.GetComponent<Renderer> ().enabled = true;
 
 			onSwitch.GetComponent<Renderer> ().enabled = false;
 
 			effectsSwitch.transform.position = switchLeft.transform.position;
+            isMute = true;
 
 		}
 
@@ -83,11 +85,13 @@ public class OptionsPopup : MonoBehaviour {
     {
         if(slider.value == 0)
         {
+            isMute = true;
             mute.GetComponent<Renderer>().enabled = true;
             unmute.GetComponent<Renderer>().enabled = false;
         }
         else
         {
+            isMute = false;
             unmute.GetComponent<Renderer>().enabled = true;
             mute.GetComponent<Renderer>().enabled = false;
         }
