@@ -1789,6 +1789,7 @@ public class App : Photon.PunBehaviour
         {
             Debug.Log("testing");
             disableColliders();
+            NetworkGameManager.opponentDisconnected = true;
             networkManager.LeaveRoom();
             disconnected.SetActive(true);
         }
