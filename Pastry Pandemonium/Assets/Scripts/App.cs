@@ -296,6 +296,7 @@ public class App : Photon.PunBehaviour
             yield return StartCoroutine(piecePlacementPhase());
             updateHintText("");
         }
+        checkGameOver();
         while (!gameOver && !isDraw)
         {
             if (remainingLocal > 3 && remainingOpponent > 3)
@@ -726,7 +727,7 @@ public class App : Photon.PunBehaviour
     IEnumerator pieceMovePhase()
     {
         //if it's the local player's turn, and there are still pieces left to place
-        if (isLocalPlayerTurn)
+        if (isLocalPlayerTurn && !gameOver && !isDraw)
         {
             enableGameObjects(true);
 
@@ -735,7 +736,7 @@ public class App : Photon.PunBehaviour
         }
        
         //get move from AI or network
-        if (!isLocalPlayerTurn && remainingOpponent > 3)
+        if (!isLocalPlayerTurn && remainingOpponent > 3 && !gameOver && !isDraw)
         {
             enableGameObjects(false);
 
@@ -843,7 +844,6 @@ public class App : Photon.PunBehaviour
 
     IEnumerator opponentMovePiece()
     {
-
         //get move from network
         if (!Player.isSinglePlayer)
         {
