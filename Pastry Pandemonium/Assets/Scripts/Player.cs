@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     
     public void getThreadedAIMove(BitArray computer, BitArray player)
     {
-        if (!App.gameOver)
+        if (!App.gameOver && !App.isDraw)
         {
             Debug.Log("#2 begin");
             int[] move = new int[3];

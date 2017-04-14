@@ -1616,7 +1616,7 @@ public class App : Photon.PunBehaviour
     {
         Debug.Log("#1 begin");
 
-        if (!aiThreadRunning && !gameOver)
+        if (!aiThreadRunning && !gameOver && !isDraw)
         {
             aiThreadRunning = true;
             aiThread = new Thread(() => opponentPlayer.getThreadedAIMove(Board.boardInstance.getLocalPlayerBoard(), Board.boardInstance.getOpponentPlayerBoard()));
